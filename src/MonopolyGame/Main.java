@@ -6,5 +6,6 @@ public class Main {
     public static void main(String[] args) {
 
         System.out.print("Welcome and Hello!");
+        System.out.print("Hi");
         }
     }
