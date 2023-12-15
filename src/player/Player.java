@@ -87,7 +87,7 @@ public class Player {
         if (currentBoard != null){
             for (int i = 0; i < currentBoard.length; i++) {
                 if (currentBoard[i] != null){
-                    if (currentBoard[i].getIndex() == roll){
+                    if (currentBoard[i].getIndex() == currentIndex + roll){
                         setField(currentBoard[i]);
                     }
                 }
