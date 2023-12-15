@@ -10,9 +10,12 @@ public class Board {
     public Board(){
         move_counter = 0;
         round = 0;
-        for(int i=0; i< fields.length; i++)
+        fields[0] = new Start();
+        fields[1] = new Village("Wioska 1", 200, 5, null, 0.5f);
+        fields[2] = new Village("Wioska 2", 300, 10, null, 1.5f);
+        for(int i=3; i< fields.length; i++)
         {
-            fields[i] = new Field("Pole %s".formatted(i));
+            fields[i] = new City("Pole %s".formatted(i), 1000, 100, null, 12, 0.5f);
         }
     }
     public Field[] getFieldsArray(){

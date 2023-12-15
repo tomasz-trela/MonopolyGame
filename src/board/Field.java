@@ -1,6 +1,6 @@
 package board;
 
-public class Field {
+public abstract class Field {
     private String name;
     public Field(String name) {
         this.name = name;
