@@ -79,7 +79,7 @@ public class Player {
         return (int) ((Math.random()*6) + 1); 
     }
     public void movePlayer(Board board){ // metoda zmienia obecne pole gracza, na pole o indeksie o liczbe oczek wieksze
-        int roll = Cube.Roll();
+        int roll = Cube.Roll() + Cube.Roll();
         Field currentField = field;
         int currentIndex = currentField.getIndex();
         currentIndex += roll;

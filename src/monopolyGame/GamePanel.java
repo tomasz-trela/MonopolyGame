@@ -21,6 +21,7 @@ public class GamePanel extends JPanel implements ActionListener {
     private final static Color BOARD_COLOR;
     private final static Color FIELD_COLOR1;
     private final static Color FIELD_COLOR2;
+
     static {
         SCREEN_WIDTH=900;
         SCREEN_HEIGHT = 750;
@@ -36,6 +37,8 @@ public class GamePanel extends JPanel implements ActionListener {
     }
     Board board = new Board();
     JButton rollButton;
+    JTextField dice1TextField;
+    JTextField dice2TextField;
     private boolean test=false;
     GamePanel(){
         this.setPreferredSize(new Dimension(SCREEN_WIDTH,SCREEN_HEIGHT));
@@ -45,6 +48,7 @@ public class GamePanel extends JPanel implements ActionListener {
         this.setLayout(null);
         this.add(rollButton);
         rollButton.setVisible(true);
+        this.createCube();
         //trzeba dodać labele z stanem konta
     }
 
@@ -118,6 +122,12 @@ public class GamePanel extends JPanel implements ActionListener {
         rollButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                int dice1 = Roll();
+                int dice2 = Roll();
+
+                dice1TextField.setText(Integer.toString(dice1));
+                dice2TextField.setText(Integer.toString(dice2));
+
                 test = true;
                 repaint();
             }
@@ -125,6 +135,35 @@ public class GamePanel extends JPanel implements ActionListener {
         rollButton.setBounds((SCREEN_WIDTH - ROLL_BUTTON_WIDTH)/2, (SCREEN_HEIGHT - ROLL_BUTTON_HEIGHT)/2, ROLL_BUTTON_WIDTH, ROLL_BUTTON_HEIGHT);
         rollButton.setBackground(Color.WHITE);
         rollButton.setFont(new Font("Arial", Font.BOLD, 28));
+    }
+    public void createCube(){
+        dice1TextField = new JTextField("");
+        dice2TextField = new JTextField("");
+
+        dice1TextField.setBounds((SCREEN_WIDTH - ROLL_BUTTON_WIDTH) / 2  + 10, (SCREEN_HEIGHT - ROLL_BUTTON_HEIGHT) / 2 + ROLL_BUTTON_HEIGHT + 10, 30, 30);
+        dice2TextField.setBounds((SCREEN_WIDTH - ROLL_BUTTON_WIDTH) / 2 + 50, (SCREEN_HEIGHT - ROLL_BUTTON_HEIGHT) / 2 + ROLL_BUTTON_HEIGHT + 10, 30, 30);
+
+        dice1TextField.setBackground(Color.WHITE);
+        dice2TextField.setBackground(Color.WHITE);
+        dice1TextField.setForeground(Color.BLACK);
+        dice2TextField.setForeground(Color.BLACK);
+        Font boldFont = new Font(dice1TextField.getFont().getFontName(), Font.BOLD, dice1TextField.getFont().getSize());
+        dice1TextField.setFont(boldFont);
+        boldFont = new Font(dice2TextField.getFont().getFontName(), Font.BOLD, dice2TextField.getFont().getSize());
+        dice2TextField.setFont(boldFont);
+
+
+        dice1TextField.setEditable(false);
+        dice2TextField.setEditable(false);
+        dice1TextField.setBorder(null);
+        dice2TextField.setBorder(null);
+
+        dice1TextField.setHorizontalAlignment(JTextField.CENTER);
+        dice2TextField.setHorizontalAlignment(JTextField.CENTER);
+
+
+        this.add(dice1TextField);
+        this.add(dice2TextField);
     }
     @Override
     public void actionPerformed(ActionEvent e) {
