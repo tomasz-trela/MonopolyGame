@@ -5,9 +5,8 @@ import java.awt.*;
 import java.awt.event.*;
 
 import board.Board;
-import player.*;
 
-import static player.Cube.Roll;
+import static player.Dice.Roll;
 
 public class GamePanel extends JPanel implements ActionListener {
     private static final int SCREEN_WIDTH;
@@ -48,7 +47,9 @@ public class GamePanel extends JPanel implements ActionListener {
         this.setLayout(null);
         this.add(rollButton);
         rollButton.setVisible(true);
-        this.createCube();
+        this.createDice();
+        this.add(dice1TextField);
+        this.add(dice2TextField);
         //trzeba dodać labele z stanem konta
     }
 
@@ -136,7 +137,7 @@ public class GamePanel extends JPanel implements ActionListener {
         rollButton.setBackground(Color.WHITE);
         rollButton.setFont(new Font("Arial", Font.BOLD, 28));
     }
-    public void createCube(){
+    public void createDice(){
         dice1TextField = new JTextField("");
         dice2TextField = new JTextField("");
 
@@ -147,11 +148,9 @@ public class GamePanel extends JPanel implements ActionListener {
         dice2TextField.setBackground(Color.WHITE);
         dice1TextField.setForeground(Color.BLACK);
         dice2TextField.setForeground(Color.BLACK);
-        Font boldFont = new Font(dice1TextField.getFont().getFontName(), Font.BOLD, dice1TextField.getFont().getSize());
-        dice1TextField.setFont(boldFont);
-        boldFont = new Font(dice2TextField.getFont().getFontName(), Font.BOLD, dice2TextField.getFont().getSize());
-        dice2TextField.setFont(boldFont);
 
+        dice1TextField.setFont(new Font("Arial", Font.BOLD, 15));
+        dice2TextField.setFont(new Font("Arial", Font.BOLD, 15));
 
         dice1TextField.setEditable(false);
         dice2TextField.setEditable(false);
@@ -161,9 +160,6 @@ public class GamePanel extends JPanel implements ActionListener {
         dice1TextField.setHorizontalAlignment(JTextField.CENTER);
         dice2TextField.setHorizontalAlignment(JTextField.CENTER);
 
-
-        this.add(dice1TextField);
-        this.add(dice2TextField);
     }
     @Override
     public void actionPerformed(ActionEvent e) {
