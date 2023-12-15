@@ -5,6 +5,9 @@ import java.awt.*;
 import java.awt.event.*;
 
 import board.Board;
+import player.*;
+
+import static player.Cube.Roll;
 
 public class GamePanel extends JPanel implements ActionListener {
     private static final int SCREEN_WIDTH;

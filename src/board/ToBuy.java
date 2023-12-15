@@ -7,8 +7,8 @@ public abstract class ToBuy extends Field {
     //private Country country;
     private String name;
     //private Buildings [] buildings;
-    public ToBuy(String name, int price, int revenue, Player owner) {
-        super(name);
+    public ToBuy(String name, int index, int price, int revenue, Player owner) {
+        super(name, index);
         this.price = price;
         this.revenue = revenue;
         this.owner = owner;

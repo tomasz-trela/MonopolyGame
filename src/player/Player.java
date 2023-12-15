@@ -1,67 +1,98 @@
 package player;
 
+import board.Board;
+import board.Field;
+import board.Start;
+
 import java.util.ArrayList;
 
 public class Player {
-    private int okrazenie;
-    private double saldoEuro;
-    private double saldoDolar;
-    private boolean czyAuto;
-    private ArrayList<Integer> PosiadanePola = new ArrayList<Integer>();
-    private int pole; 
+    private int lap;
+    private double balanceEuro;
+    private double balanceDolar;
+    private boolean haveCar;
+    private ArrayList<Integer> OwnedFields = new ArrayList<Integer>();
+    private Field field;
 
     public Player(){
-        this.saldoEuro = 50000;
-        this.saldoDolar = 50000;
-        this.czyAuto = false;
-        this.PosiadanePola.clear(); 
-        this.pole = 0;
-        this.okrazenie = 0;
+        this.balanceEuro = 50000;
+        this.balanceDolar = 50000;
+        this.haveCar = false;
+        this.OwnedFields.clear();
+        this.lap = 0;
+        this.field = new Start();
     }
 
     //gettery settery
-    public double getSaldoEuro() {
-        return saldoEuro;
+
+
+    public int getLap() {
+        return lap;
     }
 
-    public void setSaldoEuro(double saldoEuro) {
-        this.saldoEuro = saldoEuro;
+    public double getBalanceDolar() {
+        return balanceDolar;
     }
 
-    public double getSaldoDolar() {
-        return saldoDolar;
+    public double getBalanceEuro() {
+        return balanceEuro;
     }
 
-    public void setSaldoDolar(double saldoDolar) {
-        this.saldoDolar = saldoDolar;
+    public ArrayList<Integer> getOwnedFields() {
+        return OwnedFields;
     }
 
-    public boolean GetCzyAuto() {
-        return czyAuto;
+    public void setBalanceDolar(double balanceDolar) {
+        this.balanceDolar = balanceDolar;
     }
 
-    public void setCzyAuto(boolean czyAuto) {
-        this.czyAuto = czyAuto;
+    public void setBalanceEuro(double balanceEuro) {
+        this.balanceEuro = balanceEuro;
     }
 
-    public int getPole() {
-        return pole;
+    public void setHaveCar(boolean haveCar) {
+        this.haveCar = haveCar;
     }
 
-    public void setPole(int pole) {
-        this.pole = (pole%36);
+    public void setLap(int lap) {
+        this.lap = lap;
     }
 
-    public int getOkrazenie() {
-        return okrazenie;
+    public void setOwnedFields(ArrayList<Integer> ownedFields) {
+        OwnedFields = ownedFields;
     }
 
-    public void setOkrazenie(int okrazenie) {
-        this.okrazenie = okrazenie;
+    public boolean isHaveCar() {
+        return haveCar;
+    }
+
+    public Field getField() {
+        return field;
+    }
+
+    public void setField(Field field) {
+        this.field = field;
     }
 
     //nie lepiej zamiast całej klasy kostka tutaj to zrobic ? (jak coś to to zmieć)
     public int rzutKostka(){
         return (int) ((Math.random()*6) + 1); 
+    }
+    public void movePlayer(Board board){ // metoda zmienia obecne pole gracza, na pole o indeksie o liczbe oczek wieksze
+        int roll = Cube.Roll();
+        Field currentField = field;
+        int currentIndex = currentField.getIndex();
+        currentIndex += roll;
+        Field[] currentBoard = board.getFieldsArray();
+        if (currentBoard != null){
+            for (int i = 0; i < currentBoard.length; i++) {
+                if (currentBoard[i] != null){
+                    if (currentBoard[i].getIndex() == roll){
+                        setField(currentBoard[i]);
+                    }
+                }
+            }
+        }
+
     }
 }
