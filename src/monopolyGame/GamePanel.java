@@ -6,6 +6,7 @@ import java.awt.*;
 import java.awt.event.*;
 import board.*;
 import static player.Dice.Roll;
+import player.*;
 
 public class GamePanel extends JPanel implements ActionListener {
     private static final int SCREEN_WIDTH;
@@ -203,6 +204,10 @@ public class GamePanel extends JPanel implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         
+    }
+    public static int[][] getPoz()
+    {
+        return poz;
     }
 
 }
