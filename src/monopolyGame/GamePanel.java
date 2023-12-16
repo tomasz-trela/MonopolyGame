@@ -58,7 +58,7 @@ public class GamePanel extends JPanel implements ActionListener {
         this.add(pawn1.getPawn());
         this.add(pawn2.getPawn());
         this.add(pawn3.getPawn());
-        this.add(pawn4.getPawn());
+        this.add(pawn0.getPawn());
         //trzeba dodać labele z stanem konta
     }
 
