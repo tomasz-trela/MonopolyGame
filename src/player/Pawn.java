@@ -32,7 +32,7 @@ public class Pawn extends JLabel
     {
         return position;
     }
-    public int setPosition(int n)
+    public void setPosition(int n)
     {
         position=n;
     }
@@ -40,7 +40,7 @@ public class Pawn extends JLabel
     {
         int poz[]= new int[4];
         pz=GamePanel.getPoz();
-        position=n;
+        position=nr;
         for(int i=0; i<4; i++)
         {
             poz[i]=pz[nr][i];
