@@ -82,17 +82,33 @@ public class Player {
         int roll = Dice.Roll() + Dice.Roll();
         Field currentField = field;
         int currentIndex = currentField.getIndex();
-        currentIndex += roll;
-        Field[] currentBoard = board.getFieldsArray();
-        if (currentBoard != null){
-            for (int i = 0; i < currentBoard.length; i++) {
-                if (currentBoard[i] != null){
-                    if (currentBoard[i].getIndex() == currentIndex + roll){
-                        setField(currentBoard[i]);
+        if((currentIndex+roll) < 36){
+            currentIndex += roll;
+            if (board != null) {
+                Field[] currentBoard = board.getFieldsArray();
+                for (int i = 0; i < currentBoard.length; i++) {
+                    if (currentBoard[i] != null) {
+                        if (currentBoard[i].getIndex() == currentIndex) {
+                            setField(currentBoard[i]);
+                        }
                     }
                 }
             }
+        } else {
+            int newIndex = (currentIndex + roll)%36;
+            if(board != null) {
+                Field[] currentBoard = board.getFieldsArray();
+                for (int i = 0; i < currentBoard.length; i++) {
+                    if (currentBoard[i] != null) {
+                        if (currentBoard[i].getIndex() == newIndex) {
+                            setField(currentBoard[i]);
+                        }
+                    }
+                }
+            }
+            setLap(getLap()+1);
         }
+
 
     }
 }

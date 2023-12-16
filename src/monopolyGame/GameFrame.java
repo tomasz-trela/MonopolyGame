@@ -1,6 +1,7 @@
 package monopolyGame;
 
 import javax.swing.*;
+import java.awt.*;
 
 public class GameFrame extends JFrame {
     GameFrame(){
@@ -12,6 +13,10 @@ public class GameFrame extends JFrame {
         this.setLayout(null);
         this.setVisible(true);
         this.setLocationRelativeTo(null);
+        setIcon();
+    }
+    private void setIcon(){
+        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/images/monopoly_icon.png")));
     }
 
 }

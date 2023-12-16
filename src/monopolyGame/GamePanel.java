@@ -1,11 +1,10 @@
 package monopolyGame;
 
+import java.awt.Font;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-
-import board.Board;
-
+import board.*;
 import static player.Dice.Roll;
 
 public class GamePanel extends JPanel implements ActionListener {
@@ -32,13 +31,18 @@ public class GamePanel extends JPanel implements ActionListener {
         FIELD_WIDTH = BOARD_WIDTH/12-2;
         FIELD_HEIGHT = FIELD_WIDTH*2+1;
         ROLL_BUTTON_HEIGHT=60;
-        ROLL_BUTTON_WIDTH = 90;
+        ROLL_BUTTON_WIDTH = 100;
     }
     Board board = new Board();
     JButton rollButton;
     JTextField dice1TextField;
     JTextField dice2TextField;
+    private static int poz[][]=new int[36][4];
     private boolean test=false;
+    Pawn pawn0=new Pawn(0);
+    Pawn pawn1=new Pawn(1);
+    Pawn pawn2=new Pawn(2);
+    Pawn pawn3=new Pawn(3);
     GamePanel(){
         this.setPreferredSize(new Dimension(SCREEN_WIDTH,SCREEN_HEIGHT));
         this.setBackground(Color.WHITE);
@@ -50,6 +54,10 @@ public class GamePanel extends JPanel implements ActionListener {
         this.createDice();
         this.add(dice1TextField);
         this.add(dice2TextField);
+        this.add(pawn1.getPawn());
+        this.add(pawn2.getPawn());
+        this.add(pawn3.getPawn());
+        this.add(pawn4.getPawn());
         //trzeba dodać labele z stanem konta
     }
 
@@ -57,7 +65,7 @@ public class GamePanel extends JPanel implements ActionListener {
         super.paintComponent(g);
         draw(g);
     }
-    public void draw(Graphics g) {
+     public void draw(Graphics g) {
         g.setColor(BOARD_COLOR);//kolor Planszy
         g.fillRect((this.getWidth() - BOARD_WIDTH) / 2, (this.getHeight() - BOARD_HEIGHT) / 2, BOARD_WIDTH, BOARD_HEIGHT);//rysujemy prostokąt na środku to jest plansza
 
@@ -74,44 +82,76 @@ public class GamePanel extends JPanel implements ActionListener {
                 g.setColor(FIELD_COLOR2);//Kolor Narożników
                 g.fillRect((this.getWidth() - BOARD_WIDTH) / 2 + 2, (this.getHeight() - BOARD_HEIGHT) / 2 + (BOARD_HEIGHT - (FIELD_HEIGHT + 2)), FIELD_HEIGHT, FIELD_HEIGHT);
                 tmp += FIELD_WIDTH + 2;
+                poz[i][0]=((this.getWidth() - BOARD_WIDTH) / 2 + 2);
+                poz[i][1]=(this.getHeight() - BOARD_HEIGHT) / 2 + (BOARD_HEIGHT - (FIELD_HEIGHT + 2));
+                poz[i][2]=poz[i][0]+FIELD_HEIGHT;
+                poz[i][3]=poz[i][1]+FIELD_HEIGHT;
             }//rysujemy narożnik
             else if (i < 9) {
                 if(test && i==4)    g.setColor(Color.RED);//test zmiany koloru
                 else g.setColor(FIELD_COLOR1);//Kolor Pól do kupienia
                 g.fillRect((this.getWidth() - BOARD_WIDTH) / 2 + 2, (this.getHeight() - BOARD_HEIGHT) / 2 + (BOARD_HEIGHT - (FIELD_HEIGHT + 2)) - tmp, FIELD_HEIGHT, FIELD_WIDTH);
+                poz[i][0]=(this.getWidth() - BOARD_WIDTH) / 2 + 2;
+                poz[i][1]=(this.getHeight() - BOARD_HEIGHT) / 2 + (BOARD_HEIGHT - (FIELD_HEIGHT + 2)) - tmp;
+                poz[i][2]=poz[i][0]+FIELD_HEIGHT;
+                poz[i][3]=poz[i][1]+FIELD_WIDTH;
                 tmp += FIELD_WIDTH + 2;
             }//rysujemy kafelki pomiedzy narożnikami
             else if (i == 9) {
                 tmp = 0;
                 g.setColor(FIELD_COLOR2);//Kolor Narożników
                 g.fillRect((this.getWidth() - BOARD_WIDTH) / 2 + 2, (this.getHeight() - BOARD_HEIGHT) / 2 + 2, FIELD_HEIGHT, FIELD_HEIGHT);
+                poz[i][0]=(this.getWidth() - BOARD_WIDTH) / 2 + 2;
+                poz[i][1]=(this.getHeight() - BOARD_HEIGHT) / 2 + 2;
+                poz[i][2]=poz[i][0]+FIELD_HEIGHT;
+                poz[i][3]=poz[i][1]+FIELD_HEIGHT;
                 tmp += FIELD_HEIGHT + 2;
             }//rysujemy narożnik
             else if (i < 18) {
                 g.setColor(FIELD_COLOR1);//Kolor Pól do kupienia
                 g.fillRect((this.getWidth() - BOARD_WIDTH) / 2 + 2 + tmp, (this.getHeight() - BOARD_HEIGHT) / 2 + 2, FIELD_WIDTH, FIELD_HEIGHT);
+                poz[i][0]=(this.getWidth() - BOARD_WIDTH) / 2 + 2 + tmp;
+                poz[i][1]=(this.getHeight() - BOARD_HEIGHT) / 2 + 2;
+                poz[i][2]=poz[i][0]+FIELD_WIDTH;
+                poz[i][3]=poz[i][1]+FIELD_HEIGHT;
                 tmp += FIELD_WIDTH + 2;
             }//rysujemy kafelki pomiedzy narożnikami
             else if (i == 18) {
                 tmp = 0;
                 g.setColor(FIELD_COLOR2);//Kolor Narożników
                 g.fillRect((this.getWidth() - BOARD_WIDTH) / 2 + (BOARD_WIDTH - (FIELD_HEIGHT + 2)), (this.getHeight() - BOARD_HEIGHT) / 2 + 2, FIELD_HEIGHT, FIELD_HEIGHT);
+                poz[i][0]=(this.getWidth() - BOARD_WIDTH) / 2 + (BOARD_WIDTH - (FIELD_HEIGHT + 2));
+                poz[i][1]=(this.getHeight() - BOARD_HEIGHT) / 2 + 2;
+                poz[i][2]=poz[i][0]+ FIELD_HEIGHT;
+                poz[i][3]=poz[i][1]+FIELD_HEIGHT;
                 tmp += FIELD_HEIGHT + 2;
             }//rysujemy narożnik
             else if (i < 27) {
                 g.setColor(FIELD_COLOR1);//Kolor Pól do kupienia
                 g.fillRect((this.getWidth() - BOARD_WIDTH) / 2 + (BOARD_WIDTH - (FIELD_HEIGHT + 2)), (this.getHeight() - BOARD_HEIGHT) / 2 + 2 + tmp, FIELD_HEIGHT, FIELD_WIDTH);
+                poz[i][0]=(this.getWidth() - BOARD_WIDTH) / 2 + (BOARD_WIDTH - (FIELD_HEIGHT + 2));
+                poz[i][1]=(this.getHeight() - BOARD_HEIGHT) / 2 + 2 + tmp;
+                poz[i][2]=poz[i][0]+FIELD_HEIGHT;
+                poz[i][3]=poz[i][1]+FIELD_WIDTH;
                 tmp += FIELD_WIDTH + 2;
             }//rysujemy kafelki pomiedzy narożnikami
             else if (i == 27) {
                 tmp = 0;
                 g.setColor(FIELD_COLOR2);//Kolor Narożników
                 g.fillRect((this.getWidth() - BOARD_WIDTH) / 2 + (BOARD_WIDTH - (FIELD_HEIGHT + 2)), (this.getHeight() - BOARD_HEIGHT) / 2 + (BOARD_HEIGHT - (FIELD_HEIGHT + 2)), FIELD_HEIGHT, FIELD_HEIGHT);
+                poz[i][0]=(this.getWidth() - BOARD_WIDTH) / 2 + (BOARD_WIDTH - (FIELD_HEIGHT + 2));
+                poz[i][1]=(this.getHeight() - BOARD_HEIGHT) / 2 + (BOARD_HEIGHT - (FIELD_HEIGHT + 2));
+                poz[i][2]=poz[i][0]+FIELD_HEIGHT;
+                poz[i][3]=poz[i][1]+FIELD_HEIGHT;
                 tmp += FIELD_HEIGHT + 2;
             }//rysujemy narożnik
             else {
                 g.setColor(FIELD_COLOR1);//Kolor Pól do kupienia
                 g.fillRect((this.getWidth() - BOARD_WIDTH) / 2 + (BOARD_WIDTH - (FIELD_WIDTH + 2)) - tmp, (this.getHeight() - BOARD_HEIGHT) / 2 + (BOARD_HEIGHT - (FIELD_HEIGHT + 2)), FIELD_WIDTH, FIELD_HEIGHT);
+                poz[i][0]=(this.getWidth() - BOARD_WIDTH) / 2 + (BOARD_WIDTH - (FIELD_WIDTH + 2)) - tmp;
+                poz[i][1]=(this.getHeight() - BOARD_HEIGHT) / 2 + (BOARD_HEIGHT - (FIELD_HEIGHT + 2));
+                poz[i][2]=poz[i][0]+FIELD_WIDTH;
+                poz[i][3]=poz[i][1]+FIELD_HEIGHT;
                 tmp += FIELD_WIDTH + 2;
             }//rysujemy kafelki pomiedzy narożnikami
 
@@ -129,13 +169,12 @@ public class GamePanel extends JPanel implements ActionListener {
                 dice1TextField.setText(Integer.toString(dice1));
                 dice2TextField.setText(Integer.toString(dice2));
 
-                test = true;
                 repaint();
             }
         });
         rollButton.setBounds((SCREEN_WIDTH - ROLL_BUTTON_WIDTH)/2, (SCREEN_HEIGHT - ROLL_BUTTON_HEIGHT)/2, ROLL_BUTTON_WIDTH, ROLL_BUTTON_HEIGHT);
         rollButton.setBackground(Color.WHITE);
-        rollButton.setFont(new Font("Arial", Font.BOLD, 28));
+        rollButton.setFont(new Font("Serif", Font.BOLD, 28));
     }
     public void createDice(){
         dice1TextField = new JTextField("");
