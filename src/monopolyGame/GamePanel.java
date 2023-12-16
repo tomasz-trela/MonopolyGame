@@ -39,6 +39,10 @@ public class GamePanel extends JPanel implements ActionListener {
     JTextField dice2TextField;
     private static int poz[][]=new int[36][4];
     private boolean test=false;
+    Pawn pawn0=new Pawn(0);
+    Pawn pawn1=new Pawn(1);
+    Pawn pawn2=new Pawn(2);
+    Pawn pawn3=new Pawn(3);
     GamePanel(){
         this.setPreferredSize(new Dimension(SCREEN_WIDTH,SCREEN_HEIGHT));
         this.setBackground(Color.WHITE);
