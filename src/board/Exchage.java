@@ -21,7 +21,7 @@ public class Exchage {
             tab[1]=0;
         } else{
             tab[0]=howmuch;
-            tab[1]=howmuch*eurorate;
+            tab[1]=(int)(howmuch*eurorate);
         }
         return tab;
     }
@@ -29,12 +29,12 @@ public class Exchage {
         int[] tab=new int[2];
         // tab[0]=ile trzeba dodać dolarów do Dolarbalance
         // tab[1]=ile trzeba odjąć euro od Eurobalance
-        if(howmuch*doalrrate>amount){
+        if(howmuch*dolarrate>amount){
             tab[0]=0;
             tab[1]=0;
         } else{
             tab[0]=howmuch;
-            tab[1]=howmuch*dolarrate;
+            tab[1]= (int)(howmuch*dolarrate);
         }
         return tab;
     }
