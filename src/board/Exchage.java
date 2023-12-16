@@ -5,13 +5,13 @@ public class Exchage {
     private double dolarrate;
     
     public Exchage(){
-        eurorate=0,92;
-        dolarrate=1,09;
+        eurorate=0.92;
+        dolarrate=1.09;
     }
-    public Exchage(double eurorate, double dolarrate)(
+    public Exchage(double eurorate, double dolarrate){
         this.eurorate=eurorate;
         this.dolarrate=dolarrate;
-    )
+    }
     public int[] ExchageUSDtoEUR(double amount, int howmuch){
         int[] tab=new int[2];
         // tab[0]=ile trzeba dodać euro do Eurobalance
