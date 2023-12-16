@@ -21,5 +21,17 @@ public class Board {
     public Field[] getFieldsArray(){
         return fields;
     }
+    public int getMove_counter(){
+        return move_counter;
+    }
+    public void setMove_counter(int move_counter){
+        this.move_counter=move_counter;
+    }
+    public int getRound(){
+        return round;
+    }
+    public void setRound(int round){
+        this.round=round;
+    }
 
 }
