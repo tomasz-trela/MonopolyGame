@@ -6,7 +6,7 @@ import java.util.ArrayList;
 public class CarDealership extends Field {
     private ArrayList<Car> availableCars;
     public CarDealership(String name, int index, ArrayList<Car> availableCars){
-        super(name, index);
+        super(name);
         this.availableCars = availableCars;
     }
     public CarDealership(){

@@ -39,7 +39,7 @@ public class GamePanel extends JPanel implements ActionListener {
     JTextField dice1TextField;
     JTextField dice2TextField;
     private static int poz[][]=new int[36][4];
-    private boolean test=false;
+    private boolean start=true;
     Pawn pawn0=new Pawn(0);
     Pawn pawn1=new Pawn(1);
     Pawn pawn2=new Pawn(2);
@@ -59,9 +59,14 @@ public class GamePanel extends JPanel implements ActionListener {
         this.add(pawn2.getPawn());
         this.add(pawn3.getPawn());
         this.add(pawn0.getPawn());
-        //trzeba dodać labele z stanem konta
     }
 
+    public void setPawnsStart(){
+        pawn0.placePawnOn(0);
+        pawn1.placePawnOn(0);
+        pawn2.placePawnOn(0);
+        pawn3.placePawnOn(0);
+    }
     public void paintComponent(Graphics g){
         super.paintComponent(g);
         draw(g);
@@ -89,8 +94,7 @@ public class GamePanel extends JPanel implements ActionListener {
                 poz[i][3]=poz[i][1]+FIELD_HEIGHT;
             }//rysujemy narożnik
             else if (i < 9) {
-                if(test && i==4)    g.setColor(Color.RED);//test zmiany koloru
-                else g.setColor(FIELD_COLOR1);//Kolor Pól do kupienia
+                 g.setColor(FIELD_COLOR1);//Kolor Pól do kupienia
                 g.fillRect((this.getWidth() - BOARD_WIDTH) / 2 + 2, (this.getHeight() - BOARD_HEIGHT) / 2 + (BOARD_HEIGHT - (FIELD_HEIGHT + 2)) - tmp, FIELD_HEIGHT, FIELD_WIDTH);
                 poz[i][0]=(this.getWidth() - BOARD_WIDTH) / 2 + 2;
                 poz[i][1]=(this.getHeight() - BOARD_HEIGHT) / 2 + (BOARD_HEIGHT - (FIELD_HEIGHT + 2)) - tmp;
@@ -155,7 +159,7 @@ public class GamePanel extends JPanel implements ActionListener {
                 poz[i][3]=poz[i][1]+FIELD_HEIGHT;
                 tmp += FIELD_WIDTH + 2;
             }//rysujemy kafelki pomiedzy narożnikami
-
+            if(start){ setPawnsStart(); start=false;}//ustawia pionki na początku
         }
     }
     public void createRollButton()
@@ -166,10 +170,17 @@ public class GamePanel extends JPanel implements ActionListener {
             public void actionPerformed(ActionEvent e) {
                 int dice1 = Roll();
                 int dice2 = Roll();
-
+                int sum =dice1 +dice2;
+                int round = board.getMoveCounter()%board.getPlayers().length;
+                board.getPlayers()[round].movePlayer(sum);
+                if(round==0) pawn0.placePawnOn(board.getPlayers()[round].getFieldIndex());
+                if(round==1) pawn1.placePawnOn(board.getPlayers()[round].getFieldIndex());
+                if(round==2) pawn2.placePawnOn(board.getPlayers()[round].getFieldIndex());
+                if(round==3) pawn3.placePawnOn(board.getPlayers()[round].getFieldIndex());
                 dice1TextField.setText(Integer.toString(dice1));
                 dice2TextField.setText(Integer.toString(dice2));
 
+                board.incrementMoveCounter();
                 repaint();
             }
         });

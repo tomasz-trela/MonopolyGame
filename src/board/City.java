@@ -6,7 +6,7 @@ public class City extends ToBuy {
     private int size;
     private float touristAttraction;
     public City (String name, int index, int price, int revenue, Player owner, int size, float touristAttraction){
-        super(name, index, price, revenue, owner);
+        super(name, price, revenue, owner);
         this.size = size;
         this.touristAttraction = touristAttraction;
     }

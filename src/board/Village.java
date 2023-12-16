@@ -4,8 +4,8 @@ import player.Player;
 
 public class Village extends ToBuy {
     private float ryeness;
-    public Village (String name, int index, int price, int revenue, Player owner, float ryeness){
-        super(name, index, price, revenue, owner);
+    public Village (String name, int price, int revenue, Player owner, float ryeness){
+        super(name, price, revenue, owner);
         this.ryeness = ryeness;
     }
 
