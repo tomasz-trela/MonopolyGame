@@ -28,10 +28,19 @@ public class Pawn extends JLabel
     {
         return typ;
     }
+    public int getPosition()
+    {
+        return position;
+    }
+    public int setPosition(int n)
+    {
+        position=n;
+    }
     public void placePawnOn(int nr)
     {
         int poz[]= new int[4];
         pz=GamePanel.getPoz();
+        position=n;
         for(int i=0; i<4; i++)
         {
             poz[i]=pz[nr][i];
