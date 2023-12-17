@@ -12,9 +12,25 @@ public class Pawn extends JLabel
     private int position;// aktualna pozycja pionka
     public Pawn(int typ)
     {
-        ImageIcon pict1= new ImageIcon("pionekplaceholder.png");
-        Image test = pict1.getImage().getScaledInstance(20,20,Image.SCALE_DEFAULT);
-        ImageIcon pict2 = new ImageIcon(test);
+        Image pict1 = null;
+        if(typ==0)
+        {
+            pict1 = new ImageIcon("src/images/pionekplaceholder.png").getImage();
+        }
+        if(typ==1)
+        {
+            pict1 = new ImageIcon("src/images/pionekplaceholder2.png").getImage();
+        }
+        if(typ==2)
+        {
+             pict1 = new ImageIcon("src/images/pionekplaceholder3.png").getImage();
+        }
+        if(typ==3)
+        {
+             pict1 = new ImageIcon("src/images/pionekplaceholder4.png").getImage();
+        }
+        Image tmp = pict1.getScaledInstance(20,20,Image.SCALE_DEFAULT);
+        ImageIcon pict2 = new ImageIcon(tmp);
         this.pawn.setIcon(pict2);
         this.position=0;
         pawn.setBounds(0, 0, 20,20);
