@@ -22,7 +22,7 @@ public class GamePanel extends JPanel implements ActionListener {
     private final static Color FIELD_COLOR2;
 
     static {
-        SCREEN_WIDTH=900;
+        SCREEN_WIDTH=1000;
         SCREEN_HEIGHT = 750;
         BOARD_WIDTH = 528;
         BOARD_HEIGHT = 528;
@@ -192,8 +192,8 @@ public class GamePanel extends JPanel implements ActionListener {
         diceLabel1 = new JLabel();
         diceLabel2 = new JLabel();
 
-        diceLabel1.setBounds(400, 420, 50, 50);
-        diceLabel2.setBounds(450, 420, 50, 50);
+        diceLabel1.setBounds(SCREEN_WIDTH/2-50, 420, 50, 50);
+        diceLabel2.setBounds(SCREEN_WIDTH/2, 420, 50, 50);
     }
     public void updateDiceImages(int value1, int value2) {
         ImageIcon imagePath1 = new ImageIcon(getClass().getResource("/images/dice" + value1 + ".png"));
