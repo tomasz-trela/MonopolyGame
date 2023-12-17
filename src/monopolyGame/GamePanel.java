@@ -36,8 +36,9 @@ public class GamePanel extends JPanel implements ActionListener {
     }
     Board board = new Board();
     JButton rollButton;
-    JTextField dice1TextField;
-    JTextField dice2TextField;
+    JLabel diceLabel1;
+    JLabel diceLabel2;
+
     private static int poz[][]=new int[36][4];
     private boolean start=true;
     Pawn pawn0=new Pawn(0);
@@ -49,12 +50,12 @@ public class GamePanel extends JPanel implements ActionListener {
         this.setBackground(Color.WHITE);
         this.setFocusable(true);
         createRollButton();
+        createDiceLabels();
         this.setLayout(null);
         this.add(rollButton);
         rollButton.setVisible(true);
-        this.createDice();
-        this.add(dice1TextField);
-        this.add(dice2TextField);
+        this.add(diceLabel1);
+        this.add(diceLabel2);
         this.add(pawn1.getPawn());
         this.add(pawn2.getPawn());
         this.add(pawn3.getPawn());
@@ -171,14 +172,13 @@ public class GamePanel extends JPanel implements ActionListener {
                 int dice1 = Roll();
                 int dice2 = Roll();
                 int sum =dice1 +dice2;
+                updateDiceImages(dice1, dice2);
                 int round = board.getMoveCounter()%board.getPlayers().length;
                 board.getPlayers()[round].movePlayer(sum);
                 if(round==0) pawn0.placePawnOn(board.getPlayers()[round].getFieldIndex());
                 if(round==1) pawn1.placePawnOn(board.getPlayers()[round].getFieldIndex());
                 if(round==2) pawn2.placePawnOn(board.getPlayers()[round].getFieldIndex());
                 if(round==3) pawn3.placePawnOn(board.getPlayers()[round].getFieldIndex());
-                dice1TextField.setText(Integer.toString(dice1));
-                dice2TextField.setText(Integer.toString(dice2));
 
                 board.incrementMoveCounter();
                 repaint();
@@ -188,30 +188,30 @@ public class GamePanel extends JPanel implements ActionListener {
         rollButton.setBackground(Color.WHITE);
         rollButton.setFont(new Font("Serif", Font.BOLD, 28));
     }
-    public void createDice(){
-        dice1TextField = new JTextField("");
-        dice2TextField = new JTextField("");
+    public void createDiceLabels() {
+        diceLabel1 = new JLabel();
+        diceLabel2 = new JLabel();
 
-        dice1TextField.setBounds((SCREEN_WIDTH - ROLL_BUTTON_WIDTH) / 2  + 10, (SCREEN_HEIGHT - ROLL_BUTTON_HEIGHT) / 2 + ROLL_BUTTON_HEIGHT + 10, 30, 30);
-        dice2TextField.setBounds((SCREEN_WIDTH - ROLL_BUTTON_WIDTH) / 2 + 50, (SCREEN_HEIGHT - ROLL_BUTTON_HEIGHT) / 2 + ROLL_BUTTON_HEIGHT + 10, 30, 30);
-
-        dice1TextField.setBackground(Color.WHITE);
-        dice2TextField.setBackground(Color.WHITE);
-        dice1TextField.setForeground(Color.BLACK);
-        dice2TextField.setForeground(Color.BLACK);
-
-        dice1TextField.setFont(new Font("Arial", Font.BOLD, 15));
-        dice2TextField.setFont(new Font("Arial", Font.BOLD, 15));
-
-        dice1TextField.setEditable(false);
-        dice2TextField.setEditable(false);
-        dice1TextField.setBorder(null);
-        dice2TextField.setBorder(null);
-
-        dice1TextField.setHorizontalAlignment(JTextField.CENTER);
-        dice2TextField.setHorizontalAlignment(JTextField.CENTER);
-
+        diceLabel1.setBounds(400, 420, 50, 50);
+        diceLabel2.setBounds(450, 420, 50, 50);
     }
+    public void updateDiceImages(int value1, int value2) {
+        ImageIcon imagePath1 = new ImageIcon(getClass().getResource("/images/dice" + value1 + ".png"));
+        ImageIcon imagePath2 = new ImageIcon(getClass().getResource("/images/dice" + value2 + ".png"));
+
+
+        Image scaledImage1 = imagePath1.getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH);
+        Image scaledImage2 = imagePath2.getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH);
+
+        ImageIcon icon1 = new ImageIcon(scaledImage1);
+        ImageIcon icon2 = new ImageIcon(scaledImage2);
+
+        diceLabel1.setIcon(icon1);
+        diceLabel2.setIcon(icon2);
+    }
+
+
+
     @Override
     public void actionPerformed(ActionEvent e) {
         
