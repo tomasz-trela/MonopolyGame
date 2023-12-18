@@ -1,5 +1,7 @@
 package board;
 
+import java.util.Random;
+
 public class Exchage {
     private double eurorate;
     private double dolarrate;
@@ -12,8 +14,8 @@ public class Exchage {
         this.eurorate=eurorate;
         this.dolarrate=dolarrate;
     }
-    public int[] ExchageUSDtoEUR(double amount, int howmuch){
-        int[] tab=new int[2];
+    public double[] ExchageUSDtoEUR(double amount, int howmuch){
+        double[] tab=new double[2];
         // tab[0]=ile trzeba dodać euro do Eurobalance
         // tab[1]=ile trzeba odjąć dolarów od Dolarbalance
         if(howmuch*eurorate>amount){
@@ -21,12 +23,17 @@ public class Exchage {
             tab[1]=0;
         } else{
             tab[0]=howmuch;
-            tab[1]=(int)(howmuch*eurorate);
+            tab[1]=howmuch*eurorate;
         }
         return tab;
     }
-    public int[] ExchageEURtoUSD(double amount, int howmuch){
-        int[] tab=new int[2];
+    public void update() {
+        Random generator = new Random();
+        setEurorate(getEurorate() + generator.nextDouble(-0.5,0.5));
+        setDolarrate(getDolarrate() + generator.nextDouble(-0.5,0.5));
+    }
+    public double[] ExchageEURtoUSD(double amount, int howmuch){
+        double[] tab=new double[2];
         // tab[0]=ile trzeba dodać dolarów do Dolarbalance
         // tab[1]=ile trzeba odjąć euro od Eurobalance
         if(howmuch*dolarrate>amount){
@@ -34,7 +41,7 @@ public class Exchage {
             tab[1]=0;
         } else{
             tab[0]=howmuch;
-            tab[1]= (int)(howmuch*dolarrate);
+            tab[1]=howmuch*dolarrate;
         }
         return tab;
     }

@@ -7,6 +7,7 @@ public class Board {
     private Player[] players = new Player[4];
     private int moveCounter; //licznik ruchów
     private int round; //ilość okrążeń gracza z największą ich iloscią
+    private static Player currentPlayer;
 
     public Board(){
         moveCounter = 0;
@@ -23,6 +24,13 @@ public class Board {
         {
             fields[i] = new City("Pole %s".formatted(i), 1, 1000, 100, null, 12, 0.5f);
         }
+    }
+    public void setCurrentPlayer(Player currentPlayer) {
+        this.currentPlayer = currentPlayer;
+    }
+
+    public static Player getCurrentPlayer() {
+        return currentPlayer;
     }
 
     public static Field[] getFieldsArray(){

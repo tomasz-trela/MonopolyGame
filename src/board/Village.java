@@ -8,6 +8,10 @@ public class Village extends ToBuy {
         super(name, price, revenue, owner);
         this.ryeness = ryeness;
     }
+    public void update() {
+        if (getOwner() != null) {
+        }
+    }
 
     //gettery i settery
     public float getRyeness(){
