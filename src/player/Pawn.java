@@ -70,7 +70,7 @@ public class Pawn extends JLabel
         {
             pawn.setLocation((poz[0]),(poz[1]+typ*((Math.abs(poz[1]-poz[3]))/4)));
         }
-        else
+        if(nr==0 | nr==9 | nr==18 | nr==27)
         {
             if(typ==0)
             {
