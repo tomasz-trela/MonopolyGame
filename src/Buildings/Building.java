@@ -1,21 +1,22 @@
-package Building;
+package Buildings;
 
 import board.Board;
 import board.Field;
-import board.ToBuy;
 
 public abstract class Building {
     private Field location;
     private int price;
     private int revenuePerVisit;
-    public Building(int price, int revenuePerVisit, Field location) {
+    public Building(int price, int revenuePerVisit) {
         this.price = price;
         this.revenuePerVisit = revenuePerVisit;
     }
     public Building() {
         this.price = 200;
         this.revenuePerVisit = 100;
-        this.location = Board.getCurrentPlayer().getLocation();
+    }
+    public void upgrade() {
+        this.setRevenuePerVisit(2 * this.revenuePerVisit);
     }
     public int getPrice() {
         return price;
@@ -28,11 +29,5 @@ public abstract class Building {
     }
     public void setRevenuePerVisit(int revenuePerVisit) {
         this.revenuePerVisit = revenuePerVisit;
-    }
-    public Field getLocation() {
-        return location;
-    }
-    public void setLocation(Field location) {
-        this.location = location;
     }
 }

@@ -4,9 +4,11 @@ import board.Board;
 import board.Field;
 import board.Start;
 
+import java.io.File;
 import java.util.ArrayList;
 
 public class Player {
+    private int fieldIndex;
     private int lap;
     private double balanceEuro;
     private double balanceDolar;
@@ -20,12 +22,14 @@ public class Player {
         this.haveCar = false;
         this.OwnedFields.clear();
         this.lap = 0;
-        this.location = new Start();
+        this.location = null;
     }
-
-    //gettery settery
-
-
+    public void setLocation(Field location) {
+        this.location = location;
+    }
+    public Field getLocation() {
+        return location;
+    }
 
     public int getLap() {
         return lap;
@@ -67,47 +71,28 @@ public class Player {
         return haveCar;
     }
 
-    public Field getLocation() {
-        return location;
+    public int getFieldIndex() {
+        return fieldIndex;
     }
 
-    public void setLocation(Field location) {
-        this.location = location;
+    public void setFieldIndex(int fieldIndex) {
+        this.fieldIndex = fieldIndex;
     }
 
     //nie lepiej zamiast całej klasy kostka tutaj to zrobic ? (jak coś to to zmieć)
-    public int rzutKostka(){
-        return (int) ((Math.random()*6) + 1); 
+    public int rzutKostka() {
+        return (int) ((Math.random() * 6) + 1);
     }
-    public void movePlayer(Board board){ // metoda zmienia obecne pole gracza, na pole o indeksie o liczbe oczek wieksze
-        int roll = Dice.Roll() + Dice.Roll();
-        Field currentField = location;
-        int currentIndex = currentField.getIndex();
-        if((currentIndex+roll) < 36){
+
+    public void movePlayer(int roll) { // metoda zmienia obecne pole gracza, na pole o indeksie o liczbe oczek wieksze
+        int currentIndex = fieldIndex;
+        if ((currentIndex + roll) < 36) {
             currentIndex += roll;
-            if (board != null) {
-                Field[] currentBoard = board.getFieldsArray();
-                for (int i = 0; i < currentBoard.length; i++) {
-                    if (currentBoard[i] != null) {
-                        if (currentBoard[i].getIndex() == currentIndex) {
-                            setLocation(currentBoard[i]);
-                        }
-                    }
-                }
-            }
+            setFieldIndex(currentIndex);
         } else {
-            int newIndex = (currentIndex + roll)%36;
-            if(board != null) {
-                Field[] currentBoard = board.getFieldsArray();
-                for (int i = 0; i < currentBoard.length; i++) {
-                    if (currentBoard[i] != null) {
-                        if (currentBoard[i].getIndex() == newIndex) {
-                            setLocation(currentBoard[i]);
-                        }
-                    }
-                }
-            }
-            setLap(getLap()+1);
+            int newIndex = (currentIndex + roll) % 36;
+            setFieldIndex(newIndex);
+            setLap(getLap() + 1);
         }
 
 
