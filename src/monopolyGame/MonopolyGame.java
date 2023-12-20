@@ -1,9 +1,12 @@
 package monopolyGame;
-import player.*;
+
+import javax.swing.*;
 
 public class MonopolyGame {
     public static void main(String[] args) {
-     
-        new GameFrame();
+        SwingUtilities.invokeLater(() -> {
+            GameFrame gameFrame = GameFrame.getInstance();
+            gameFrame.setVisible(true);
+        });
     }
 }

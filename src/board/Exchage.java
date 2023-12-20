@@ -14,16 +14,16 @@ public class Exchage {
         this.eurorate=eurorate;
         this.dolarrate=dolarrate;
     }
-    public double[] ExchageUSDtoEUR(double amount, int howmuch){
+    public double[] ExchageUSDtoEUR(double amount, int howMuch){
         double[] tab=new double[2];
         // tab[0]=ile trzeba dodać euro do Eurobalance
         // tab[1]=ile trzeba odjąć dolarów od Dolarbalance
-        if(howmuch*eurorate>amount){
+        if(howMuch*eurorate>amount){
             tab[0]=0;
             tab[1]=0;
         } else{
-            tab[0]=howmuch;
-            tab[1]=howmuch*eurorate;
+            tab[0]=howMuch;
+            tab[1]=howMuch*eurorate;
         }
         return tab;
     }
@@ -32,16 +32,16 @@ public class Exchage {
         setEurorate(getEurorate() + generator.nextDouble(-0.5,0.5));
         setDolarrate(getDolarrate() + generator.nextDouble(-0.5,0.5));
     }
-    public double[] ExchageEURtoUSD(double amount, int howmuch){
+    public double[] ExchageEURtoUSD(double amount, int howMuch){
         double[] tab=new double[2];
         // tab[0]=ile trzeba dodać dolarów do Dolarbalance
         // tab[1]=ile trzeba odjąć euro od Eurobalance
-        if(howmuch*dolarrate>amount){
+        if(howMuch*dolarrate>amount){
             tab[0]=0;
             tab[1]=0;
         } else{
-            tab[0]=howmuch;
-            tab[1]=howmuch*dolarrate;
+            tab[0]=howMuch;
+            tab[1]=howMuch*dolarrate;
         }
         return tab;
     }

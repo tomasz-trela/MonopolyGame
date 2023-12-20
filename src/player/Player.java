@@ -36,17 +36,14 @@ public class Player {
     public int[] getBalance(){
         return balance;
     }
-    public void setBalance(int euro, int dollars){
-        balance[0]=euro;
-        balance[1]=dollars;
+    public void setBalance(int[] newbalance){
+        for(int i=0; i< newbalance.length; i++) balance[i]=newbalance[i];
     }
-    public void increaseBalance(int euro, int dollars){
-        balance[0]+=euro;
-        balance[1]+=dollars;
+    public void increaseBalance(int[] cost){
+        for(int i=0; i< cost.length; i++) balance[i]+=cost[i];
     }
-    public void decreaseBalance(int euro, int dollars){
-        balance[0]-=euro;
-        balance[1]-=dollars;
+    public void decreaseBalance(int[] cost){
+        for(int i=0; i< cost.length; i++) balance[i]-=cost[i];
     }
     public ArrayList<Integer> getOwnedFields() {
         return OwnedFields;
