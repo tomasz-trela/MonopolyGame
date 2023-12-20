@@ -5,8 +5,8 @@ import player.Player;
 public class City extends ToBuy {
     private int size;
     private float touristAttraction;
-    public City (String name, int price, Player owner, int size, float touristAttraction){
-        super(name, price, owner);
+    public City (String name, int priceEuro,int priceDollars, Player owner, int size, float touristAttraction){
+        super(name, priceEuro, priceDollars, owner);
         this.size = size;
         this.touristAttraction = touristAttraction;
     }

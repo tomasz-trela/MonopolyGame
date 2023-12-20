@@ -6,29 +6,32 @@ import java.util.ArrayList;
 
 public abstract class ToBuy extends Field {
     private Player owner;
-    private int price;
+    private int[] price = new int[2];
 
     //private Country country;
     private ArrayList<Building> Buildings;
-    public ToBuy(String name, int price, Player owner) {
+    public ToBuy(String name, int priceEuro, int priceDollars, Player owner) {
         super(name);
-        this.price = price;
+        this.price[0] = priceEuro;
+        this.price[1] = priceDollars;
         this.Buildings = null;
         this.owner = owner;
     }
     public ToBuy() {
         super();
-        this.price = 1000;
+        this.price[0] = 1000;
+        this.price[1] = 0;
         this.Buildings = null;
     }
-    public int getPrice() {
+    public int[] getPrice() {
         return price;
     }
     public Player getOwner() {
         return owner;
     }
-    public void setPrice(int price) {
-        this.price = price;
+    public void setPrice(int priceEuro,int priceDollars) {
+        this.price[0] = priceEuro;
+        this.price[1] = priceDollars;
     }
     public void setOwner(Player owner) {
         this.owner = owner;

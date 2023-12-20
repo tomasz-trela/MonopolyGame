@@ -3,10 +3,10 @@ package board;
 import player.Player;
 
 public class Board {
-    private static Field[] fields = new Field[36];
+    private  Field[] fields = new Field[36];
     private Player[] players = new Player[4];
     private int moveCounter; //licznik ruchów
-    private int round; //ilość okrążeń gracza z największą ich iloscią
+    private int round; //oblicza index gracza którego aktualnie jest kolej ruchu
     private static Player currentPlayer;
 
     public Board(){
@@ -18,22 +18,22 @@ public class Board {
         players[3] = new Player();
 
         fields[0] = new Start();
-        fields[1] = new Village("Wioska 1", 200, null, 0.5f);
-        fields[2] = new Village("Wioska 2", 300, null, 1.5f);
+        fields[1] = new Village("Wioska 1", 20000, 0, null,0.5f);
+        fields[2] = new Village("Wioska 2", 300, 0, null, 0.5f);
         for(int i=3; i< fields.length; i++)
         {
-            fields[i] = new City("Pole %s".formatted(i), 1, null, 100, 12);
+            fields[i] = new City("Pole %s".formatted(i), 1, 0, null, 12, 0.5f);
         }
     }
+    private void calculate_round(){round=moveCounter%players.length;}
     public void setCurrentPlayer(Player currentPlayer) {
         this.currentPlayer = currentPlayer;
     }
-
     public static Player getCurrentPlayer() {
         return currentPlayer;
     }
 
-    public static Field[] getFieldsArray(){
+    public  Field[] getFieldsArray(){
         return fields;
     }
     public int getMoveCounter(){
@@ -44,6 +44,7 @@ public class Board {
     }
     public void incrementMoveCounter(){
         moveCounter++;
+        calculate_round();
     }
     public int getRound(){
         return round;

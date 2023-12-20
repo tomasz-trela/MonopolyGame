@@ -22,7 +22,7 @@ public class GamePanel extends JPanel implements ActionListener {
     private final static Color FIELD_COLOR2;
 
     static {
-        SCREEN_WIDTH=1000;
+        SCREEN_WIDTH=1100;
         SCREEN_HEIGHT = 750;
         BOARD_WIDTH = 528;
         BOARD_HEIGHT = 528;
@@ -41,6 +41,7 @@ public class GamePanel extends JPanel implements ActionListener {
 
     private static int poz[][]=new int[36][4];
     private boolean start=true;
+    private int round;
     Pawn pawn0=new Pawn(0);
     Pawn pawn1=new Pawn(1);
     Pawn pawn2=new Pawn(2);
@@ -60,6 +61,7 @@ public class GamePanel extends JPanel implements ActionListener {
         this.add(pawn2.getPawn());
         this.add(pawn3.getPawn());
         this.add(pawn0.getPawn());
+        this.setVisible(true);
     }
 
     public void setPawnsStart(){
@@ -173,15 +175,15 @@ public class GamePanel extends JPanel implements ActionListener {
                 int dice2 = Roll();
                 int sum =dice1 +dice2;
                 updateDiceImages(dice1, dice2);
-                int round = board.getMoveCounter()%board.getPlayers().length;
+                round = board.getMoveCounter()%board.getPlayers().length;
                 board.getPlayers()[round].movePlayer(sum);
                 if(round==0) pawn0.placePawnOn(board.getPlayers()[round].getFieldIndex());
                 if(round==1) pawn1.placePawnOn(board.getPlayers()[round].getFieldIndex());
                 if(round==2) pawn2.placePawnOn(board.getPlayers()[round].getFieldIndex());
                 if(round==3) pawn3.placePawnOn(board.getPlayers()[round].getFieldIndex());
 
-                board.incrementMoveCounter();
-                repaint();
+
+                board.incrementMoveCounter();//na końcu
             }
         });
         rollButton.setBounds((SCREEN_WIDTH - ROLL_BUTTON_WIDTH)/2, (SCREEN_HEIGHT - ROLL_BUTTON_HEIGHT)/2, ROLL_BUTTON_WIDTH, ROLL_BUTTON_HEIGHT);
@@ -209,6 +211,7 @@ public class GamePanel extends JPanel implements ActionListener {
         diceLabel1.setIcon(icon1);
         diceLabel2.setIcon(icon2);
     }
+
 
 
 

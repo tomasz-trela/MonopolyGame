@@ -10,15 +10,14 @@ import java.util.ArrayList;
 public class Player {
     private int fieldIndex;
     private int lap;
-    private double balanceEuro;
-    private double balanceDolar;
+    private int[] balance = new int[2];
     private boolean haveCar;
     private ArrayList<Integer> OwnedFields = new ArrayList<Integer>();
     private Field location;
 
     public Player(){
-        this.balanceEuro = 50000;
-        this.balanceDolar = 50000;
+        balance[0] = 500000; //euro
+        balance[1] = 500000; //dolary
         this.haveCar = false;
         this.OwnedFields.clear();
         this.lap = 0;
@@ -34,25 +33,23 @@ public class Player {
     public int getLap() {
         return lap;
     }
-
-    public double getBalanceDolar() {
-        return balanceDolar;
+    public int[] getBalance(){
+        return balance;
     }
-
-    public double getBalanceEuro() {
-        return balanceEuro;
+    public void setBalance(int euro, int dollars){
+        balance[0]=euro;
+        balance[1]=dollars;
     }
-
+    public void increaseBalance(int euro, int dollars){
+        balance[0]+=euro;
+        balance[1]+=dollars;
+    }
+    public void decreaseBalance(int euro, int dollars){
+        balance[0]-=euro;
+        balance[1]-=dollars;
+    }
     public ArrayList<Integer> getOwnedFields() {
         return OwnedFields;
-    }
-
-    public void setBalanceDolar(double balanceDolar) {
-        this.balanceDolar = balanceDolar;
-    }
-
-    public void setBalanceEuro(double balanceEuro) {
-        this.balanceEuro = balanceEuro;
     }
 
     public void setHaveCar(boolean haveCar) {
@@ -79,22 +76,10 @@ public class Player {
         this.fieldIndex = fieldIndex;
     }
 
-    //nie lepiej zamiast całej klasy kostka tutaj to zrobic ? (jak coś to to zmieć)
-    public int rzutKostka() {
-        return (int) ((Math.random() * 6) + 1);
-    }
-
     public void movePlayer(int roll) { // metoda zmienia obecne pole gracza, na pole o indeksie o liczbe oczek wieksze
         int currentIndex = fieldIndex;
-        if ((currentIndex + roll) < 36) {
-            currentIndex += roll;
-            setFieldIndex(currentIndex);
-        } else {
             int newIndex = (currentIndex + roll) % 36;
             setFieldIndex(newIndex);
             setLap(getLap() + 1);
-        }
-
-
     }
 }
