@@ -3,21 +3,11 @@ package monopolyGame;
 import board.Board;
 
 import javax.swing.*;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class MenuPanel extends JPanel implements ActionListener {
-    private static final int SCREEN_WIDTH;
-    private static final int SCREEN_HEIGHT;
-
-    static {
-        SCREEN_WIDTH = 400;
-        SCREEN_HEIGHT = 400;
-    }
-
     JSlider playersSilder;
     JLabel playersLabel;
     JSlider boardsSilder;
@@ -26,39 +16,50 @@ public class MenuPanel extends JPanel implements ActionListener {
 
     MenuPanel() {
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-        this.setPreferredSize(new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT));
         this.setBackground(Color.WHITE);
         this.setFocusable(true);
         this.setVisible(true);
-        this.add(Box.createVerticalStrut(20));
+        this.add(Box.createVerticalStrut(80));
         addPlayersLabel();
-        this.add(Box.createVerticalStrut(20));
+        this.add(Box.createVerticalStrut(30));
         addPlayersSlider();
-        this.add(Box.createVerticalStrut(40));
+        this.add(Box.createVerticalStrut(80));
         addBoardsLabel();
-        this.add(Box.createVerticalStrut(20));
+        this.add(Box.createVerticalStrut(30));
         addBoardsSlider();
-        this.add(Box.createVerticalStrut(90));
+        this.add(Box.createVerticalStrut(200));
         addStartButton();
         this.add(Box.createVerticalGlue());
     }
+    @Override
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        ImageIcon imageIcon = new ImageIcon(getClass().getResource("/images/menuBackground.jpg"));
+        Image backgroundImage = imageIcon.getImage();
 
+        // Draw the image without automatic scaling
+        g.drawImage(backgroundImage, 0, 0, 1100, 1100, this);
+        imageIcon = new ImageIcon(getClass().getResource("/images/paper.png"));
+        Image paperImage = imageIcon.getImage();
+        g.drawImage(paperImage, 340, 30, 420, 400, this);
+
+    }
     public void addPlayersLabel() {
         playersLabel = new JLabel("Number of players");
         playersLabel.setAlignmentX(Component.CENTER_ALIGNMENT); // Wyśrodkowanie wzdłuż osi X
-        playersLabel.setFont(new Font("Monotype Corsiva", Font.BOLD, 18));
+        playersLabel.setFont(new Font("Monotype Corsiva", Font.BOLD, 25));
 
         this.add(playersLabel);
     }
 
     public void addPlayersSlider() {
         playersSilder = new JSlider(2, 4, 2);
-        playersSilder.setMaximumSize(new Dimension(250, 40));
+        playersSilder.setMaximumSize(new Dimension(330, 60));
         playersSilder.setPaintTrack(true);
         playersSilder.setMajorTickSpacing(1);
         playersSilder.setAlignmentX(Component.CENTER_ALIGNMENT); // Wyśrodkowanie wzdłuż osi X
         playersSilder.setPaintLabels(true);
-        playersSilder.setBackground(new Color(255, 255, 255, 100));
+        playersSilder.setBackground(new Color(255, 255, 255, 50));
         playersSilder.setOpaque(false);
 
         this.add(playersSilder);
@@ -67,19 +68,19 @@ public class MenuPanel extends JPanel implements ActionListener {
     public void addBoardsLabel() {
         boardsLabel = new JLabel("Board selection");
         boardsLabel.setAlignmentX(Component.CENTER_ALIGNMENT); // Wyśrodkowanie wzdłuż osi X
-        boardsLabel.setFont(new Font("Monotype Corsiva", Font.BOLD, 18));
+        boardsLabel.setFont(new Font("Monotype Corsiva", Font.BOLD, 25));
 
         this.add(boardsLabel);
     }
 
     public void addBoardsSlider() {
         boardsSilder = new JSlider(1, 4, 1);
-        boardsSilder.setMaximumSize(new Dimension(250, 40));
+        boardsSilder.setMaximumSize(new Dimension(330, 60));
         boardsSilder.setPaintTrack(true);
         boardsSilder.setMajorTickSpacing(1);
         boardsSilder.setAlignmentX(Component.CENTER_ALIGNMENT); // Wyśrodkowanie wzdłuż osi X
         boardsSilder.setPaintLabels(true);
-        boardsSilder.setBackground(new Color(255, 255, 255, 100));
+        boardsSilder.setBackground(new Color(255, 255, 255, 50));
         boardsSilder.setOpaque(false);
 
         this.add(boardsSilder);
@@ -87,10 +88,10 @@ public class MenuPanel extends JPanel implements ActionListener {
 
     public void addStartButton() {
         startButton = new JButton("Start");
-        startButton.setMaximumSize(new Dimension(150, 110));
-        startButton.setFont(new Font("Monotype Corsiva", Font.BOLD, 24));
+        startButton.setMaximumSize(new Dimension(230, 200));
+        startButton.setFont(new Font("Monotype Corsiva", Font.BOLD, 28));
         startButton.setAlignmentX(Component.CENTER_ALIGNMENT); // Wyśrodkowanie wzdłuż osi X
-        startButton.setBackground(new Color(40, 210, 40));
+        startButton.setBackground(new Color(124, 213, 114));
         startButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

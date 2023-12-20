@@ -75,6 +75,11 @@ public class GamePanel extends JPanel implements ActionListener {
         draw(g);
     }
      public void draw(Graphics g) {
+         ImageIcon imageIcon = new ImageIcon(getClass().getResource("/images/menuBackground.jpg"));
+         Image backgroundImage = imageIcon.getImage();
+
+         // Draw the image without automatic scaling
+         g.drawImage(backgroundImage, 0, 0, 1100, 1100, this);
         g.setColor(BOARD_COLOR);//kolor Planszy
         g.fillRect((this.getWidth() - BOARD_WIDTH) / 2, (this.getHeight() - BOARD_HEIGHT) / 2, BOARD_WIDTH, BOARD_HEIGHT);//rysujemy prostokąt na środku to jest plansza
 
