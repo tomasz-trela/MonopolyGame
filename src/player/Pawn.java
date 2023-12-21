@@ -4,7 +4,7 @@ import java.awt.*;
 import monopolyGame.*;
 
 
-public class Pawn extends JLabel
+public class Pawn 
 {
     JLabel pawn= new JLabel();
     private int typ;// pionek moze miec trzy cztery typy ideksowane od 0 do 3
