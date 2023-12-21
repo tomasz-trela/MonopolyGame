@@ -34,12 +34,12 @@ public class MenuPanel extends JPanel implements ActionListener {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        ImageIcon imageIcon = new ImageIcon(getClass().getResource("/images/menuBackground.jpg"));
+        ImageIcon imageIcon = new ImageIcon("src/images/menuBackground.jpg");
         Image backgroundImage = imageIcon.getImage();
 
         // Draw the image without automatic scaling
         g.drawImage(backgroundImage, 0, 0, 1100, 1100, this);
-        imageIcon = new ImageIcon(getClass().getResource("/images/paper.png"));
+        imageIcon = new ImageIcon("src/images/paper.png");
         Image paperImage = imageIcon.getImage();
         g.drawImage(paperImage, 340, 30, 420, 400, this);
 

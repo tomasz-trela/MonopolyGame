@@ -1,9 +1,14 @@
 package monopolyGame;
 
 import java.awt.Font;
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.*;
+import java.net.URL;
+import java.util.Scanner;
+
 import board.*;
 import static player.Dice.Roll;
 import player.*;
@@ -75,11 +80,13 @@ public class GamePanel extends JPanel implements ActionListener {
         draw(g);
     }
      public void draw(Graphics g) {
-         ImageIcon imageIcon = new ImageIcon(getClass().getResource("/images/menuBackground.jpg"));
-         Image backgroundImage = imageIcon.getImage();
+        ImageIcon imageIcon = new ImageIcon("src/images/menuBackground.jpg");
+        Image backgroundImage = imageIcon.getImage();
 
-         // Draw the image without automatic scaling
+        // Draw the image without automatic scaling
          g.drawImage(backgroundImage, 0, 0, 1100, 1100, this);
+
+
         g.setColor(BOARD_COLOR);//kolor Planszy
         g.fillRect((this.getWidth() - BOARD_WIDTH) / 2, (this.getHeight() - BOARD_HEIGHT) / 2, BOARD_WIDTH, BOARD_HEIGHT);//rysujemy prostokąt na środku to jest plansza
 
@@ -203,9 +210,9 @@ public class GamePanel extends JPanel implements ActionListener {
         diceLabel2.setBounds(SCREEN_WIDTH/2, 420, 50, 50);
     }
     public void updateDiceImages(int value1, int value2) {
-        ImageIcon imagePath1 = new ImageIcon(getClass().getResource("/images/dice" + value1 + ".png"));
-        ImageIcon imagePath2 = new ImageIcon(getClass().getResource("/images/dice" + value2 + ".png"));
 
+        ImageIcon imagePath1 = new ImageIcon("src/images/dice" + value1 + ".png");
+        ImageIcon imagePath2 = new ImageIcon("src/images/dice" + value2 + ".png");
 
         Image scaledImage1 = imagePath1.getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH);
         Image scaledImage2 = imagePath2.getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH);
@@ -215,6 +222,8 @@ public class GamePanel extends JPanel implements ActionListener {
 
         diceLabel1.setIcon(icon1);
         diceLabel2.setIcon(icon2);
+
+
     }
 
 
