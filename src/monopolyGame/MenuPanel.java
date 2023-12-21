@@ -7,7 +7,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class MenuPanel extends JPanel implements ActionListener {
+public class        MenuPanel extends JPanel implements ActionListener {
     JSlider playersSilder;
     JLabel playersLabel;
     JSlider boardsSilder;
@@ -23,7 +23,7 @@ public class MenuPanel extends JPanel implements ActionListener {
         addPlayersLabel();
         this.add(Box.createVerticalStrut(30));
         addPlayersSlider();
-        this.add(Box.createVerticalStrut(80));
+        this.add(Box.createVerticalStrut(70));
         addBoardsLabel();
         this.add(Box.createVerticalStrut(30));
         addBoardsSlider();
@@ -38,10 +38,10 @@ public class MenuPanel extends JPanel implements ActionListener {
         Image backgroundImage = imageIcon.getImage();
 
         // Draw the image without automatic scaling
-        g.drawImage(backgroundImage, 0, 0, 1100, 1100, this);
+        g.drawImage(backgroundImage, 0, 0, 1500, 1500, this);
         imageIcon = new ImageIcon("src/images/paper.png");
         Image paperImage = imageIcon.getImage();
-        g.drawImage(paperImage, 340, 30, 420, 400, this);
+        g.drawImage(paperImage, 540, 30, 420, 400, this);
 
     }
     public void addPlayersLabel() {
@@ -55,6 +55,7 @@ public class MenuPanel extends JPanel implements ActionListener {
     public void addPlayersSlider() {
         playersSilder = new JSlider(2, 4, 2);
         playersSilder.setMaximumSize(new Dimension(330, 60));
+        playersSilder.setFont(new Font("Monotype Corsiva", Font.BOLD, 18));
         playersSilder.setPaintTrack(true);
         playersSilder.setMajorTickSpacing(1);
         playersSilder.setAlignmentX(Component.CENTER_ALIGNMENT); // Wyśrodkowanie wzdłuż osi X
@@ -76,6 +77,7 @@ public class MenuPanel extends JPanel implements ActionListener {
     public void addBoardsSlider() {
         boardsSilder = new JSlider(1, 4, 1);
         boardsSilder.setMaximumSize(new Dimension(330, 60));
+        boardsSilder.setFont(new Font("Monotype Corsiva", Font.BOLD, 18));
         boardsSilder.setPaintTrack(true);
         boardsSilder.setMajorTickSpacing(1);
         boardsSilder.setAlignmentX(Component.CENTER_ALIGNMENT); // Wyśrodkowanie wzdłuż osi X
