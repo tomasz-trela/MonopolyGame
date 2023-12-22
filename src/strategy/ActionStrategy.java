@@ -6,5 +6,5 @@ import player.Player;
 
 public interface ActionStrategy {
     public abstract void action(Board board);
-    //jakies bledy mi powyskakiwaly
+
 }
