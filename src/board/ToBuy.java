@@ -9,19 +9,20 @@ public abstract class ToBuy extends Field {
     private int[] price = new int[2];
 
     //private Country country;
-    private ArrayList<Building> Buildings;
+    private Building[] Buildings;
+
     public ToBuy(String name, int priceEuro, int priceDollars, Player owner) {
         super(name);
         this.price[0] = priceEuro;
         this.price[1] = priceDollars;
-        this.Buildings = null;
+        this.Buildings = new Building[3];
         this.owner = owner;
     }
     public ToBuy() {
         super();
         this.price[0] = 1000;
         this.price[1] = 0;
-        this.Buildings = null;
+        this.Buildings = new Building[3];
     }
     public int[] getPrice() {
         return price;
@@ -35,5 +36,13 @@ public abstract class ToBuy extends Field {
     }
     public void setOwner(Player owner) {
         this.owner = owner;
+    }
+
+    public void setBuildings(Building[] buildings) {
+        Buildings = buildings;
+    }
+
+    public Building[] getBuildings() {
+        return Buildings;
     }
 }

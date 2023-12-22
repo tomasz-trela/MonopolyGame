@@ -7,7 +7,7 @@ public class Board {
     private static Player[] players;
     private int moveCounter; //licznik ruchów
     private int round; //oblicza index gracza którego aktualnie jest kolej ruchu
-    private static Player currentPlayer;
+    private Player currentPlayer;
 
     public Board(){
         moveCounter = 0;
@@ -25,6 +25,7 @@ public class Board {
         players = new Player[playersCount];
         for(int i=0; i<players.length; i++){
             players[i]=new Player();
+            players[i].setLocation(new Start());
         }
     }
     public static void generateBoard(int boardNumber){
@@ -58,14 +59,32 @@ public class Board {
             }
         }
     }
+    public void ChangePlayerLocation(int roll){
+        if (players !=null){
+            int temp = 0;
+            if (fields != null){
+                for (int i = 0; i < fields.length; i++) {
+                    if (fields[i] != null){
+                        if(fields[i] == currentPlayer.getLocation()){
+                            temp = i;
+                        }
+                    }
+                }
+                currentPlayer.setLocation(fields[temp + roll]);
+                currentPlayer.changeStrategy();
+            }
+        }
+    }
+    public void SetCurrentPlayerOnGamePanel(int round){
+        setCurrentPlayer(players[round]);
+    }
     private void calculate_round(){round=moveCounter%players.length;}
     public void setCurrentPlayer(Player currentPlayer) {
         this.currentPlayer = currentPlayer;
     }
-    public static Player getCurrentPlayer() {
+    public Player getCurrentPlayer() {
         return currentPlayer;
     }
-
     public  Field[] getFieldsArray(){
         return fields;
     }

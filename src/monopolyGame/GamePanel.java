@@ -188,6 +188,11 @@ public class GamePanel extends JPanel implements ActionListener {
                 updateDiceImages(dice1, dice2);
                 round = board.getMoveCounter()%board.getPlayers().length;
                 board.getPlayers()[round].movePlayer(sum);
+
+                board.SetCurrentPlayerOnGamePanel(round);
+                board.ChangePlayerLocation(sum);
+                board.getCurrentPlayer().playerAction(board);
+
                 if(round==0) pawn0.placePawnOn(board.getPlayers()[round].getFieldIndex());
                 if(round==1) pawn1.placePawnOn(board.getPlayers()[round].getFieldIndex());
                 if(round==2) pawn2.placePawnOn(board.getPlayers()[round].getFieldIndex());

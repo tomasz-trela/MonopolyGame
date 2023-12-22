@@ -1,3 +1,5 @@
+package board;
+
 public class Change{
     private String discription;
     public Change(){

@@ -2,7 +2,7 @@ package board;
 import ChancesAndModifications.Chances;
 import java.util.Random;
 
-public class Chance {
+public class Chance extends Field{
     private final Chances [] listOfChances;
     public Chance(Chances [] listOfChances){
         this.listOfChances = listOfChances;

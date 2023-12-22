@@ -13,6 +13,6 @@ public class BuyFieldStrategy implements ActionStrategy {
 
         field.setOwner(currentPlayer);
         currentPlayer.decreaseBalance(field.getPrice());
-        currentPlayer.getOwnedFields().add(currentIndex);
+        currentPlayer.getOwnedFields().add(field);
     }
 }
