@@ -7,7 +7,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class        MenuPanel extends JPanel implements ActionListener {
+public class MenuPanel extends JPanel {
     JSlider playersSilder;
     JLabel playersLabel;
     JSlider boardsSilder;
@@ -30,6 +30,18 @@ public class        MenuPanel extends JPanel implements ActionListener {
         this.add(Box.createVerticalStrut(200));
         addStartButton();
         this.add(Box.createVerticalGlue());
+    }
+    private void addMenuSlider(JSlider slider){
+        slider.setMaximumSize(new Dimension(330, 60));
+        slider.setFont(new Font("Monotype Corsiva", Font.BOLD, 18));
+        slider.setPaintTrack(true);
+        slider.setMajorTickSpacing(1);
+        slider.setAlignmentX(Component.CENTER_ALIGNMENT); // Wyśrodkowanie wzdłuż osi X
+        slider.setPaintLabels(true);
+        slider.setBackground(new Color(255, 255, 255, 50));
+        slider.setOpaque(false);
+
+        this.add(slider);
     }
     @Override
     protected void paintComponent(Graphics g) {
@@ -54,16 +66,7 @@ public class        MenuPanel extends JPanel implements ActionListener {
 
     public void addPlayersSlider() {
         playersSilder = new JSlider(2, 4, 2);
-        playersSilder.setMaximumSize(new Dimension(330, 60));
-        playersSilder.setFont(new Font("Monotype Corsiva", Font.BOLD, 18));
-        playersSilder.setPaintTrack(true);
-        playersSilder.setMajorTickSpacing(1);
-        playersSilder.setAlignmentX(Component.CENTER_ALIGNMENT); // Wyśrodkowanie wzdłuż osi X
-        playersSilder.setPaintLabels(true);
-        playersSilder.setBackground(new Color(255, 255, 255, 50));
-        playersSilder.setOpaque(false);
-
-        this.add(playersSilder);
+        addMenuSlider(playersSilder);
     }
 
     public void addBoardsLabel() {
@@ -76,16 +79,7 @@ public class        MenuPanel extends JPanel implements ActionListener {
 
     public void addBoardsSlider() {
         boardsSilder = new JSlider(1, 4, 1);
-        boardsSilder.setMaximumSize(new Dimension(330, 60));
-        boardsSilder.setFont(new Font("Monotype Corsiva", Font.BOLD, 18));
-        boardsSilder.setPaintTrack(true);
-        boardsSilder.setMajorTickSpacing(1);
-        boardsSilder.setAlignmentX(Component.CENTER_ALIGNMENT); // Wyśrodkowanie wzdłuż osi X
-        boardsSilder.setPaintLabels(true);
-        boardsSilder.setBackground(new Color(255, 255, 255, 50));
-        boardsSilder.setOpaque(false);
-
-        this.add(boardsSilder);
+        addMenuSlider(boardsSilder);
     }
 
     public void addStartButton() {
@@ -94,22 +88,19 @@ public class        MenuPanel extends JPanel implements ActionListener {
         startButton.setFont(new Font("Monotype Corsiva", Font.BOLD, 28));
         startButton.setAlignmentX(Component.CENTER_ALIGNMENT); // Wyśrodkowanie wzdłuż osi X
         startButton.setBackground(new Color(124, 213, 114));
-        startButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                Board.generateBoard(boardsSilder.getValue());
-                Board.generatePlayers(playersSilder.getValue());
-                GameFrame gameFrame = GameFrame.getInstance();
-                gameFrame.showGamePanel();
-            }
-        });
-
+        startButton.addActionListener(new StartButtonReaction());
         this.add(startButton);
     }
 
-    @Override
-    public void actionPerformed(ActionEvent e) {
-
+    class StartButtonReaction implements ActionListener
+    {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            Board.generateBoard(boardsSilder.getValue());
+            Board.generatePlayers(playersSilder.getValue());
+            GameFrame gameFrame = GameFrame.getInstance();
+            gameFrame.showGamePanel();
+        }
     }
 
 }

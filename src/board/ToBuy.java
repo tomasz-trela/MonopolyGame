@@ -7,8 +7,6 @@ import java.util.ArrayList;
 public abstract class ToBuy extends Field {
     private Player owner;
     private int[] price = new int[2];
-
-    //private Country country;
     private ArrayList<Building> Buildings;
     public ToBuy(String name, int priceEuro, int priceDollars, Player owner) {
         super(name);
