@@ -8,7 +8,7 @@ import board.*;
 import static player.Dice.Roll;
 import player.*;
 
-public class GamePanel extends JPanel implements ActionListener {
+public class GamePanel extends JPanel{
     private static final int SCREEN_WIDTH;
     private static final int SCREEN_HEIGHT;
     private final static int BOARD_WIDTH;
@@ -179,27 +179,7 @@ public class GamePanel extends JPanel implements ActionListener {
     {
         rollButton = new JButton("Roll");
         rollButton.setFocusable(false);
-        rollButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                int dice1 = Roll();
-                int dice2 = Roll();
-                int sum =dice1 +dice2;
-                updateDiceImages(dice1, dice2);
-                round = board.getMoveCounter()%board.getPlayers().length;
-                board.getPlayers()[round].movePlayer(sum);
-
-                //board.SetCurrentPlayerOnGamePanel(round);
-                //board.ChangePlayerLocation(sum);
-                //board.getCurrentPlayer().playerAction(board);
-
-                if(round==0) pawn0.placePawnOn(board.getPlayers()[round].getFieldIndex());
-                if(round==1) pawn1.placePawnOn(board.getPlayers()[round].getFieldIndex());
-                if(round==2) pawn2.placePawnOn(board.getPlayers()[round].getFieldIndex());
-                if(round==3) pawn3.placePawnOn(board.getPlayers()[round].getFieldIndex());
-                board.incrementMoveCounter();//na końcu
-            }
-        });
+        rollButton.addActionListener(new RollButtonReaction());
         rollButton.setBounds((SCREEN_WIDTH - ROLL_BUTTON_WIDTH)/2, (SCREEN_HEIGHT - ROLL_BUTTON_HEIGHT)/2, ROLL_BUTTON_WIDTH, ROLL_BUTTON_HEIGHT);
         rollButton.setBackground(Color.WHITE);
         rollButton.setFont(new Font("Serif", Font.BOLD, 28));
@@ -226,9 +206,23 @@ public class GamePanel extends JPanel implements ActionListener {
         diceLabel1.setIcon(icon1);
         diceLabel2.setIcon(icon2);
     }
-    @Override
-    public void actionPerformed(ActionEvent e) {
+    class RollButtonReaction implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            int dice1 = Roll();
+            int dice2 = Roll();
+            int sum =dice1 +dice2;
+            updateDiceImages(dice1, dice2);
+            round = board.getMoveCounter()%board.getPlayers().length;
+            board.getPlayers()[round].movePlayer(sum);
 
+            if(round==0) pawn0.placePawnOn(board.getPlayers()[round].getFieldIndex());
+            if(round==1) pawn1.placePawnOn(board.getPlayers()[round].getFieldIndex());
+            if(round==2) pawn2.placePawnOn(board.getPlayers()[round].getFieldIndex());
+            if(round==3) pawn3.placePawnOn(board.getPlayers()[round].getFieldIndex());
+
+            board.incrementMoveCounter();//na końcu
+        }
     }
 }
 
