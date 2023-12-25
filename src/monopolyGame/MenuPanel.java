@@ -79,7 +79,7 @@ public class MenuPanel extends JPanel{
 
     public void addBoardsSlider() {
         boardsSilder = new JSlider(1, 4, 1);
-        addMenuSlider(playersSilder);
+        addMenuSlider(boardsSilder);
 
         this.add(boardsSilder);
     }
