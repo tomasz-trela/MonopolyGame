@@ -40,7 +40,7 @@ public class GamePanel extends JPanel{
     JButton rollButton;
     JLabel diceLabel1;
     JLabel diceLabel2;
-    
+    JLabel fieldInformation = new JLabel();
     JPanel leftPanel=new JPanel();
     JPanel rightPanel= new JPanel();
     JPanel rightTopPanel = new JPanel();
@@ -76,7 +76,6 @@ public class GamePanel extends JPanel{
 
         rightPanel.add(rightTopPanel);
         rightPanel.add(rightBottomPanel);
-        
 
 
 
@@ -86,6 +85,7 @@ public class GamePanel extends JPanel{
         createRollButton();
         createDiceLabels();
         leftPanel.add(rollButton);
+        leftPanel.add(fieldInformation);
         rollButton.setVisible(true);
 
         createBoard(36);
@@ -186,7 +186,31 @@ public class GamePanel extends JPanel{
         for(JPanel m: fieldArray){
             leftPanel.add(m);
         }
+        for (int i = 0; i < fieldArray.length; i++) {
+            fieldArray[i].addMouseListener(new MouseListener() {
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                }
 
+                @Override
+                public void mousePressed(MouseEvent e) {
+                }
+
+                @Override
+                public void mouseReleased(MouseEvent e) {
+                }
+
+                @Override
+                public void mouseEntered(MouseEvent e) {
+                    showFieldInformation(this);
+                }
+
+                @Override
+                public void mouseExited(MouseEvent e) {
+                    fieldInformation.setVisible(false);
+                }
+            });
+        }
 
     }
 
@@ -203,7 +227,21 @@ public class GamePanel extends JPanel{
         rollButton.setBackground(Color.WHITE);
         rollButton.setFont(new Font("Serif", Font.BOLD, 28));
     }
-
+    public void showFieldInformation(MouseListener mouseListener) {
+        JPanel Temp = null;
+        int TempInt = 0;
+        while (TempInt <= fieldArray.length & Temp == null) {
+            assert fieldArray[TempInt] != null;
+            if (fieldArray[TempInt].getMouseListeners()[0] == mouseListener) {
+                Temp = fieldArray[TempInt];
+            } else {
+                TempInt++;
+            }
+        }
+        fieldInformation.setText(Board.getFieldsArray()[TempInt].toString());
+        fieldInformation.setBounds(SCREEN_WIDTH/2-500, 0, 2000, 600);
+        fieldInformation.setVisible(true);
+    }
     public void createDiceLabels() {
         diceLabel1 = new JLabel();
         diceLabel2 = new JLabel();
@@ -211,6 +249,7 @@ public class GamePanel extends JPanel{
         diceLabel1.setBounds(SCREEN_WIDTH/2-50, 420, 50, 50);
         diceLabel2.setBounds(SCREEN_WIDTH/2, 420, 50, 50);
     }
+
     public void updateDiceImages(int value1, int value2) {
         ImageIcon imagePath1 = new ImageIcon(getClass().getResource("/images/dice" + value1 + ".png"));
         ImageIcon imagePath2 = new ImageIcon(getClass().getResource("/images/dice" + value2 + ".png"));

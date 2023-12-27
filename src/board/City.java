@@ -22,4 +22,7 @@ public class City extends ToBuy {
     public void setTouristAttraction(float touristAttraction){
         this.touristAttraction = touristAttraction;
     }
+    public String toString() {
+        return "Type: City\nName: " + this.getName() + "\nOwner: " + this.getOwner() + "\nPrice in euro: " + this.getPrice()[0] + "\nPrice in dollars: " + this.getPrice()[1] + "\nSize: " + this.getSize() + "\nTourist attraction: " + this.getTouristAttraction();
+    }
 }

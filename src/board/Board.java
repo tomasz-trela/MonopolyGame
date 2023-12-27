@@ -1,6 +1,8 @@
 package board;
 
 import player.Player;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 public class Board {
     private static Field[] fields ;
@@ -85,7 +87,7 @@ public class Board {
     public Player getCurrentPlayer() {
         return currentPlayer;
     }
-    public  Field[] getFieldsArray(){
+    public static Field[] getFieldsArray(){
         return fields;
     }
     public int getMoveCounter(){

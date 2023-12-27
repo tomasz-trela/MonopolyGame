@@ -15,5 +15,8 @@ public class Start extends Field {
     public void setStartMoney(int startMoney) {
         this.startMoney = startMoney;
     }
+    public String toString() {
+        return "Type: Start\nName: " + this.getName() + "\nStart money: " + this.getStartMoney();
+    }
 
 }

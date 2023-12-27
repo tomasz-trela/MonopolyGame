@@ -17,4 +17,7 @@ public class Chance extends Field{
         Random generator = new Random();
         listOfChances[generator.nextInt(listOfChances.length)].doChance();
     }
+    public String toString(){
+        return "Type: Chance\nName: " + this.getName();
+    }
 }

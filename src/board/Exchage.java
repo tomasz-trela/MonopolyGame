@@ -57,4 +57,5 @@ public class Exchage {
     public void setDolarrate(double dolarrate){
         this.dolarrate=dolarrate;
     }
+
 }

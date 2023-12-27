@@ -6,13 +6,16 @@ public abstract class Field {
         this.name = name;
     }
     public Field() {
-        this.name = "Berlin";
+        this.name = "Start";
     }
     public String getName() {
         return name;
     }
     public void setName(String name) {
         this.name = name;
+    }
+    public String toString() {
+        return "Name: " + this.name + "\n";
     }
 }
 
