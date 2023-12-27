@@ -1,10 +1,7 @@
 package player;
 
 import board.*;
-import strategy.ActionStrategy;
-import strategy.BuyBuildingStrategy;
-import strategy.BuyFieldStrategy;
-import strategy.ChanceStrategy;
+import strategy.*;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -22,9 +19,10 @@ public class Player {
         balance[0] = 500000; //euro
         balance[1] = 500000; //dolary
         this.haveCar = false;
-        this.OwnedFields = null;
+        this.OwnedFields = new ArrayList<>();
         this.lap = 0;
         this.location = null;
+        this.actionStrategy = null;
     }
 
     public void setLocation(Field location) {
@@ -92,7 +90,9 @@ public class Player {
     }
 
     public void playerAction(Board board) {
-        actionStrategy.action(board);
+        if (actionStrategy != null) {
+            actionStrategy.action(board);
+        }
     }
 
     public void setActionStrategy(ActionStrategy actionStrategy) {
@@ -105,6 +105,7 @@ public class Player {
                 setActionStrategy(new BuyFieldStrategy());
             }
             else {
+                setActionStrategy(null);
                 if (OwnedFields.contains(location)){
                     setActionStrategy(new BuyBuildingStrategy());
                 }
@@ -115,5 +116,13 @@ public class Player {
         if(location instanceof Chance){
             setActionStrategy(new ChanceStrategy());
         }
+        if(location instanceof CarDealership){
+            setActionStrategy(new BuyCarStrategy());
+        }
+        if(location instanceof Start){
+            setActionStrategy(null);
+        }
+
     }
+
 }

@@ -72,7 +72,7 @@ public class Board {
                         }
                     }
                 }
-                currentPlayer.setLocation(fields[temp + roll]);
+                currentPlayer.setLocation(fields[(temp + roll)%36]);
                 currentPlayer.changeStrategy();
             }
         }

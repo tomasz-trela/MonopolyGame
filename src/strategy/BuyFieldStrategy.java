@@ -9,7 +9,7 @@ public class BuyFieldStrategy implements ActionStrategy {
 
         Player currentPlayer = board.getPlayers()[board.getRound()];
         int currentIndex = currentPlayer.getFieldIndex();
-        ToBuy field = (ToBuy) board.getFieldsArray()[currentIndex];
+        ToBuy field = (ToBuy) Board.getFieldsArray()[currentIndex];
 
         field.setOwner(currentPlayer);
         currentPlayer.decreaseBalance(field.getPrice());
