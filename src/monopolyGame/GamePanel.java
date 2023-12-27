@@ -1,6 +1,5 @@
 package monopolyGame;
 
-import java.awt.Font;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -41,8 +40,11 @@ public class GamePanel extends JPanel{
     JButton rollButton;
     JLabel diceLabel1;
     JLabel diceLabel2;
+    
     JPanel leftPanel=new JPanel();
     JPanel rightPanel= new JPanel();
+    JPanel rightTopPanel = new JPanel();
+    JPanel rightBottomPanel = new JPanel();
 
     private boolean start=true;
     private int round;
@@ -55,12 +57,29 @@ public class GamePanel extends JPanel{
         this.setPreferredSize(new Dimension(SCREEN_WIDTH,SCREEN_HEIGHT));
         this.setBackground(Color.WHITE);
         this.setLayout(null);
+        
         leftPanel.setBounds(0,0,1000, 1000);
         rightPanel.setBounds(1000,0,500, 1000);
+        
         leftPanel.setLayout(null);
-        rightPanel.setLayout(null);
+        //rightPanel.setLayout(null);
+        
+        rightPanel.setLayout(new GridLayout(2,1));
+
         leftPanel.setVisible(true);
         rightPanel.setVisible(true);
+        JLabel moneyOfPlayers = new JLabel("player's money (soon)");
+        JLabel exchange  = new JLabel("Exchange (also soon)");
+        
+        rightTopPanel.add(moneyOfPlayers);
+        rightBottomPanel.add(exchange);
+
+        rightPanel.add(rightTopPanel);
+        rightPanel.add(rightBottomPanel);
+        
+
+
+
         this.add(leftPanel);
         this.add(rightPanel);
         this.setFocusable(true);
