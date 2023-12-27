@@ -46,6 +46,6 @@ public abstract class ToBuy extends Field {
         return Buildings;
     }
     public String toString() {
-        return "Type: Village\nName: " + this.getName() + "\nOwner: " + this.getOwner() + "\nPrice in euro: " + this.getPrice()[0] + "\nPrice in dollars: " + this.getPrice()[1];
+        return "Type: Village,Name: " + this.getName() + ",Owner: " + this.getOwner() + ",Price in euro: " + this.getPrice()[0] + ",Price in dollars: " + this.getPrice()[1];
     }
 }

@@ -23,6 +23,6 @@ public class Village extends ToBuy {
         this.ryeness = ryeness;
     }
     public String toString() {
-        return "Type: Village\nName: " + this.getName() + "\nOwner: " + this.getOwner() + "\nPrice in euro: " + this.getPrice()[0] + "\nPrice in dollars: " + this.getPrice()[1] + "\nRyeness: " + this.getRyeness();
+        return "Type: Village,Name: " + this.getName() + ",Owner: " + this.getOwner() + ",Price in euro: " + this.getPrice()[0] + ",Price in dollars: " + this.getPrice()[1] + ",Ryeness: " + this.getRyeness();
     }
 }

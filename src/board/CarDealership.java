@@ -45,12 +45,12 @@ public class CarDealership extends Field {
         availableCars.set(index, car);
     }
     public String toString(){
-        return "Type: Car Dealership\nName: " + this.getName() + "\nAvailable cars: " + getStan(this.getAvailableCars());
+        return "Car Dealership";
     }
     public String getStan(ArrayList<Car> availableCars){
         String stan = "";
         for (int i = 0; i < availableCars.size(); i++){
-            stan += availableCars.get(i).toString() + ", ";
+            stan += availableCars.get(i).getName() + ", ";
         }
         return stan;
     }

@@ -3,6 +3,8 @@ package monopolyGame;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.ArrayList;
+
 import board.*;
 import static player.Dice.Roll;
 import player.*;
@@ -19,6 +21,7 @@ public class GamePanel extends JPanel{
     private final static Color BOARD_COLOR;
     private final static Color FIELD_COLOR1;
     private final static Color FIELD_COLOR2;
+    private ArrayList<JLabel> list;
 
 
     private static JPanel[] fieldArray;
@@ -202,12 +205,13 @@ public class GamePanel extends JPanel{
 
                 @Override
                 public void mouseEntered(MouseEvent e) {
-                    showFieldInformation(this);
+                    list = showFieldInformation(this);
+                    show(list);
                 }
 
                 @Override
                 public void mouseExited(MouseEvent e) {
-                    fieldInformation.setVisible(false);
+                    hide(list);
                 }
             });
         }
@@ -227,7 +231,7 @@ public class GamePanel extends JPanel{
         rollButton.setBackground(Color.WHITE);
         rollButton.setFont(new Font("Serif", Font.BOLD, 28));
     }
-    public void showFieldInformation(MouseListener mouseListener) {
+    public ArrayList<JLabel> showFieldInformation(MouseListener mouseListener) {
         JPanel Temp = null;
         int TempInt = 0;
         while (TempInt <= fieldArray.length & Temp == null) {
@@ -238,9 +242,48 @@ public class GamePanel extends JPanel{
                 TempInt++;
             }
         }
-        fieldInformation.setText(Board.getFieldsArray()[TempInt].toString());
-        fieldInformation.setBounds(SCREEN_WIDTH/2-500, 0, 2000, 600);
-        fieldInformation.setVisible(true);
+        ArrayList<JLabel> tempList = new ArrayList<>();
+        if (Board.getFieldsArray()[TempInt].toString() == "Start" || Board.getFieldsArray()[TempInt].toString() == "Chance" || Board.getFieldsArray()[TempInt].toString() == "Car Dealership") {
+            tempList.add(new JLabel(Board.getFieldsArray()[TempInt].toString()));
+            tempList.get(0).setBounds(SCREEN_WIDTH/2-500, 0, 2000, 600);
+            tempList.get(0).setFont(new Font("Serif", Font.BOLD, 50));
+            tempList.get(0).setVisible(false);
+        } else {
+            String [] tempString = Board.getFieldsArray()[TempInt].toString().split(",");
+            for (int i = 0; i < tempString.length; i++) {
+                tempList.add(new JLabel(tempString[i]));
+                tempList.get(i).setForeground(Color.BLACK);
+                tempList.get(i).setFont(new Font("Serif", Font.BOLD, 20));
+                tempList.get(i).setVisible(false);
+            }
+        }
+        return tempList;
+    }
+    public void show(ArrayList<JLabel> tempList) {;
+        for (int i = 0; i < tempList.size(); i++) {
+            int y = 500;
+            int x = SCREEN_WIDTH/2-500;
+            fieldInformation.add(tempList.get(i));
+            tempList.get(i).setVisible(true);
+            if (i < 4) {
+                y = 400;
+            } else if (i < 7) {
+                y = 300;
+            }
+            if (i % 3 == 1) {
+                x = SCREEN_WIDTH/2-250;
+            } else if (i % 3 == 2) {
+                x = SCREEN_WIDTH/2;
+            }
+            tempList.get(i).setBounds(x, y, 2000, 100);
+            tempList.get(i).setVisible(true);
+            leftPanel.add(tempList.get(i));
+        }
+    }
+    public void hide(ArrayList<JLabel> tempList) {;
+        for (int i = 0; i < tempList.size(); i++) {
+            tempList.get(i).setVisible(false);
+        }
     }
     public void createDiceLabels() {
         diceLabel1 = new JLabel();

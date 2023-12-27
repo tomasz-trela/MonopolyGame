@@ -18,6 +18,6 @@ public class Chance extends Field{
         listOfChances[generator.nextInt(listOfChances.length)].doChance();
     }
     public String toString(){
-        return "Type: Chance\nName: " + this.getName();
+        return "Chance";
     }
 }

@@ -16,7 +16,7 @@ public class Start extends Field {
         this.startMoney = startMoney;
     }
     public String toString() {
-        return "Type: Start\nName: " + this.getName() + "\nStart money: " + this.getStartMoney();
+        return "Start";
     }
 
 }

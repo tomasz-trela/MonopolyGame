@@ -23,6 +23,6 @@ public class City extends ToBuy {
         this.touristAttraction = touristAttraction;
     }
     public String toString() {
-        return "Type: City\nName: " + this.getName() + "\nOwner: " + this.getOwner() + "\nPrice in euro: " + this.getPrice()[0] + "\nPrice in dollars: " + this.getPrice()[1] + "\nSize: " + this.getSize() + "\nTourist attraction: " + this.getTouristAttraction();
+        return "Type: City,Name: " + this.getName() + ",Owner: " + this.getOwner() + ",Price in euro: " + this.getPrice()[0] + ",Price in dollars: " + this.getPrice()[1] + ",Size: " + this.getSize() + ",Tourist attraction: " + this.getTouristAttraction();
     }
 }
