@@ -39,6 +39,10 @@ public class Board {
 
     public static void generateBoard(int boardNumber){
         fields[0] = new Start();
+        Exchage exchage = new Exchage("Kantor", 1, 1);
+        fields[9] =  exchage;
+        fields[18] = exchage;
+        //fields[27] = exchage;
         if(boardNumber==1) {
             fields[1] = new Village("Leirose", 20000, 0, null, 0.5f);
             fields[2] = new Chance(listOfChances);
@@ -48,7 +52,7 @@ public class Board {
             fields[6] = new Village("Los Cabezudos", 20000, 0, null, 0.5f);
             fields[7] = new Chance(listOfChances);
             fields[8] = new City("Madryt", 40000, 0, null, 10, 10);
-            fields[9] = new Village("Kantor", 20000, 0, null, 0.5f);
+            //fields[9] jest wspolne dla każdej mapy
             fields[10] = new City("Marsylie", 40000, 0, null, 10, 10);
             fields[11] = new CarDealership();
             fields[12] = new City("Lyon", 40000, 0, null, 10, 10);
@@ -57,7 +61,8 @@ public class Board {
             fields[15] = new City("Antwerp", 50000, 0, null, 10, 10);
             fields[16] = new Chance(listOfChances);
             fields[17] = new City("Brussels", 50000, 0, null, 10, 10);
-            fields[18] = new Village("Kantor", 20000, 0, null, 0.5f);
+            //fields[18] jest wspolne dla każdej mapy
+            //fields[27] jest wspolne dla każdej mapy
 
             for (int i = 19; i < fields.length; i++) {
                 fields[i] = new City("Pole %s".formatted(i), 1, 0, null, 12, 0.5f);

@@ -2,7 +2,7 @@ package board;
 
 import java.util.Random;
 
-public class Exchage {
+public class Exchage extends Field{
     private double eurorate;
     private double dolarrate;
     
@@ -10,7 +10,8 @@ public class Exchage {
         eurorate=0.92;
         dolarrate=1.09;
     }
-    public Exchage(double eurorate, double dolarrate){
+    public Exchage(String name, double eurorate, double dolarrate){
+        super(name);
         this.eurorate=eurorate;
         this.dolarrate=dolarrate;
     }

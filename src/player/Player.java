@@ -111,7 +111,9 @@ public class Player {
     public void playerAction(Board board) {
         if (actionStrategy != null) {
             actionStrategy.action(board);
+
         }
+        board.incrementMoveCounter();
     }
 
     public void setActionStrategy(ActionStrategy actionStrategy) {

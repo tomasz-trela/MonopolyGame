@@ -226,7 +226,7 @@ public class GamePanel extends JPanel{
 
     }
 
-    public static javax.swing.JPanel[] getFieldArray() {
+    public static JPanel[] getFieldArray() {
         return fieldArray;
     }
 
@@ -329,6 +329,9 @@ public class GamePanel extends JPanel{
         if(board.getCurrentPlayer().getLocation() instanceof Chance){
             strategyLabel.setText("Czy chcesz wziąć kartę?");
         }
+        if(board.getCurrentPlayer().getLocation() instanceof Exchage){
+            strategyLabel.setText("Czy chcesz wymienic walute?");
+        }
         strategyPanel.setVisible(true);
         if(board.getCurrentPlayer().getLocation() instanceof Start){
             strategyPanel.setVisible(false);
@@ -366,7 +369,7 @@ public class GamePanel extends JPanel{
     class StrategyPanelButtonTakReaction implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            //board.getCurrentPlayer().playerAction(board);
+            board.getCurrentPlayer().playerAction(board);
         }
     }
     class StrategyPanelButtonNieReaction implements ActionListener {
@@ -404,14 +407,12 @@ public class GamePanel extends JPanel{
             board.ChangePlayerLocation(sum);
             updateStrategyPanel();
 
-            board.getCurrentPlayer().playerAction(board);//tymczasowo tutaj a nie w klasie przycisku "tak"
+//            board.getCurrentPlayer().playerAction(board);//tymczasowo tutaj a nie w klasie przycisku "tak"
 
             if(round==0) pawn0.placePawnOn(board.getPlayers()[round].getFieldIndex());
             if(round==1) pawn1.placePawnOn(board.getPlayers()[round].getFieldIndex());
             if(round==2) pawn2.placePawnOn(board.getPlayers()[round].getFieldIndex());
             if(round==3) pawn3.placePawnOn(board.getPlayers()[round].getFieldIndex());
-
-            board.incrementMoveCounter();//na końcu
         }
     }
 }
