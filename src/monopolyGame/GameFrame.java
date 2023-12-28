@@ -31,6 +31,10 @@ public class GameFrame extends JFrame {
         showMenuPanel(); // Show the MenuPanel by default
     }
 
+    public GamePanel GetGamePanel(){
+        return gamePanel;
+    }
+
     private void setIcon() {
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/images/monopoly_icon.png")));
     }

@@ -45,8 +45,6 @@ public class GamePanel extends JPanel{
     JPanel InfoPanel = new JPanel();
     JPanel leftPanel=new JPanel();
     JPanel rightPanel= new JPanel();
-    JPanel rightTopPanel = new JPanel();
-    JPanel rightBottomPanel = new JPanel();
     JPanel strategyPanel = new JPanel();
     JLabel strategyLabel = new JLabel();
 
@@ -88,13 +86,6 @@ public class GamePanel extends JPanel{
             rightTopPanel.add(EuroBalance);
             rightTopPanel.add(DolarBalance);
         }*/
-        
-        JLabel exchange  = new JLabel("Exchange (also soon)");
-        rightBottomPanel.add(exchange);
-
-
-        rightPanel.add(rightTopPanel);
-        rightPanel.add(rightBottomPanel);
 
         this.add(leftPanel);
         this.add(rightPanel);
@@ -343,6 +334,33 @@ public class GamePanel extends JPanel{
             strategyPanel.setVisible(false);
         }
 
+    }
+
+    public void createLabels(){
+        JPanel rightTopPanel = new JPanel();
+        rightTopPanel.setLayout(new GridLayout(board.GetPlayersArray().length,1));
+        
+        Font f = new Font("serif", Font.PLAIN, 23);
+        
+
+
+        rightPanel.add(rightTopPanel);
+        
+        for(int i=0;i<board.GetPlayersArray().length;i++){
+            JLabel PlayerNumber = new JLabel("Player " + (i+1));
+            JLabel EuroBalance = new JLabel("Euro: " + board.GetPlayersArray()[i].getBalance()[0]);
+            JLabel DolarBalance = new JLabel("Dolar " + board.GetPlayersArray()[i].getBalance()[1]);
+            
+            PlayerNumber.setFont(f);
+            EuroBalance.setFont(f);
+            DolarBalance.setFont(f);
+
+            rightTopPanel.add(PlayerNumber);
+            rightTopPanel.add(EuroBalance);
+            rightTopPanel.add(DolarBalance);
+        }
+
+        revalidate();
     }
 
     class StrategyPanelButtonTakReaction implements ActionListener {
