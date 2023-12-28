@@ -32,6 +32,11 @@ public class Board {
             players[i].setLocation(new Start());
         }
     }
+
+    public Player[] GetPlayersArray(){
+        return players;
+    }
+
     public static void generateBoard(int boardNumber){
         fields[0] = new Start();
         if(boardNumber==1) {

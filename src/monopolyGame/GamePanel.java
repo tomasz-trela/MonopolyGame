@@ -74,16 +74,27 @@ public class GamePanel extends JPanel{
 
         leftPanel.setVisible(true);
         rightPanel.setVisible(true);
-        JLabel moneyOfPlayers = new JLabel("player's money (soon)");
-        JLabel exchange  = new JLabel("Exchange (also soon)");
         
-        rightTopPanel.add(moneyOfPlayers);
+        
+        //¯\_(ツ)_/¯ Exception in thread "AWT-EventQueue-0" java.lang.NullPointerException: Cannot read the array length because the return value of "board.Board.GetPlayersArray()" is null
+        /*rightTopPanel.setLayout(new BoxLayout(rightTopPanel,BoxLayout.PAGE_AXIS));
+
+        for(int i=0;i<board.GetPlayersArray().length;i++){
+            JLabel PlayerNumber = new JLabel("Player " + i);
+            JLabel EuroBalance = new JLabel("Euro: " + board.GetPlayersArray()[i].getBalance()[0]);
+            JLabel DolarBalance = new JLabel("Dolar " + board.GetPlayersArray()[i].getBalance()[1]);
+            
+            rightTopPanel.add(PlayerNumber);
+            rightTopPanel.add(EuroBalance);
+            rightTopPanel.add(DolarBalance);
+        }*/
+        
+        JLabel exchange  = new JLabel("Exchange (also soon)");
         rightBottomPanel.add(exchange);
+
 
         rightPanel.add(rightTopPanel);
         rightPanel.add(rightBottomPanel);
-
-
 
         this.add(leftPanel);
         this.add(rightPanel);
