@@ -8,8 +8,6 @@ import java.util.ArrayList;
 import board.*;
 import static player.Dice.Roll;
 import player.*;
-import strategy.BuyBuildingStrategy;
-import strategy.BuyFieldStrategy;
 
 public class GamePanel extends JPanel{
     private static final int SCREEN_WIDTH;
@@ -44,6 +42,7 @@ public class GamePanel extends JPanel{
     JLabel diceLabel1;
     JLabel diceLabel2;
     JLabel fieldInformation = new JLabel();
+    JPanel InfoPanel = new JPanel();
     JPanel leftPanel=new JPanel();
     JPanel rightPanel= new JPanel();
     JPanel rightTopPanel = new JPanel();
@@ -68,6 +67,8 @@ public class GamePanel extends JPanel{
         
         leftPanel.setLayout(null);
         //rightPanel.setLayout(null);
+        InfoPanel.setBackground(new Color(0,250,250));
+        leftPanel.add(InfoPanel);
         
         rightPanel.setLayout(new GridLayout(2,1));
 
@@ -210,13 +211,13 @@ public class GamePanel extends JPanel{
 
                 @Override
                 public void mouseEntered(MouseEvent e) {
-                    list = showFieldInformation(this);
-                    show(list);
+                    showFieldInformation(this);
                 }
 
                 @Override
                 public void mouseExited(MouseEvent e) {
-                    hide(list);
+                    InfoPanel.setVisible(false);
+                    InfoPanel.removeAll();
                 }
             });
         }
@@ -237,7 +238,7 @@ public class GamePanel extends JPanel{
         rollButton.setBackground(Color.WHITE);
         rollButton.setFont(new Font("Serif", Font.BOLD, 28));
     }
-    public ArrayList<JLabel> showFieldInformation(MouseListener mouseListener) {
+    public void showFieldInformation(MouseListener mouseListener) {
         JPanel Temp = null;
         int TempInt = 0;
         while (TempInt <= fieldArray.length & Temp == null) {
@@ -249,47 +250,28 @@ public class GamePanel extends JPanel{
             }
         }
         ArrayList<JLabel> tempList = new ArrayList<>();
-        if (Board.getFieldsArray()[TempInt].toString() == "Start" || Board.getFieldsArray()[TempInt].toString() == "Chance" || Board.getFieldsArray()[TempInt].toString() == "Car Dealership") {
-            tempList.add(new JLabel(Board.getFieldsArray()[TempInt].toString()));
-            tempList.get(0).setBounds(SCREEN_WIDTH/2-500, 0, 2000, 600);
-            tempList.get(0).setFont(new Font("Serif", Font.BOLD, 50));
-            tempList.get(0).setVisible(false);
-        } else {
-            String [] tempString = Board.getFieldsArray()[TempInt].toString().split(",");
-            for (int i = 0; i < tempString.length; i++) {
-                tempList.add(new JLabel(tempString[i]));
-                tempList.get(i).setForeground(Color.BLACK);
-                tempList.get(i).setFont(new Font("Serif", Font.BOLD, 20));
-                tempList.get(i).setVisible(false);
-            }
-        }
-        return tempList;
-    }
-    public void show(ArrayList<JLabel> tempList) {;
-        for (int i = 0; i < tempList.size(); i++) {
-            int y = 500;
-            int x = SCREEN_WIDTH/2-500;
-            fieldInformation.add(tempList.get(i));
-            tempList.get(i).setVisible(true);
-            if (i < 4) {
-                y = 400;
-            } else if (i < 7) {
-                y = 300;
-            }
-            if (i % 3 == 1) {
-                x = SCREEN_WIDTH/2-250;
-            } else if (i % 3 == 2) {
-                x = SCREEN_WIDTH/2;
-            }
-            tempList.get(i).setBounds(x, y, 2000, 100);
-            tempList.get(i).setVisible(true);
-            leftPanel.add(tempList.get(i));
-        }
-    }
-    public void hide(ArrayList<JLabel> tempList) {;
-        for (int i = 0; i < tempList.size(); i++) {
+        String [] tempString = Board.getFieldsArray()[TempInt].toString().split(",");
+        for (int i = 0; i < tempString.length; i++) {
+            tempList.add(new JLabel(tempString[i]));
+            tempList.get(i).setForeground(Color.BLACK);
+            tempList.get(i).setFont(new Font("Serif", Font.BOLD, 20));
             tempList.get(i).setVisible(false);
         }
+        int y = 200;
+
+        if (InfoPanel.getY() > 300) {
+            InfoPanel.setBounds(fieldArray[TempInt].getX() + FIELD_WIDTH/2, fieldArray[TempInt].getY() - 2*FIELD_HEIGHT, 200, tempList.size() * 35);
+        } else {
+            InfoPanel.setBounds(fieldArray[TempInt].getX() + FIELD_WIDTH/2, fieldArray[TempInt].getY() + FIELD_HEIGHT/2, 200, tempList.size() * 35);
+        }
+        for (int i = 0; i < tempList.size(); i++) {
+            y += i * 15;
+            tempList.get(i).setVisible(true);
+            tempList.get(i).setBounds(SCREEN_WIDTH/2-500, y, 200, 100);
+            tempList.get(i).setVisible(true);
+            InfoPanel.add(tempList.get(i));
+        }
+        InfoPanel.setVisible(true);
     }
     public void createDiceLabels() {
         diceLabel1 = new JLabel();
