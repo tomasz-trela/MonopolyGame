@@ -81,20 +81,18 @@ public class Board {
         }
     }
     public void ChangePlayerLocation(int roll){
-        if (players !=null){
-            int temp = 0;
-            if (fields != null){
-                for (int i = 0; i < fields.length; i++) {
-                    if (fields[i] != null){
-                        if(fields[i] == currentPlayer.getLocation()){
-                            temp = i;
-                        }
+        int temp = 0;
+        if (fields != null){
+            for (int i = 0; i < fields.length; i++) {
+                if (fields[i] != null){
+                    if(fields[i] == currentPlayer.getLocation()){
+                        temp = i;
                     }
                 }
-                currentPlayer.setLocation(fields[(temp + roll)%36]);
-                currentPlayer.changeStrategy();
             }
+            currentPlayer.setLocation(fields[(temp + roll)%36]);
         }
+        currentPlayer.changeStrategy();
     }
     public void SetCurrentPlayerOnGamePanel(int round){
         setCurrentPlayer(players[round]);

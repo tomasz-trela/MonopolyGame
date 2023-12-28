@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import board.*;
 import static player.Dice.Roll;
 import player.*;
+import strategy.BuyBuildingStrategy;
+import strategy.BuyFieldStrategy;
 
 public class GamePanel extends JPanel{
     private static final int SCREEN_WIDTH;
@@ -22,8 +24,6 @@ public class GamePanel extends JPanel{
     private final static Color FIELD_COLOR1;
     private final static Color FIELD_COLOR2;
     private ArrayList<JLabel> list;
-
-
     private static JPanel[] fieldArray;
 
     static {
@@ -32,8 +32,8 @@ public class GamePanel extends JPanel{
         BOARD_WIDTH = 528;
         BOARD_HEIGHT = 528;
         BOARD_COLOR = new Color(200, 224,196);
-        FIELD_COLOR1 = new Color(201, 200,252);
-        FIELD_COLOR2 = new Color(252, 221,201);
+        FIELD_COLOR1 = new Color(31, 186,192);
+        FIELD_COLOR2 = new Color(97, 211,171);
         FIELD_WIDTH = BOARD_WIDTH/12-2;
         FIELD_HEIGHT = FIELD_WIDTH*2+1;
         ROLL_BUTTON_HEIGHT=60;
@@ -48,6 +48,8 @@ public class GamePanel extends JPanel{
     JPanel rightPanel= new JPanel();
     JPanel rightTopPanel = new JPanel();
     JPanel rightBottomPanel = new JPanel();
+    JPanel strategyPanel = new JPanel();
+    JLabel strategyLabel = new JLabel();
 
     private boolean start=true;
     private int round;
@@ -87,6 +89,7 @@ public class GamePanel extends JPanel{
         this.setFocusable(true);
         createRollButton();
         createDiceLabels();
+        createStrategyPanel();
         leftPanel.add(rollButton);
         leftPanel.add(fieldInformation);
         rollButton.setVisible(true);
@@ -95,6 +98,7 @@ public class GamePanel extends JPanel{
 
         leftPanel.add(diceLabel1);
         leftPanel.add(diceLabel2);
+        leftPanel.add(strategyPanel);
         leftPanel.add(pawn1.getPawn());
         leftPanel.add(pawn2.getPawn());
         leftPanel.add(pawn3.getPawn());
@@ -186,6 +190,7 @@ public class GamePanel extends JPanel{
         rollButton.setBounds(450, 470, ROLL_BUTTON_WIDTH,ROLL_BUTTON_HEIGHT);
         diceLabel1.setBounds(450, 540, 50, 50);
         diceLabel2.setBounds(500, 540, 50, 50);
+        strategyPanel.setBounds(400, 360, 200,80);
         for(JPanel m: fieldArray){
             leftPanel.add(m);
         }
@@ -221,6 +226,7 @@ public class GamePanel extends JPanel{
     public static javax.swing.JPanel[] getFieldArray() {
         return fieldArray;
     }
+
 
     public void createRollButton()
     {
@@ -292,6 +298,72 @@ public class GamePanel extends JPanel{
         diceLabel1.setBounds(SCREEN_WIDTH/2-50, 420, 50, 50);
         diceLabel2.setBounds(SCREEN_WIDTH/2, 420, 50, 50);
     }
+    public void createStrategyPanel(){
+        strategyPanel = new JPanel();
+        //strategyPanel.setBounds(SCREEN_WIDTH/2-25, 600,200,100);
+        strategyPanel.setLayout(new BoxLayout(strategyPanel,BoxLayout.Y_AXIS));
+        strategyPanel.setBackground(new Color(156,238,141));
+
+        JPanel panel1 = new JPanel();
+        JPanel panel2 = new JPanel();
+        panel1.setOpaque(false);
+        panel2.setOpaque(false);
+        strategyPanel.add(panel1);
+        strategyPanel.add(panel2);
+
+        strategyLabel = new JLabel("blad");
+        panel1.add(strategyLabel);
+
+        JButton takButton = new JButton("tak");
+        JButton nieButton = new JButton("nie");
+        takButton.setBackground(Color.WHITE);
+        takButton.setFont(new Font("Serif", Font.BOLD, 14));
+        nieButton.setBackground(Color.WHITE);
+        nieButton.setFont(new Font("Serif", Font.BOLD, 14));
+        takButton.addActionListener(new StrategyPanelButtonTakReaction());
+        nieButton.addActionListener(new StrategyPanelButtonNieReaction());
+        panel2.add(takButton);
+        panel2.add(nieButton);
+
+        strategyPanel.setVisible(false);
+    }
+    public void updateStrategyPanel(){
+        if(board.getCurrentPlayer().getLocation() instanceof ToBuy){
+            if(((ToBuy) board.getCurrentPlayer().getLocation()).getOwner() == null){
+                strategyLabel.setText("Czy chcesz kupić to pole?");
+            }
+            else {
+                if (board.getCurrentPlayer().getOwnedFields().contains((board.getCurrentPlayer().getLocation()))){
+                    strategyLabel.setText("Czy chcesz coś tutaj wybudować?");
+                }
+
+            }
+        }
+        if(board.getCurrentPlayer().getLocation() instanceof CarDealership){
+            strategyLabel.setText("Czy chcesz kupić auto?");
+        }
+        if(board.getCurrentPlayer().getLocation() instanceof Chance){
+            strategyLabel.setText("Czy chcesz wziąć kartę?");
+        }
+        strategyPanel.setVisible(true);
+        if(board.getCurrentPlayer().getLocation() instanceof Start){
+            strategyPanel.setVisible(false);
+        }
+
+    }
+
+    class StrategyPanelButtonTakReaction implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            //board.getCurrentPlayer().playerAction(board);
+        }
+    }
+    class StrategyPanelButtonNieReaction implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+
+        }
+    }
 
     public void updateDiceImages(int value1, int value2) {
         ImageIcon imagePath1 = new ImageIcon(getClass().getResource("/images/dice" + value1 + ".png"));
@@ -319,7 +391,9 @@ public class GamePanel extends JPanel{
 
             board.SetCurrentPlayerOnGamePanel(round);
             board.ChangePlayerLocation(sum);
-            board.getCurrentPlayer().playerAction(board);
+            updateStrategyPanel();
+
+            board.getCurrentPlayer().playerAction(board);//tymczasowo tutaj a nie w klasie przycisku "tak"
 
             if(round==0) pawn0.placePawnOn(board.getPlayers()[round].getFieldIndex());
             if(round==1) pawn1.placePawnOn(board.getPlayers()[round].getFieldIndex());
