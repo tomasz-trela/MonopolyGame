@@ -23,6 +23,10 @@ public class City extends ToBuy {
         this.touristAttraction = touristAttraction;
     }
     public String toString() {
-        return "Type: City,Name: " + this.getName() + ",Owner: " + this.getOwner() + ",Price in euro: " + this.getPrice()[0] + ",Price in dollars: " + this.getPrice()[1] + ",Size: " + this.getSize() + ",Tourist attraction: " + this.getTouristAttraction();
+        try {
+            return "Type: City,Name: " + this.getName() + ",Owner: " + this.getOwner().getName() + ",Price in euro: " + this.getPrice()[0] + ",Price in dollars: " + this.getPrice()[1] + ",Size: " + this.getSize() + ",Tourist attraction: " + this.getTouristAttraction();
+        } catch (NullPointerException e) {
+            return "Type: City,Name: " + this.getName() + ",Owner: " + "null" + ",Price in euro: " + this.getPrice()[0] + ",Price in dollars: " + this.getPrice()[1] + ",Size: " + this.getSize() + ",Tourist attraction: " + this.getTouristAttraction();
+        }
     }
 }

@@ -14,6 +14,7 @@ public class Player {
     private ArrayList<Field> OwnedFields;
     private Field location;
     protected ActionStrategy actionStrategy;
+    private String name;
 
     public Player() {
         balance[0] = 500000; //euro
@@ -23,6 +24,17 @@ public class Player {
         this.lap = 0;
         this.location = null;
         this.actionStrategy = null;
+        this.name = "Player";
+    }
+    public Player(String name) {
+        balance[0] = 500000; //euro
+        balance[1] = 500000; //dolary
+        this.haveCar = false;
+        this.OwnedFields = new ArrayList<>();
+        this.lap = 0;
+        this.location = null;
+        this.actionStrategy = null;
+        this.name = name;
     }
 
     public void setLocation(Field location) {
@@ -82,6 +94,13 @@ public class Player {
         this.fieldIndex = fieldIndex;
     }
 
+    public void setName(String name){
+        this.name = name;
+    }
+    public String getName(){
+        return name;
+    }
+
     public void movePlayer(int roll) {
         int currentIndex = fieldIndex;
         int newIndex = (currentIndex + roll) % 36;
@@ -124,5 +143,6 @@ public class Player {
         }
 
     }
+
 
 }

@@ -28,7 +28,7 @@ public class Board {
     public static void generatePlayers(int playersCount){
         players = new Player[playersCount];
         for(int i=0; i<players.length; i++){
-            players[i]=new Player();
+            players[i]=new Player("Player %s".formatted(i+1));
             players[i].setLocation(new Start());
         }
     }

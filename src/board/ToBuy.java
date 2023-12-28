@@ -46,6 +46,10 @@ public abstract class ToBuy extends Field {
         return Buildings;
     }
     public String toString() {
-        return "Type: Village,Name: " + this.getName() + ",Owner: " + this.getOwner() + ",Price in euro: " + this.getPrice()[0] + ",Price in dollars: " + this.getPrice()[1];
+        try {
+            return "Type: null,Name: " + this.getName() + ",Owner: " + this.getOwner().getName() + ",Price in euro: " + this.getPrice()[0] + ",Price in dollars: " + this.getPrice()[1];
+        } catch (NullPointerException e) {
+            return "Type: null,Name: " + this.getName() + ",Owner: " + "null" + ",Price in euro: " + this.getPrice()[0] + ",Price in dollars: " + this.getPrice()[1];
+        }
     }
 }
