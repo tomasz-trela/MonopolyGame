@@ -1,6 +1,8 @@
 package monopolyGame;
 
 import javax.swing.*;
+import javax.swing.border.Border;
+
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
@@ -364,26 +366,48 @@ public class GamePanel extends JPanel{
 
     public void createLabels(){
         JPanel rightTopPanel = new JPanel();
-        rightTopPanel.setLayout(new GridLayout(board.GetPlayersArray().length,1));
+        Font f = new Font(Font.SANS_SERIF, Font.BOLD, 23);
+        rightTopPanel.setLayout(new BoxLayout(rightTopPanel, BoxLayout.PAGE_AXIS));
         
-        Font f = new Font("serif", Font.PLAIN, 23);
-        
-
-
         rightPanel.add(rightTopPanel);
         
         for(int i=0;i<board.GetPlayersArray().length;i++){
-            JLabel PlayerNumber = new JLabel("Player " + (i+1));
-            JLabel EuroBalance = new JLabel("Euro: " + board.GetPlayersArray()[i].getBalance()[0]);
-            JLabel DolarBalance = new JLabel("Dolar " + board.GetPlayersArray()[i].getBalance()[1]);
+            String PlayerNumber = "Player " + (i+1);
+            String EuroBalance = "Euro: " + board.GetPlayersArray()[i].getBalance()[0];
+            String DolarBalance = "Dolar: " + board.GetPlayersArray()[i].getBalance()[1];
             
-            PlayerNumber.setFont(f);
-            EuroBalance.setFont(f);
-            DolarBalance.setFont(f);
+            String PlayerInfo = "<html>" + PlayerNumber + "<br>" + EuroBalance + "<br>" + DolarBalance;
+            JLabel AllInOne = new JLabel(PlayerInfo);
+            AllInOne.setFont(f);
+            AllInOne.setBackground(Color.decode("#bfbfbf"));
+            AllInOne.setOpaque(true);
 
-            rightTopPanel.add(PlayerNumber);
-            rightTopPanel.add(EuroBalance);
-            rightTopPanel.add(DolarBalance);
+            
+            
+            switch (i) {
+                case 0:{
+                    Border border = BorderFactory.createLineBorder(Color.decode("#e34242"), 10, true) ;
+                    AllInOne.setBorder(border);
+                    break;
+                }
+                case 1:{
+                    Border border = BorderFactory.createLineBorder(Color.decode("#2aa9e8"), 10, true) ;
+                    AllInOne.setBorder(border);
+                    break;
+                }
+                case 2:{
+                    Border border = BorderFactory.createLineBorder(Color.decode("#f0f026"), 10, true) ;
+                    AllInOne.setBorder(border);
+                    break;
+                }
+                case 3:{
+                    Border border = BorderFactory.createLineBorder(Color.decode("#3cd646"), 10, true) ;
+                    AllInOne.setBorder(border);
+                    break;
+                }
+            }
+
+            rightTopPanel.add(AllInOne);
         }
 
         revalidate();
