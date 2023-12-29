@@ -202,32 +202,32 @@ public class GamePanel extends JPanel{
             leftPanel.add(m);
         }
         for (int i = 0; i < fieldArray.length; i++) {
-            fieldArray[i].addMouseListener(new MouseListener() {
-                @Override
-                public void mouseClicked(MouseEvent e) {
-                }
-
-                @Override
-                public void mousePressed(MouseEvent e) {
-                }
-
-                @Override
-                public void mouseReleased(MouseEvent e) {
-                }
-
-                @Override
-                public void mouseEntered(MouseEvent e) {
-                    showFieldInformation(this);
-                }
-
-                @Override
-                public void mouseExited(MouseEvent e) {
-                    InfoPanel.setVisible(false);
-                    InfoPanel.removeAll();
-                }
-            });
+            fieldArray[i].addMouseListener(new ShowInfoPanelMouseListener());
+        }
+    }
+    class ShowInfoPanelMouseListener implements MouseListener{
+        @Override
+        public void mouseClicked(MouseEvent e) {
         }
 
+        @Override
+        public void mousePressed(MouseEvent e) {
+        }
+
+        @Override
+        public void mouseReleased(MouseEvent e) {
+        }
+
+        @Override
+        public void mouseEntered(MouseEvent e) {
+            showFieldInformation(this);
+        }
+
+        @Override
+        public void mouseExited(MouseEvent e) {
+            InfoPanel.setVisible(false);
+            InfoPanel.removeAll();
+        }
     }
 
     public static JPanel[] getFieldArray() {
