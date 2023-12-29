@@ -39,27 +39,26 @@ public class Board {
 
     public static void generateBoard(int boardNumber){
         fields[0] = new Start();
-        Exchage exchage = new Exchage("Kantor", 1, 1);
-        fields[9] =  exchage;
-        fields[18] = exchage;
-        //fields[27] = exchage;
+        fields[9] = new Exchage("Kantor1", 1, 1);
+        fields[18] = new Exchage("Kantor2", 1, 1);
+        //fields[27] = new Exchage("Kantor3", 1, 1);;
         if(boardNumber==1) {
             fields[1] = new Village("Leirose", 20000, 0, null, 0.5f);
-            fields[2] = new Chance(listOfChances);
+            fields[2] = new Chance("Szansa1", listOfChances);
             fields[3] = new City("Lizbone", 30000, 0, null, 10, 10);
             fields[4] = new CarDealership();
             fields[5] = new City("Sevilla", 30000, 0, null, 10, 10);
             fields[6] = new Village("Los Cabezudos", 20000, 0, null, 0.5f);
-            fields[7] = new Chance(listOfChances);
+            fields[7] = new Chance("Szansa2", listOfChances);
             fields[8] = new City("Madryt", 40000, 0, null, 10, 10);
             //fields[9] jest wspolne dla każdej mapy
             fields[10] = new City("Marsylie", 40000, 0, null, 10, 10);
             fields[11] = new CarDealership();
             fields[12] = new City("Lyon", 40000, 0, null, 10, 10);
             fields[13] = new Village("Donzy", 20000, 0, null, 0.5f);
-            fields[14] = new Chance(listOfChances);
+            fields[14] = new Chance("Szansa3", listOfChances);
             fields[15] = new City("Antwerp", 50000, 0, null, 10, 10);
-            fields[16] = new Chance(listOfChances);
+            fields[16] = new Chance("Szansa4", listOfChances);
             fields[17] = new City("Brussels", 50000, 0, null, 10, 10);
             //fields[18] jest wspolne dla każdej mapy
             //fields[27] jest wspolne dla każdej mapy
@@ -102,12 +101,10 @@ public class Board {
             }
             currentPlayer.setLocation(fields[(temp + roll)%36]);
         }
-        currentPlayer.changeStrategy();
     }
-    public void SetCurrentPlayerOnGamePanel(int round){
-        setCurrentPlayer(players[round]);
+    public void calculateRound(){
+        round = moveCounter%players.length;
     }
-    private void calculate_round(){round=moveCounter%players.length;}
     public void setCurrentPlayer(Player currentPlayer) {
         this.currentPlayer = currentPlayer;
     }
@@ -125,7 +122,6 @@ public class Board {
     }
     public void incrementMoveCounter(){
         moveCounter++;
-        calculate_round();
     }
     public int getRound(){
         return round;

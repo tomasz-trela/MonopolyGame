@@ -10,14 +10,14 @@ public class CarDealership extends Field {
         this.availableCars = availableCars;
     }
     public CarDealership(){
-        //super("Car Dealership");
+        super("Car Dealership");
         this.availableCars = new ArrayList<Car>();
         for (int i = 0; i < 2; i++){
             this.availableCars.add(new Car());
         }
     }
     public CarDealership(int amountOfCars){
-        //super("Car Dealership");
+        super("Car Dealership");
         this.availableCars = new ArrayList<Car>();
         for (int i = 0; i < amountOfCars; i++){
             this.availableCars.add(new Car());

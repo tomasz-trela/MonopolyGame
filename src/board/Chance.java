@@ -4,7 +4,8 @@ import java.util.Random;
 
 public class Chance extends Field{
     private final Chances [] listOfChances;
-    public Chance(Chances [] listOfChances){
+    public Chance(String name, Chances [] listOfChances){
+        super(name);
         this.listOfChances = listOfChances;
     }
     public Chances [] getListOfChances(){
