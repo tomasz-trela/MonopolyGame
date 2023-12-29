@@ -54,7 +54,6 @@ public class GamePanel extends JPanel{
     JButton okButton = new JButton();
 
     private boolean start=true;
-    private int round;
     Pawn pawn0=new Pawn(0);
     Pawn pawn1=new Pawn(1);
     Pawn pawn2=new Pawn(2);
@@ -198,7 +197,7 @@ public class GamePanel extends JPanel{
         rollButton.setBounds(450, 470, ROLL_BUTTON_WIDTH,ROLL_BUTTON_HEIGHT);
         diceLabel1.setBounds(450, 540, 50, 50);
         diceLabel2.setBounds(500, 540, 50, 50);
-        strategyPanel.setBounds(400, 430, 200,80);
+        strategyPanel.setBounds(385, 430, 230,80);
         for(JPanel m: fieldArray){
             leftPanel.add(m);
         }
@@ -417,7 +416,6 @@ public class GamePanel extends JPanel{
         @Override
         public void actionPerformed(ActionEvent e) {
             board.getCurrentPlayer().playerAction(board);
-            board.incrementMoveCounter();
 
             strategyPanel.setVisible(false);
             rollButton.setVisible(true);
@@ -426,8 +424,6 @@ public class GamePanel extends JPanel{
     class StrategyPanelButtonNoReaction implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            board.incrementMoveCounter();
-
             strategyPanel.setVisible(false);
             rollButton.setVisible(true);
         }
@@ -435,8 +431,6 @@ public class GamePanel extends JPanel{
     class StrategyPanelButtonOkReaction implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            board.incrementMoveCounter();
-
             strategyPanel.setVisible(false);
             rollButton.setVisible(true);
         }
@@ -459,27 +453,35 @@ public class GamePanel extends JPanel{
     class RollButtonReaction implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
+            board.calculateRound();
+            int round = board.getRound();
+            //System.out.println("Gracz: " + (round+1));//test
+            board.setCurrentPlayer(board.getPlayers()[round]);
+
             int dice1 = Roll();
             int dice2 = Roll();
             int sum =dice1 +dice2;
+            //System.out.println("Suma: " + sum);//test
             updateDiceImages(dice1, dice2);
-            round = board.getMoveCounter()%board.getPlayers().length;
-            board.getPlayers()[round].movePlayer(sum);
 
-            board.SetCurrentPlayerOnGamePanel(round);
+            board.getPlayers()[round].movePlayer(sum);
             board.ChangePlayerLocation(sum);
-            updateStrategyLabel();
+            //System.out.println("New location: " + board.getCurrentPlayer().getLocation().getName());//test
+            board.getCurrentPlayer().changeStrategy();
 
             if(round==0) pawn0.placePawnOn(board.getPlayers()[round].getFieldIndex());
             if(round==1) pawn1.placePawnOn(board.getPlayers()[round].getFieldIndex());
             if(round==2) pawn2.placePawnOn(board.getPlayers()[round].getFieldIndex());
             if(round==3) pawn3.placePawnOn(board.getPlayers()[round].getFieldIndex());
 
+            updateStrategyLabel();
             if(board.getCurrentPlayer().getLocation() instanceof Start){
-                board.incrementMoveCounter();
+                rollButton.setVisible(true);
             }else{
-            rollButton.setVisible(false);
+                rollButton.setVisible(false);
             }
+            board.incrementMoveCounter();
+            //System.out.println();//test
         }
     }
 }
