@@ -111,9 +111,7 @@ public class Player {
     public void playerAction(Board board) {
         if (actionStrategy != null) {
             actionStrategy.action(board);
-
         }
-        board.incrementMoveCounter();
     }
 
     public void setActionStrategy(ActionStrategy actionStrategy) {
@@ -136,6 +134,9 @@ public class Player {
         }
         if(location instanceof Chance){
             setActionStrategy(new ChanceStrategy());
+        }
+        if(location instanceof Exchage){
+            setActionStrategy(new ChangeStrategy());
         }
         if(location instanceof CarDealership){
             setActionStrategy(new BuyCarStrategy());

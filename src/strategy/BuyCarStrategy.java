@@ -9,6 +9,7 @@ public class BuyCarStrategy implements ActionStrategy {
     @Override
     public void action(Board board) {
         Player currentPlayer = board.getPlayers()[board.getRound()];
+        System.out.println("zakup auta");
         currentPlayer.setHaveCar(true);
     }
 }

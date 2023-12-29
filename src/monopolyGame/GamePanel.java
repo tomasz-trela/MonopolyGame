@@ -47,6 +47,9 @@ public class GamePanel extends JPanel{
     JPanel rightPanel= new JPanel();
     JPanel strategyPanel = new JPanel();
     JLabel strategyLabel = new JLabel();
+    JButton yesButton = new JButton();
+    JButton noButton = new JButton();
+    JButton okButton = new JButton();
 
     private boolean start=true;
     private int round;
@@ -193,7 +196,7 @@ public class GamePanel extends JPanel{
         rollButton.setBounds(450, 470, ROLL_BUTTON_WIDTH,ROLL_BUTTON_HEIGHT);
         diceLabel1.setBounds(450, 540, 50, 50);
         diceLabel2.setBounds(500, 540, 50, 50);
-        strategyPanel.setBounds(400, 360, 200,80);
+        strategyPanel.setBounds(400, 430, 200,80);
         for(JPanel m: fieldArray){
             leftPanel.add(m);
         }
@@ -298,41 +301,61 @@ public class GamePanel extends JPanel{
         strategyLabel = new JLabel("blad");
         panel1.add(strategyLabel);
 
-        JButton takButton = new JButton("tak");
-        JButton nieButton = new JButton("nie");
-        takButton.setBackground(Color.WHITE);
-        takButton.setFont(new Font("Serif", Font.BOLD, 14));
-        nieButton.setBackground(Color.WHITE);
-        nieButton.setFont(new Font("Serif", Font.BOLD, 14));
-        takButton.addActionListener(new StrategyPanelButtonTakReaction());
-        nieButton.addActionListener(new StrategyPanelButtonNieReaction());
-        panel2.add(takButton);
-        panel2.add(nieButton);
+        yesButton = new JButton("yes");
+        noButton = new JButton("no");
+        okButton = new JButton("ok");
+        okButton.setVisible(false);
+
+        yesButton.setBackground(Color.WHITE);
+        yesButton.setFont(new Font("Serif", Font.BOLD, 14));
+        noButton.setBackground(Color.WHITE);
+        noButton.setFont(new Font("Serif", Font.BOLD, 14));
+        okButton.setBackground(Color.WHITE);
+        okButton.setFont(new Font("Serif", Font.BOLD, 14));
+
+        yesButton.addActionListener(new StrategyPanelButtonYesReaction());
+        noButton.addActionListener(new StrategyPanelButtonNoReaction());
+        okButton.addActionListener(new StrategyPanelButtonOkReaction());
+
+        panel2.add(yesButton);
+        panel2.add(noButton);
+        panel2.add(okButton);
 
         strategyPanel.setVisible(false);
     }
-    public void updateStrategyPanel(){
+    public void updateStrategyLabel(){
+        yesButton.setVisible(true);
+        noButton.setVisible(true);
+        okButton.setVisible(false);
         if(board.getCurrentPlayer().getLocation() instanceof ToBuy){
             if(((ToBuy) board.getCurrentPlayer().getLocation()).getOwner() == null){
-                strategyLabel.setText("Czy chcesz kupić to pole?");
+                strategyLabel.setText("Would you like to buy this field?");
             }
             else {
                 if (board.getCurrentPlayer().getOwnedFields().contains((board.getCurrentPlayer().getLocation()))){
-                    strategyLabel.setText("Czy chcesz coś tutaj wybudować?");
+                    strategyLabel.setText("Would you like to build something here?");
+                }
+                else {
+                    yesButton.setVisible(false);
+                    noButton.setVisible(false);
+                    okButton.setVisible(true);
+                    strategyLabel.setText("A fee has been collected");
                 }
 
             }
         }
         if(board.getCurrentPlayer().getLocation() instanceof CarDealership){
-            strategyLabel.setText("Czy chcesz kupić auto?");
+            strategyLabel.setText("Would you like to buy a car?");
         }
         if(board.getCurrentPlayer().getLocation() instanceof Chance){
-            strategyLabel.setText("Czy chcesz wziąć kartę?");
+            strategyLabel.setText("Would you like to take a card?");
         }
         if(board.getCurrentPlayer().getLocation() instanceof Exchage){
-            strategyLabel.setText("Czy chcesz wymienic walute?");
+            strategyLabel.setText("Would you like to exchange currency?");
         }
+
         strategyPanel.setVisible(true);
+
         if(board.getCurrentPlayer().getLocation() instanceof Start){
             strategyPanel.setVisible(false);
         }
@@ -366,16 +389,32 @@ public class GamePanel extends JPanel{
         revalidate();
     }
 
-    class StrategyPanelButtonTakReaction implements ActionListener {
+    class StrategyPanelButtonYesReaction implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
             board.getCurrentPlayer().playerAction(board);
+            board.incrementMoveCounter();
+
+            strategyPanel.setVisible(false);
+            rollButton.setVisible(true);
         }
     }
-    class StrategyPanelButtonNieReaction implements ActionListener {
+    class StrategyPanelButtonNoReaction implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
+            board.incrementMoveCounter();
 
+            strategyPanel.setVisible(false);
+            rollButton.setVisible(true);
+        }
+    }
+    class StrategyPanelButtonOkReaction implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            board.incrementMoveCounter();
+
+            strategyPanel.setVisible(false);
+            rollButton.setVisible(true);
         }
     }
 
@@ -405,14 +444,18 @@ public class GamePanel extends JPanel{
 
             board.SetCurrentPlayerOnGamePanel(round);
             board.ChangePlayerLocation(sum);
-            updateStrategyPanel();
-
-//            board.getCurrentPlayer().playerAction(board);//tymczasowo tutaj a nie w klasie przycisku "tak"
+            updateStrategyLabel();
 
             if(round==0) pawn0.placePawnOn(board.getPlayers()[round].getFieldIndex());
             if(round==1) pawn1.placePawnOn(board.getPlayers()[round].getFieldIndex());
             if(round==2) pawn2.placePawnOn(board.getPlayers()[round].getFieldIndex());
             if(round==3) pawn3.placePawnOn(board.getPlayers()[round].getFieldIndex());
+
+            if(board.getCurrentPlayer().getLocation() instanceof Start){
+                board.incrementMoveCounter();
+            }else{
+            rollButton.setVisible(false);
+            }
         }
     }
 }
