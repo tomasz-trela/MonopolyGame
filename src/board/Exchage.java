@@ -29,8 +29,8 @@ public class Exchage extends Field{
     }
     public void update() {
         Random generator = new Random();
-        setEurorate(getEurorate() + generator.nextFloat(-0.5F,0.5F));
-        setDolarrate(getDolarrate() + generator.nextFloat(-0.5F,0.5F));
+        setEurorate(getEurorate() + generator.nextDouble(-0.5,0.5));
+        setDolarrate(getDolarrate() + generator.nextDouble(-0.5,0.5));
     }
     public int[] ExchageEURtoUSD(int amount, int howMuch){
         // amount-bilans gracza w euro, howMuch-liczba dolarów jakie gracz chce wymienić
