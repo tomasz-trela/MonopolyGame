@@ -3,14 +3,14 @@ package board;
 import java.util.Random;
 
 public class Exchage extends Field{
-    private float eurorate;
-    private float dolarrate;
+    private double eurorate;
+    private double dolarrate;
     
     public Exchage(){
-        eurorate=1.09F;
-        dolarrate=0.92F;
+        eurorate=1.09;
+        dolarrate=0.92;
     }
-    public Exchage(String name, float eurorate, float dolarrate){
+    public Exchage(String name, double eurorate, double dolarrate){
         super(name);
         this.eurorate=eurorate;
         this.dolarrate=dolarrate;
@@ -20,7 +20,7 @@ public class Exchage extends Field{
         int[] tab=new int[2];
         // tab[0]=ile trzeba dodać do balance[0] gracza
         // tab[1]=ile trzeba dodać do balance[1] gracza
-        int pom=Math.round(howMuch*eurorate);
+        int pom=(int) Math.round(howMuch*eurorate);
         if(pom<=amount){
             tab[0]=howMuch;
             tab[1]=-pom;
@@ -35,7 +35,7 @@ public class Exchage extends Field{
     public int[] ExchageEURtoUSD(int amount, int howMuch){
         // amount-bilans gracza w euro, howMuch-liczba dolarów jakie gracz chce wymienić
         int[] tab=new int[2];
-        int pom=Math.round(howMuch*dolarrate);
+        int pom=(int) Math.round(howMuch*dolarrate);
         // tab[0]=ile trzeba dodać do balance[0] gracza (EURO)
         // tab[1]=ile trzeba dodać do balance[1] gracza (DOLARY)
         if(pom<=amount){
@@ -44,16 +44,16 @@ public class Exchage extends Field{
         }
         return tab;
     }
-    public float getEurorate(){
+    public double getEurorate(){
         return eurorate;
     }
-    public void setEurorate(float eurorate){
+    public void setEurorate(double eurorate){
         this.eurorate=eurorate;
     }
-    public float getDolarrate(){
+    public double getDolarrate(){
         return dolarrate;
     }
-    public void setDolarrate(float dolarrate){
+    public void setDolarrate(double dolarrate){
         this.dolarrate=dolarrate;
     }
 }
