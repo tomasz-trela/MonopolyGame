@@ -363,7 +363,7 @@ public class GamePanel extends JPanel{
 
     }
 
-    public void createLabels(){
+    public void createBalanceLabels(){
         JPanel rightTopPanel = new JPanel();
         Font f = new Font(Font.SANS_SERIF, Font.BOLD, 23);
         rightTopPanel.setLayout(new BoxLayout(rightTopPanel, BoxLayout.PAGE_AXIS));
@@ -381,7 +381,6 @@ public class GamePanel extends JPanel{
             AllInOne.setBackground(Color.decode("#bfbfbf"));
             AllInOne.setOpaque(true);
 
-            
             
             switch (i) {
                 case 0:{
@@ -410,6 +409,42 @@ public class GamePanel extends JPanel{
         }
 
         revalidate();
+    }
+
+    public void CreateExchangeLabels(){
+        JPanel RightBottomPanel = new JPanel();
+        RightBottomPanel.setLayout(new BoxLayout(RightBottomPanel, BoxLayout.PAGE_AXIS));
+        Font f = new Font(Font.SANS_SERIF, Font.BOLD, 23);
+        Exchage e = (Exchage) board.getFieldsArray()[9];
+        
+        
+        //obecny kurs walut
+        double tmp = Math.round(e.getDolarrate()/e.getEurorate() * 100) / 100;
+        String EuroTODolar = "1 Euro is worth " + Double.toString((tmp)) + " Dolars";
+        tmp = Math.round(e.getEurorate()/e.getDolarrate() * 100) / 100;
+        String DolarTOEuro = "1 Dolar is worth " + Double.toString((tmp)) + " Euros";
+
+        JLabel EurotoDolar = new JLabel(EuroTODolar);
+        JLabel DolartoEuro = new JLabel(DolarTOEuro);
+        EurotoDolar.setAlignmentX(Component.CENTER_ALIGNMENT);
+        DolartoEuro.setAlignmentX(Component.CENTER_ALIGNMENT);
+        EurotoDolar.setFont(f);
+        DolartoEuro.setFont(f);
+
+        
+        //opcje wyboru wymiany
+        String[] choices = {"Euro to Dolar", "Dolar to Euro"};
+        JComboBox<String> options = new JComboBox<String>(choices);
+        options.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+        options.setMaximumSize(options.getPreferredSize());
+        options.setAlignmentX(Component.CENTER_ALIGNMENT);       
+        
+        RightBottomPanel.add(EurotoDolar);
+        RightBottomPanel.add(DolartoEuro);
+        RightBottomPanel.add(options);
+        
+        rightPanel.add(RightBottomPanel);
+        
     }
 
     class StrategyPanelButtonYesReaction implements ActionListener {

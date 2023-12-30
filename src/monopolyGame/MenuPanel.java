@@ -102,7 +102,8 @@ public class MenuPanel extends JPanel{
             Board.generatePlayers(playersSilder.getValue());
             GameFrame gameFrame = GameFrame.getInstance();
             gameFrame.showGamePanel();
-            gameFrame.GetGamePanel().createLabels();
+            gameFrame.GetGamePanel().createBalanceLabels();
+            gameFrame.GetGamePanel().CreateExchangeLabels();
         }
     }
 
