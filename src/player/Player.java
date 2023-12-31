@@ -6,6 +6,8 @@ import strategy.*;
 import java.io.File;
 import java.util.ArrayList;
 
+import static player.Dice.Roll;
+
 public class Player {
     private int fieldIndex;
     private int lap;
@@ -145,6 +147,12 @@ public class Player {
             setActionStrategy(null);
         }
 
+    }
+    public void useCar(Board board, int round, int sum){
+        board.getPlayers()[round].movePlayer(sum);
+        board.ChangePlayerLocation(sum);
+        board.getCurrentPlayer().changeStrategy();
+        board.getCurrentPlayer().setHaveCar(false);
     }
 
 

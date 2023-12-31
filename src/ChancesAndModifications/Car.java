@@ -1,6 +1,11 @@
 package ChancesAndModifications;
 
+import board.Board;
+import board.Start;
+
 import java.util.Random;
+
+import static player.Dice.Roll;
 
 public class Car {
     private String name;

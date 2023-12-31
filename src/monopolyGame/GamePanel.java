@@ -52,6 +52,7 @@ public class GamePanel extends JPanel{
     JButton yesButton = new JButton();
     JButton noButton = new JButton();
     JButton okButton = new JButton();
+    JButton carButton = new JButton();
 
     private boolean start=true;
     Pawn pawn0=new Pawn(0);
@@ -97,6 +98,7 @@ public class GamePanel extends JPanel{
         createRollButton();
         createDiceLabels();
         createStrategyPanel();
+        createCarButton();
         leftPanel.add(rollButton);
         leftPanel.add(fieldInformation);
         rollButton.setVisible(true);
@@ -106,6 +108,7 @@ public class GamePanel extends JPanel{
         leftPanel.add(diceLabel1);
         leftPanel.add(diceLabel2);
         leftPanel.add(strategyPanel);
+        leftPanel.add(carButton);
         leftPanel.add(pawn1.getPawn());
         leftPanel.add(pawn2.getPawn());
         leftPanel.add(pawn3.getPawn());
@@ -198,6 +201,7 @@ public class GamePanel extends JPanel{
         diceLabel1.setBounds(450, 540, 50, 50);
         diceLabel2.setBounds(500, 540, 50, 50);
         strategyPanel.setBounds(385, 430, 230,80);
+        carButton.setBounds(460,600,80,30);
         for(JPanel m: fieldArray){
             leftPanel.add(m);
         }
@@ -453,6 +457,7 @@ public class GamePanel extends JPanel{
             board.getCurrentPlayer().playerAction(board);
 
             strategyPanel.setVisible(false);
+            carButton.setVisible(false);
             rollButton.setVisible(true);
         }
     }
@@ -460,6 +465,7 @@ public class GamePanel extends JPanel{
         @Override
         public void actionPerformed(ActionEvent e) {
             strategyPanel.setVisible(false);
+            carButton.setVisible(false);
             rollButton.setVisible(true);
         }
     }
@@ -467,6 +473,7 @@ public class GamePanel extends JPanel{
         @Override
         public void actionPerformed(ActionEvent e) {
             strategyPanel.setVisible(false);
+            carButton.setVisible(false);
             rollButton.setVisible(true);
         }
     }
@@ -499,6 +506,10 @@ public class GamePanel extends JPanel{
             //System.out.println("Suma: " + sum);//test
             updateDiceImages(dice1, dice2);
 
+            if(board.getCurrentPlayer().isHaveCar()) {
+                carButton.setVisible(true);
+            }
+
             board.getPlayers()[round].movePlayer(sum);
             board.ChangePlayerLocation(sum);
             //System.out.println("New location: " + board.getCurrentPlayer().getLocation().getName());//test
@@ -517,6 +528,32 @@ public class GamePanel extends JPanel{
             }
             board.incrementMoveCounter();
             //System.out.println();//test
+        }
+    }
+    public void createCarButton(){
+        carButton = new JButton("use car");
+        carButton.setBackground(Color.WHITE);
+        carButton.setFont(new Font("Serif", Font.BOLD, 14));
+        carButton.addActionListener(new CarButtonReaction());
+        carButton.setVisible(false);
+
+    }
+    class CarButtonReaction implements ActionListener{
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            int round = board.getRound();
+            int dice1 = Roll();
+            int dice2 = Roll();
+            int sum =dice1 +dice2;
+            updateDiceImages(dice1, dice2);
+            board.getCurrentPlayer().useCar(board, round, sum);
+            if(round==0) pawn0.placePawnOn(board.getPlayers()[round].getFieldIndex());
+            if(round==1) pawn1.placePawnOn(board.getPlayers()[round].getFieldIndex());
+            if(round==2) pawn2.placePawnOn(board.getPlayers()[round].getFieldIndex());
+            if(round==3) pawn3.placePawnOn(board.getPlayers()[round].getFieldIndex());
+            updateStrategyLabel();
+
+            carButton.setVisible(false);
         }
     }
 }
