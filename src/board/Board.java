@@ -11,7 +11,7 @@ public class Board {
     private int moveCounter; //licznik ruchów
     private int round; //oblicza index gracza którego aktualnie jest kolej ruchu
     private Player currentPlayer;
-    private static final Chances[] listOfChances = {new Chances("Chance1", 1000, 0, 0, 0, 0, 0, 0, 0)};
+    private static final Chances[] listOfChances = {new Chances("Chance1", 1000, 0, 0, 0)};
 
     public Board(){
         moveCounter = 0;
@@ -100,6 +100,13 @@ public class Board {
                 }
             }
             currentPlayer.setLocation(fields[(temp + roll)%36]);
+        }
+    }
+    public void SetPlayerLocation(int finalPosition){
+        if (fields != null){
+            if (finalPosition < 36) {
+                currentPlayer.setLocation(fields[(finalPosition)]);
+            }
         }
     }
     public void calculateRound(){

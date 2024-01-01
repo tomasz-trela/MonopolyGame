@@ -1,9 +1,6 @@
 package strategy;
 
 import board.Board;
-import board.Field;
-import board.ToBuy;
-import player.Player;
 import board.Chance;
 
 public class ChanceStrategy implements ActionStrategy{
@@ -11,6 +8,6 @@ public class ChanceStrategy implements ActionStrategy{
     public void action(Board board) {
         int currentIndex = (board.getCurrentPlayer()).getFieldIndex();
         Chance field = (Chance) Board.getFieldsArray()[currentIndex];
-        field.drawChance();
+        //field.doChance(board);
     }
 }
