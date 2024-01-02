@@ -104,6 +104,7 @@ public class MenuPanel extends JPanel{
             gameFrame.showGamePanel();
             gameFrame.GetGamePanel().createBalanceLabels();
             gameFrame.GetGamePanel().CreateExchangeLabels();
+            gameFrame.GetGamePanel().createBoard(36);
         }
     }
 
