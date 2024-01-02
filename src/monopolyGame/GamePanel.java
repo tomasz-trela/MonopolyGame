@@ -5,6 +5,7 @@ import javax.swing.border.Border;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.geom.AffineTransform;
 import java.util.ArrayList;
 
 import board.*;
@@ -106,7 +107,7 @@ public class GamePanel extends JPanel{
         leftPanel.add(fieldInformation);
         rollButton.setVisible(true);
 
-        createBoard(36);
+      // createBoard(36);
 
         leftPanel.add(diceLabel1);
         leftPanel.add(diceLabel2);
@@ -117,7 +118,6 @@ public class GamePanel extends JPanel{
         leftPanel.add(pawn3.getPawn());
         leftPanel.add(pawn0.getPawn());
         this.setVisible(true);
-        this.setPawnsStart();
     }
     public void setPawnsStart(){
         pawn0.placePawnOn(0);
@@ -247,6 +247,7 @@ public class GamePanel extends JPanel{
             centerArray[i].setBorder(BorderFactory.createLineBorder(Color.black,2));
             centerArray[i].setBackground(FIELD_COLOR1);
         }
+       this.setPawnsStart();
     }
     public void drawHorizontal(int i)
     {
@@ -548,9 +549,25 @@ public class GamePanel extends JPanel{
             InfoPanel.removeAll();
         }
     }
+    public void drawExchange(int i) {
+        centerArray[i] = new JPanel() {
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                Graphics2D g2d = (Graphics2D) g.create();
+                Image backgroundImage = new ImageIcon("src/images/Exchange.png").getImage();
+                backgroundImage.getScaledInstance(FIELD_HEIGHT, FIELD_HEIGHT, Image.SCALE_DEFAULT);
+                g2d.drawImage(backgroundImage, 0, 0, FIELD_HEIGHT, FIELD_HEIGHT, null);
+                g2d.dispose();
+            }
+        };
+        centerArray[i].setPreferredSize(new Dimension(FIELD_HEIGHT, FIELD_HEIGHT));
+        fieldArray[i].setBackground(FIELD_COLOR1);
+        fieldArray[i].add(centerArray[i]);
+    }
 
     public static JPanel[] getFieldArray() {
-        return fieldArray;
+        return centerArray;
     }
 
 
