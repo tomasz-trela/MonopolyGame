@@ -137,7 +137,7 @@ public class Player {
         if(location instanceof Chance){
             setActionStrategy(new ChanceStrategy());
         }
-        if(location instanceof Exchage){
+        if(location instanceof Exchange){
             setActionStrategy(new ChangeStrategy());
         }
         if(location instanceof CarDealership){

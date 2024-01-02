@@ -39,8 +39,8 @@ public class Board {
 
     public static void generateBoard(int boardNumber){
         fields[0] = new Start();
-        fields[9] = new Exchage("Kantor1", 1, 1);
-        fields[18] = new Exchage("Kantor2", 1, 1);
+        fields[9] = new Exchange("Kantor1", 1, 1);
+        fields[18] = new Exchange("Kantor2", 1, 1);
         //fields[27] = new Exchage("Kantor3", 1, 1);;
         if(boardNumber==1) {
             fields[1] = new Village("Leirose", 20000, 0, null, 0.5f);
