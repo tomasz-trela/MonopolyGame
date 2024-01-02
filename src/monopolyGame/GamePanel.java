@@ -355,7 +355,7 @@ public class GamePanel extends JPanel{
         if(board.getCurrentPlayer().getLocation() instanceof Chance){
             strategyLabel.setText("Would you like to take a card?");
         }
-        if(board.getCurrentPlayer().getLocation() instanceof Exchage){
+        if(board.getCurrentPlayer().getLocation() instanceof Exchange){
             strategyLabel.setText("Would you like to exchange currency?");
         }
 
@@ -419,13 +419,13 @@ public class GamePanel extends JPanel{
         JPanel RightBottomPanel = new JPanel();
         RightBottomPanel.setLayout(new BoxLayout(RightBottomPanel, BoxLayout.PAGE_AXIS));
         Font f = new Font(Font.SANS_SERIF, Font.BOLD, 23);
-        Exchage e = (Exchage) board.getFieldsArray()[9];
+        Exchange e = (Exchange) board.getFieldsArray()[9];
         
         
         //obecny kurs walut
-        double tmp = Math.round(e.getDolarrate()/e.getEurorate() * 100) / 100;
+        double tmp = Math.round(e.getDolarRate()/e.getEuroRate() * 100) / 100;
         String EuroTODolar = "1 Euro is worth " + Double.toString((tmp)) + " Dolars";
-        tmp = Math.round(e.getEurorate()/e.getDolarrate() * 100) / 100;
+        tmp = Math.round(e.getEuroRate()/e.getDolarRate() * 100) / 100;
         String DolarTOEuro = "1 Dolar is worth " + Double.toString((tmp)) + " Euros";
 
         JLabel EurotoDolar = new JLabel(EuroTODolar);
