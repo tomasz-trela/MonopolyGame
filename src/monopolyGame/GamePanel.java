@@ -417,6 +417,7 @@ public class GamePanel extends JPanel{
 
     public void CreateExchangeLabels(){
         JPanel RightBottomPanel = new JPanel();
+        RightBottomPanel.setBorder(BorderFactory.createLineBorder(Color.decode("#000000"), 10, true));
         RightBottomPanel.setLayout(new BoxLayout(RightBottomPanel, BoxLayout.PAGE_AXIS));
         Font f = new Font(Font.SANS_SERIF, Font.BOLD, 23);
         Exchage e = (Exchage) board.getFieldsArray()[9];
@@ -443,10 +444,36 @@ public class GamePanel extends JPanel{
         options.setMaximumSize(options.getPreferredSize());
         options.setAlignmentX(Component.CENTER_ALIGNMENT);       
         
+        JTextField moneyInput = new JTextField("Enter the amount");
+        Dimension a = new Dimension(200, 30);
+        moneyInput.setMaximumSize(a);
+        moneyInput.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        String money = "You will recieve " ;
+        //jakoś trzeba dodać że w zależności od wcześniej wybranych opcji 
+        //wyświetla przeliczoną kwotę i walutę
+
+        JLabel moneyOutput = new JLabel(money);
+        moneyOutput.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        JLabel space = new JLabel("<html> <br> <br> <br> </html>");
+        
+        JButton Bexchange = new JButton("Exchange");
+        Bexchange.setAlignmentX(Component.CENTER_ALIGNMENT);
+        Dimension b = new Dimension(200,70);
+        Bexchange.setMaximumSize(b);
+        Bexchange.setBackground(Color.WHITE);
+        Bexchange.setFont(new Font("Serif", Font.BOLD, 28));
+        Bexchange.setMargin(new Insets(20, 20, 20,20));
+
         RightBottomPanel.add(EurotoDolar);
         RightBottomPanel.add(DolartoEuro);
         RightBottomPanel.add(options);
-        
+        RightBottomPanel.add(moneyInput);
+        RightBottomPanel.add(moneyOutput);
+        RightBottomPanel.add(space);
+        RightBottomPanel.add(Bexchange);
+
         rightPanel.add(RightBottomPanel);
         
     }
