@@ -57,8 +57,11 @@ public class GamePanel extends JPanel{
     JButton noButton = new JButton();
     JButton okButton = new JButton();
     JButton carButton = new JButton();
+    JLabel balancePlayer0Label;
+    JLabel balancePlayer1Label;
+    JLabel balancePlayer2Label;
+    JLabel balancePlayer3Label;
 
-    private boolean start=true;
     Pawn pawn0=new Pawn(0);
     Pawn pawn1=new Pawn(1);
     Pawn pawn2=new Pawn(2);
@@ -706,47 +709,71 @@ public class GamePanel extends JPanel{
         
         rightPanel.add(rightTopPanel);
         
-        for(int i=0;i<board.GetPlayersArray().length;i++){
-            String PlayerNumber = "Player " + (i+1);
+        for(int i=0;i<board.GetPlayersArray().length;i++) {
+            String PlayerNumber = "Player " + (i + 1);
             String EuroBalance = "Euro: " + board.GetPlayersArray()[i].getBalance()[0];
             String DolarBalance = "Dolar: " + board.GetPlayersArray()[i].getBalance()[1];
-            
+
             String PlayerInfo = "<html>" + PlayerNumber + "<br>" + EuroBalance + "<br>" + DolarBalance;
-            JLabel AllInOne = new JLabel(PlayerInfo);
-            AllInOne.setFont(f);
-            AllInOne.setBackground(Color.decode("#bfbfbf"));
-            AllInOne.setOpaque(true);
 
-            
+
             switch (i) {
-                case 0:{
-                    Border border = BorderFactory.createLineBorder(Color.decode("#e34242"), 10, true) ;
-                    AllInOne.setBorder(border);
+                case 0:
+                    balancePlayer0Label = new JLabel(PlayerInfo);
+                    createPlayerLabel(balancePlayer0Label, f, i, rightTopPanel);
                     break;
-                }
-                case 1:{
-                    Border border = BorderFactory.createLineBorder(Color.decode("#2aa9e8"), 10, true) ;
-                    AllInOne.setBorder(border);
+                case 1:
+                    balancePlayer1Label = new JLabel(PlayerInfo);
+                    createPlayerLabel(balancePlayer1Label, f, i, rightTopPanel);
                     break;
-                }
-                case 2:{
-                    Border border = BorderFactory.createLineBorder(Color.decode("#f0f026"), 10, true) ;
-                    AllInOne.setBorder(border);
+                case 2:
+                    balancePlayer2Label = new JLabel(PlayerInfo);
+                    createPlayerLabel(balancePlayer2Label, f, i, rightTopPanel);
                     break;
-                }
-                case 3:{
-                    Border border = BorderFactory.createLineBorder(Color.decode("#3cd646"), 10, true) ;
-                    AllInOne.setBorder(border);
+                case 3:
+                    balancePlayer3Label = new JLabel(PlayerInfo);
+                    createPlayerLabel(balancePlayer3Label, f, i, rightTopPanel);
                     break;
-                }
             }
-
-            rightTopPanel.add(AllInOne);
         }
 
         revalidate();
     }
 
+    private void createPlayerLabel(JLabel AllInOne, Font f, int i, JPanel rightTopPanel){
+        AllInOne.setFont(f);
+        AllInOne.setBackground(Color.decode("#bfbfbf"));
+        AllInOne.setOpaque(true);
+
+        switch (i) {
+            case 0:{
+                Border border = BorderFactory.createLineBorder(Color.decode("#e34242"), 10, true) ;
+                AllInOne.setBorder(border);
+                break;
+            }
+            case 1:{
+                Border border = BorderFactory.createLineBorder(Color.decode("#2aa9e8"), 10, true) ;
+                AllInOne.setBorder(border);
+                break;
+            }
+            case 2:{
+                Border border = BorderFactory.createLineBorder(Color.decode("#f0f026"), 10, true) ;
+                AllInOne.setBorder(border);
+                break;
+            }
+            case 3:{
+                Border border = BorderFactory.createLineBorder(Color.decode("#3cd646"), 10, true) ;
+                AllInOne.setBorder(border);
+                break;
+            }
+        }
+
+        rightTopPanel.add(AllInOne);
+    }
+
+    public void updateBalanceLabels(){
+        revalidate();
+    }
     public void CreateExchangeLabels(){
         JPanel RightBottomPanel = new JPanel();
         RightBottomPanel.setBorder(BorderFactory.createLineBorder(Color.decode("#000000"), 10, true));
@@ -886,6 +913,7 @@ public class GamePanel extends JPanel{
                 rollButton.setVisible(false);
             }
             board.incrementMoveCounter();
+            updateBalanceLabels();
             //System.out.println();//test
         }
     }
