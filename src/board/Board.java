@@ -17,13 +17,6 @@ public class Board {
         moveCounter = 0;
         round = 0;
         fields = new Field[36];
-        /*fields[0] = new Start();
-        fields[1] = new Village("Wioska 1", 20000, 0, null,0.5f);
-        fields[2] = new Village("Wioska 2", 30000, 0, null, 0.5f);
-        for(int i=3; i< fields.length; i++)
-        {
-            fields[i] = new City("Pole %s".formatted(i), 1, 0, null, 12, 0.5f);
-        }*/
     }
     public static void generatePlayers(int playersCount){
         players = new Player[playersCount];
@@ -37,11 +30,17 @@ public class Board {
         return players;
     }
 
+    static Exchange kantor  = new Exchange("Kantor", 1, 1);
+
+    public static Exchange getExchange() {
+        return kantor;
+    }
+
     public static void generateBoard(int boardNumber){
         fields[0] = new Start();
-        fields[9] = new Exchange("Kantor1", 1, 1);
-        fields[18] = new Exchange("Kantor2", 1, 1);
-        //fields[27] = new Exchage("Kantor3", 1, 1);;
+        fields[9] = kantor;
+        fields[18] = kantor;
+        fields[27] = kantor;
         if(boardNumber==1) {
             fields[1] = new Village("Leirose", 20000, 0, null, 0.5f);
             fields[2] = new Chance("Szansa1", listOfChances);

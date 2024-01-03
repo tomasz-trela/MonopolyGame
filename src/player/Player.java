@@ -1,6 +1,7 @@
 package player;
 
 import board.*;
+import observer.Subject;
 import strategy.*;
 
 import java.io.File;
@@ -120,15 +121,22 @@ public class Player {
         this.actionStrategy = actionStrategy;
     }
 
+    // Podmiot od wzorca Obserwator
+    Subject subjects = new Subject();
+
     public void changeStrategy(){
         if(location instanceof ToBuy){
             if(((ToBuy) location).getOwner() == null){
                 setActionStrategy(new BuyFieldStrategy());
+                subjects.notifyObserversDollar(); // Observer - zwiększy kurs tylko jeśli dollary zostały wydane
+                subjects.notifyObserversEuro(); // Observer - zwiększy kurs tylko jeśli euro zostało wydane
             }
             else {
                 setActionStrategy(null);
                 if (OwnedFields.contains(location)){
                     setActionStrategy(new BuyBuildingStrategy());
+                    subjects.notifyObserversDollar(); // Observer - zwiększy kurs tylko jeśli dollary zostały wydane
+                    subjects.notifyObserversEuro(); // Observer - zwiększy kurs tylko jeśli euro zostało wydane
                 }
 
             }

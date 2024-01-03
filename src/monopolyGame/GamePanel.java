@@ -54,6 +54,11 @@ public class GamePanel extends JPanel{
     JButton okButton = new JButton();
     JButton carButton = new JButton();
 
+    // getter potrzebny do implementacji Obserwatora
+    public Board getBoard() {
+        return board;
+    }
+
     private boolean start=true;
     Pawn pawn0=new Pawn(0);
     Pawn pawn1=new Pawn(1);

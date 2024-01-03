@@ -1,14 +1,11 @@
 package board;
-
-import java.util.Random;
-
-import observer.AffluenceObserver;
+import observer.*;
 
 public class Exchange extends Field{
     private double euroRate;
     private double dolarRate;
 
-    AffluenceObserver affluenceObserver = new AffluenceObserver();
+    Subject subjects = new Subject();
     
     public Exchange(){
         euroRate=1.09;
@@ -28,15 +25,11 @@ public class Exchange extends Field{
         if(pom<=amount){
             tab[0]=howMuch;
             tab[1]=-pom;
-            affluenceObserver.updateEuro(euroRate);
+            subjects.notifyObserversEuro(); // Aktualizujemy kurs waluty Euro
         }
         return tab;
     }
-    public void update() {
-        Random generator = new Random();
-        setEuroRate(getEuroRate() + generator.nextDouble(-0.5,0.5));
-        setDolarRate(getDolarRate() + generator.nextDouble(-0.5,0.5));
-    }
+
     public int[] ExchangeEURtoUSD(int amount, int howMuch){
         // amount-bilans gracza w euro, howMuch-liczba dolarów jakie gracz chce wymienić
         int[] tab=new int[2];
@@ -46,7 +39,7 @@ public class Exchange extends Field{
         if(pom<=amount){
             tab[0]=-pom;
             tab[1]=howMuch;
-            affluenceObserver.updateDollar(dolarRate);
+            subjects.notifyObserversDollar(); // Aktualizujemy kurs waluty Dollara
         }
         return tab;
     }
