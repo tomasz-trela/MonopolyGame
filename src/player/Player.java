@@ -1,6 +1,7 @@
 package player;
 
 import board.*;
+import observer.Subject;
 import strategy.*;
 
 import java.io.File;
@@ -17,6 +18,7 @@ public class Player {
     private Field location;
     protected ActionStrategy actionStrategy;
     private String name;
+
 
     public Player() {
         balance[0] = 500000; //euro

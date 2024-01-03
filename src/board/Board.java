@@ -1,9 +1,8 @@
 package board;
 
 import ChancesAndModifications.Chances;
+import monopolyGame.GameFrame;
 import player.Player;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 
 public class Board {
     private static Field[] fields ;
@@ -33,7 +32,7 @@ public class Board {
         }
     }
 
-    public Player[] GetPlayersArray(){
+    public static Player[] GetPlayersArray(){
         return players;
     }
     static Exchange kantor  = new Exchange("Kantor", 1, 1);

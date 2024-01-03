@@ -53,10 +53,4 @@ public class GameFrame extends JFrame {
     public void showMenuPanel() {
         cardLayout.show(cardPanel, "MenuPanel");
     }
-    /*public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> {
-            GameFrame gameFrame = GameFrame.getInstance();
-            gameFrame.setVisible(true);
-        });
-    }*/
 }

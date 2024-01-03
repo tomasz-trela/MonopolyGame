@@ -10,6 +10,9 @@ import java.util.ArrayList;
 
 import board.*;
 import static player.Dice.Roll;
+
+import observer.AffluenceObserver;
+import observer.Subject;
 import player.*;
 
 public class GamePanel extends JPanel{
@@ -62,11 +65,14 @@ public class GamePanel extends JPanel{
     JLabel balancePlayer2Label;
     JLabel balancePlayer3Label;
 
+    protected Subject subject;
     Pawn pawn0=new Pawn(0);
     Pawn pawn1=new Pawn(1);
     Pawn pawn2=new Pawn(2);
     Pawn pawn3=new Pawn(3);
     GamePanel(){
+        subject = new Subject();
+        subject.registerObserver(new AffluenceObserver());
 
         this.setPreferredSize(new Dimension(SCREEN_WIDTH,SCREEN_HEIGHT));
         this.setBackground(Color.WHITE);
@@ -920,7 +926,8 @@ public class GamePanel extends JPanel{
             }
             board.incrementMoveCounter();
             updateBalanceLabels();
-            //System.out.println();//test
+            subject.notifyObserversEuro();
+            subject.notifyObserversDollar();
         }
     }
     public void createCarButton(){
@@ -945,6 +952,7 @@ public class GamePanel extends JPanel{
             if(round==2) pawn2.placePawnOn(board.getPlayers()[round].getFieldIndex());
             if(round==3) pawn3.placePawnOn(board.getPlayers()[round].getFieldIndex());
             updateStrategyLabel();
+
 
             carButton.setVisible(false);
         }

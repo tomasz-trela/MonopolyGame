@@ -5,13 +5,8 @@ import java.util.ArrayList;
 public class Subject {
     private ArrayList<Observer> observers;
 
-    ExchangeObserver exchangeObserver = new ExchangeObserver();
-    AffluenceObserver affluenceObserver = new AffluenceObserver();
-
     public Subject() {
         observers = new ArrayList<>();
-        registerObserver(exchangeObserver);
-        registerObserver(affluenceObserver);
     }
     
     public void registerObserver(Observer observer) {

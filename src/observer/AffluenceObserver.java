@@ -4,6 +4,8 @@ import board.Board;
 import monopolyGame.GameFrame;
 import player.Player;
 
+import java.util.Arrays;
+
 /* LOGIKA AFFLUENCE_OBSERVER:
  * 
  * Klasa Affluence Obserwer implementuje interfejs obserwatora i sprawdza, czy waluta została wydana, by zwiększyć jej kurs
@@ -19,9 +21,12 @@ public class AffluenceObserver implements Observer{
     private int dollarSum = 0;
     private int[] currentAmountOfMoney;
 
-    // Instancja Boarda w GamePanelu w GameFrame'ie
-    private Board ourBoard = GameFrame.getInstance().GetGamePanel().getBoard();
+    public AffluenceObserver(){
+        currentAmountOfMoney = new int[2];
 
+    }
+
+    // Instancja Boarda w GamePanelu w GameFrame'ie
     // // Euro i Dollar rates
     // double dollarRate = Board.getExchange().getDolarRate();
     // double euroRate = Board.getExchange().getEuroRate();
@@ -35,7 +40,7 @@ public class AffluenceObserver implements Observer{
         euroSum = 0;
         dollarSum = 0;
 
-        for (Player player : ourBoard.getPlayers()) {
+        for (Player player : (Board.GetPlayersArray())) {
             euroSum = euroSum + player.getBalance()[0];
             dollarSum = dollarSum + player.getBalance()[1];
         }
@@ -65,6 +70,7 @@ public class AffluenceObserver implements Observer{
         if (moneyWasSpent() == 1) {
             Board.getExchange().setDolarRate(Board.getExchange().getDolarRate() + Observer.rateModifier);
             updateCurrentMoneyAmount();
+            System.out.println(Board.getExchange().getDolarRate());
         }
     }
 
@@ -73,6 +79,7 @@ public class AffluenceObserver implements Observer{
         if (moneyWasSpent() == 0) {
             Board.getExchange().setEuroRate(Board.getExchange().getEuroRate() + Observer.rateModifier);
             updateCurrentMoneyAmount();
+            System.out.println(Board.getExchange().getEuroRate());
         }
     }
 }
