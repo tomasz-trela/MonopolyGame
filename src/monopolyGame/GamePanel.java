@@ -603,11 +603,11 @@ public class GamePanel extends JPanel{
             tempList.get(i).setVisible(false);
         }
         int y = 200;
-
+        InfoPanel.setBounds(fieldArray[TempInt].getX() + FIELD_WIDTH/2, fieldArray[TempInt].getY() - 2*FIELD_HEIGHT, 200, 10 + 28 * tempList.size());
         if (InfoPanel.getY() > 300) {
-            InfoPanel.setBounds(fieldArray[TempInt].getX() + FIELD_WIDTH/2, fieldArray[TempInt].getY() - 2*FIELD_HEIGHT, 200, tempList.size() * 35);
+            InfoPanel.setBounds(fieldArray[TempInt].getX() + FIELD_WIDTH/2, fieldArray[TempInt].getY() - 2*FIELD_HEIGHT + (8 - tempList.size()) * 35, 200, 10 + 28 * tempList.size());
         } else {
-            InfoPanel.setBounds(fieldArray[TempInt].getX() + FIELD_WIDTH/2, fieldArray[TempInt].getY() + FIELD_HEIGHT/2, 200, tempList.size() * 35);
+            InfoPanel.setBounds(fieldArray[TempInt].getX() + FIELD_WIDTH/2, fieldArray[TempInt].getY() + FIELD_HEIGHT/2, 200, 10 + 28 * tempList.size());
         }
         for (int i = 0; i < tempList.size(); i++) {
             y += i * 15;
@@ -616,6 +616,9 @@ public class GamePanel extends JPanel{
             tempList.get(i).setVisible(true);
             InfoPanel.add(tempList.get(i));
         }
+        InfoPanel.setMinimumSize(new Dimension(1, 1));
+        InfoPanel.setLayout(new BoxLayout(InfoPanel, BoxLayout.Y_AXIS));
+        InfoPanel.setBorder(BorderFactory.createLineBorder(Color.black, 5));
         InfoPanel.setVisible(true);
     }
     public void createDiceLabels() {
