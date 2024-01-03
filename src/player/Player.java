@@ -19,6 +19,8 @@ public class Player {
     protected ActionStrategy actionStrategy;
     private String name;
 
+    // Podmiot od wzorca Obserwator
+    Subject subjects = new Subject();
     public Player() {
         balance[0] = 500000; //euro
         balance[1] = 500000; //dolary
@@ -120,9 +122,6 @@ public class Player {
     public void setActionStrategy(ActionStrategy actionStrategy) {
         this.actionStrategy = actionStrategy;
     }
-
-    // Podmiot od wzorca Obserwator
-    Subject subjects = new Subject();
 
     public void changeStrategy(){
         if(location instanceof ToBuy){
