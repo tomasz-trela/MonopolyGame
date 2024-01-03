@@ -62,14 +62,27 @@ public class Board {
             fields[13] = new Village("Donzy", 20000, 0, null, 0.5f);
             fields[14] = new Chance("Szansa3", listOfChances);
             fields[15] = new City("Antwerp", 50000, 0, null, 10, 3);
-            fields[16] = new Chance("Szansa4", listOfChances);
+            fields[16] = new Village("Farmville", 400, 1500, null, 0.3f);
             fields[17] = new City("Brussels", 50000, 0, null, 10, 7);
             //fields[18] jest wspolne dla każdej mapy
+            fields[19] = new Village("Quebec", 0, 20000, null, 0.5f);
+            fields[20] = new Village("Smalltown", 0, 2000, null, 0.5f);
+            fields[21] = new CarDealership();
+            fields[22] = new City("Seattle", 0, 45000, null, 10, 7);
+            fields[23] = new Village("Ruralville", 0, 1000, null, 0.4f);
+            fields[24] = new City("Dallas", 0, 38000, null, 10, 4);
+            fields[25] = new City("Miami", 0, 32000, null, 10, 5);
+            fields[26] = new Village("Countryside", 0, 3000, null, 0.6f);
             //fields[27] jest wspolne dla każdej mapy
+            fields[28] = new City("Denver", 0, 42000, null, 10, 6);
+            fields[29] = new Village("Hamlet", 0, 800, null, 0.2f);
+            fields[30] = new City("Atlanta", 0,37000, null, 10, 5);
+            fields[31] = new City("Minneapolis", 0, 35000, null, 10, 5);
+            fields[32] = new Village("Villageton", 0, 2500, null, 0.5f);
+            fields[33] = new CarDealership();
+            fields[34] = new Chance("Szansa3", listOfChances);
+            fields[35] = new Village("Hometown", 0, 1800, null, 0.4f);
 
-            for (int i = 19; i < fields.length; i++) {
-                fields[i] = new City("Pole %s".formatted(i), 1, 0, null, 12, 0.5f);
-            }
         }
         if(boardNumber==2) {
             fields[1] = new Village("Wioska 1", 20000, 0, null, 0.5f);

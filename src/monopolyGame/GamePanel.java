@@ -39,7 +39,7 @@ public class GamePanel extends JPanel{
         BOARD_WIDTH = 528;
         BOARD_HEIGHT = 528;
         BOARD_COLOR = new Color(200, 224,196);
-        FIELD_COLOR1 = new Color(31, 186,192);
+        FIELD_COLOR1 = new Color(232, 220,202);
         FIELD_COLOR2 = new Color(97, 211,171);
         FIELD_WIDTH = BOARD_WIDTH/12-2;
         FIELD_HEIGHT = FIELD_WIDTH*2+1;
@@ -309,7 +309,7 @@ public class GamePanel extends JPanel{
                     }
                     if(Board.getFieldsArray()[tmp] instanceof CarDealership)
                     {
-                        Image backgroundImage = new ImageIcon("src/images/car.jpeg").getImage();
+                        Image backgroundImage = new ImageIcon("src/images/car.png").getImage();
                         AffineTransform at= scaleIMG(backgroundImage, getWidth(), getHeight(), 0);
                         g2d.drawImage(backgroundImage, at, null);
                     }
@@ -395,7 +395,7 @@ public class GamePanel extends JPanel{
                 }
                 if(Board.getFieldsArray()[tmp] instanceof CarDealership)
                 {
-                    Image backgroundImage = new ImageIcon("src/images/car.jpeg").getImage();
+                    Image backgroundImage = new ImageIcon("src/images/car.png").getImage();
                     AffineTransform at= scaleIMG(backgroundImage, getWidth(), getHeight(), Math.PI/2);
                     g2d.drawImage(backgroundImage, at, null);
                 }
@@ -478,7 +478,7 @@ public class GamePanel extends JPanel{
                 }
                 if(Board.getFieldsArray()[tmp] instanceof CarDealership)
                 {
-                    Image backgroundImage = new ImageIcon("src/images/car.jpeg").getImage();
+                    Image backgroundImage = new ImageIcon("src/images/car.png").getImage();
                     AffineTransform at= scaleIMG(backgroundImage, getWidth(), getHeight(), -Math.PI/2);
                     g2d.drawImage(backgroundImage, at, null);
                 }
@@ -958,5 +958,3 @@ public class GamePanel extends JPanel{
         }
     }
 }
-
-
