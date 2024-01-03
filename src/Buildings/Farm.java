@@ -2,17 +2,17 @@ package Buildings;
 
 public class Farm extends Building{
     private int revenueAnually;
-    public Farm(int price, int revenuePerVisit, int revenueAnually) {
-        super(price, revenuePerVisit);
+    public Farm(int price, int revenuePerVisit, int level, int revenueAnually) {
+        super(price, revenuePerVisit, level);
         this.revenueAnually = revenueAnually;
     }
     public Farm() {
-        super();
-        this.revenueAnually = 1000;
+        super(1000, 100, 1);
+        this.revenueAnually = 200;
     }
     public void upgrade() {
         super.upgrade();
-        this.setRevenueAnually(this.getRevenueAnually() * 5);
+        this.setRevenueAnually(this.getRevenueAnually() * 3);
     }
     public int getRevenueAnually() {
         return revenueAnually;
