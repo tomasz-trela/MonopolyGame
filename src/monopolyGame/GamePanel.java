@@ -77,21 +77,21 @@ public class GamePanel extends JPanel{
         this.setPreferredSize(new Dimension(SCREEN_WIDTH,SCREEN_HEIGHT));
         this.setBackground(Color.WHITE);
         this.setLayout(null);
-        
+
         leftPanel.setBounds(0,0,1000, 1000);
         rightPanel.setBounds(1000,0,500, 1000);
-        
+
         leftPanel.setLayout(null);
         //rightPanel.setLayout(null);
         InfoPanel.setBackground(new Color(0,250,250));
         leftPanel.add(InfoPanel);
-        
+
         rightPanel.setLayout(new GridLayout(2,1));
 
         leftPanel.setVisible(true);
         rightPanel.setVisible(true);
-        
-        
+
+
         //¯\_(ツ)_/¯ Exception in thread "AWT-EventQueue-0" java.lang.NullPointerException: Cannot read the array length because the return value of "board.Board.GetPlayersArray()" is null
         /*rightTopPanel.setLayout(new BoxLayout(rightTopPanel,BoxLayout.PAGE_AXIS));
 
@@ -537,6 +537,9 @@ public class GamePanel extends JPanel{
     class ShowInfoPanelMouseListener implements MouseListener{
         @Override
         public void mouseClicked(MouseEvent e) {
+            InfoPanel.setVisible(false);
+            InfoPanel.removeAll();
+            showBuildingPanel(this);
         }
 
         @Override
@@ -557,6 +560,41 @@ public class GamePanel extends JPanel{
             InfoPanel.setVisible(false);
             InfoPanel.removeAll();
         }
+    }
+    public int getFieldIndex(MouseListener mouseListener) {
+        JPanel Temp = null;
+        int TempInt = 0;
+        while (TempInt <= fieldArray.length & Temp == null) {
+            assert fieldArray[TempInt] != null;
+            if (fieldArray[TempInt].getMouseListeners()[0] == mouseListener) {
+                Temp = fieldArray[TempInt];
+            } else {
+                TempInt++;
+            }
+        }
+        return TempInt;
+    }
+    public void showBuildingPanel(MouseListener mouseListener) {
+        if (Board.getFieldsArray()[getFieldIndex(mouseListener)] instanceof ToBuy) {
+            if (((ToBuy) Board.getFieldsArray()[getFieldIndex(mouseListener)]).getBuildings() != null) {
+                ArrayList<JLabel> tempList = new ArrayList<>();
+                for (int i = 0; i < ((ToBuy) Board.getFieldsArray()[getFieldIndex(mouseListener)]).getBuildings().length; i++) {
+                    //InfoPanel.add(new JLabel(((ToBuy) Board.getFieldsArray()[getFieldIndex(mouseListener)]).getBuildings()[i].toString()));
+                }
+            }
+        }
+        JPanel Temp = null;
+        int y = 200;
+        InfoPanel.setBounds(fieldArray[getFieldIndex(mouseListener)].getX() + FIELD_WIDTH/2, fieldArray[getFieldIndex(mouseListener)].getY() - 2*FIELD_HEIGHT, 200, 10 + 280);
+        if (InfoPanel.getY() > 300) {
+            InfoPanel.setBounds(fieldArray[getFieldIndex(mouseListener)].getX() + FIELD_WIDTH/2, fieldArray[getFieldIndex(mouseListener)].getY() - 2*FIELD_HEIGHT, 200, 10 + 280);
+        } else {
+            InfoPanel.setBounds(fieldArray[getFieldIndex(mouseListener)].getX() + FIELD_WIDTH/2, fieldArray[getFieldIndex(mouseListener)].getY() + FIELD_HEIGHT/2, 200, 10 + 280);
+        }
+        InfoPanel.setMinimumSize(new Dimension(1, 1));
+        InfoPanel.setLayout(new BoxLayout(InfoPanel, BoxLayout.Y_AXIS));
+        InfoPanel.setBorder(BorderFactory.createLineBorder(Color.black, 5));
+        InfoPanel.setVisible(true);
     }
     public Board getBoard() {
         return board;
