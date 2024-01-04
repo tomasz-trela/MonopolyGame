@@ -61,6 +61,7 @@ public class GamePanel extends JPanel{
     JButton noButton = new JButton();
     JButton okButton = new JButton();
     JButton carButton = new JButton();
+    JButton exchangeButton = new JButton();
     JLabel balancePlayer0Label;
     JLabel balancePlayer1Label;
     JLabel balancePlayer2Label;
@@ -892,13 +893,15 @@ public class GamePanel extends JPanel{
 
         JLabel space = new JLabel("<html> <br> <br> <br> </html>");
         
-        JButton Bexchange = new JButton("Exchange");
-        Bexchange.setAlignmentX(Component.CENTER_ALIGNMENT);
+        exchangeButton = new JButton("Exchange");
+        exchangeButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         Dimension b = new Dimension(200,70);
-        Bexchange.setMaximumSize(b);
-        Bexchange.setBackground(Color.WHITE);
-        Bexchange.setFont(new Font("Serif", Font.BOLD, 28));
-        Bexchange.setMargin(new Insets(20, 20, 20,20));
+        exchangeButton.setMaximumSize(b);
+        exchangeButton.setBackground(Color.WHITE);
+        exchangeButton.setFont(new Font("Serif", Font.BOLD, 28));
+        exchangeButton.setMargin(new Insets(20, 20, 20,20));
+        exchangeButton.setVisible(false);
+        exchangeButton.addActionListener(new ExchangeButtonReaction());
 
         RightBottomPanel.add(EurotoDolar);
         RightBottomPanel.add(DolartoEuro);
@@ -906,10 +909,18 @@ public class GamePanel extends JPanel{
         RightBottomPanel.add(moneyInput);
         RightBottomPanel.add(moneyOutput);
         RightBottomPanel.add(space);
-        RightBottomPanel.add(Bexchange);
+        RightBottomPanel.add(exchangeButton);
 
         rightPanel.add(RightBottomPanel);
         
+    }
+    class ExchangeButtonReaction implements ActionListener{
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            board.getCurrentPlayer().exchangeMoney(board);
+            exchangeButton.setVisible(false);
+            rollButton.setVisible(true);
+        }
     }
 
     class StrategyPanelButtonYesReaction implements ActionListener {
@@ -919,7 +930,12 @@ public class GamePanel extends JPanel{
 
             strategyPanel.setVisible(false);
             carButton.setVisible(false);
-            rollButton.setVisible(true);
+            if (board.getCurrentPlayer().isCanExchange()){
+                rollButton.setVisible(false);
+                exchangeButton.setVisible(true);
+            }else {
+                rollButton.setVisible(true);
+            }
         }
     }
     class StrategyPanelButtonNoReaction implements ActionListener {

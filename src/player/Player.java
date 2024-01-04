@@ -14,6 +14,7 @@ public class Player {
     private int lap;
     private int[] balance = new int[2];
     private boolean haveCar;
+    private boolean canExchange;
     private ArrayList<Field> OwnedFields;
     private Field location;
     protected ActionStrategy actionStrategy;
@@ -24,6 +25,7 @@ public class Player {
         balance[0] = 500000; //euro
         balance[1] = 500000; //dolary
         this.haveCar = false;
+        this.canExchange = false;
         this.OwnedFields = new ArrayList<>();
         this.lap = 0;
         this.location = null;
@@ -34,6 +36,7 @@ public class Player {
         balance[0] = 500000; //euro
         balance[1] = 500000; //dolary
         this.haveCar = false;
+        this.canExchange = false;
         this.OwnedFields = new ArrayList<>();
         this.lap = 0;
         this.location = null;
@@ -105,6 +108,14 @@ public class Player {
         return name;
     }
 
+    public boolean isCanExchange() {
+        return canExchange;
+    }
+
+    public void setCanExchange(boolean canExchange) {
+        this.canExchange = canExchange;
+    }
+
     public void movePlayer(int roll) {
         int currentIndex = fieldIndex;
         int newIndex = (currentIndex + roll) % 36;
@@ -155,6 +166,15 @@ public class Player {
         board.ChangePlayerLocation(sum);
         board.getCurrentPlayer().changeStrategy();
         board.getCurrentPlayer().setHaveCar(false);
+    }
+    public  void exchangeMoney(Board board){
+        //tutaj trzeba zaimplemetowac mechanizm wymiany walut
+
+
+
+
+
+        board.getCurrentPlayer().setCanExchange(false);
     }
 
 
