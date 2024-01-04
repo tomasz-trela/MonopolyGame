@@ -37,4 +37,7 @@ public abstract class Building {
     public void setLevel(int level) {
         this.level = level;
     }
+    public String toString() {
+        return this.revenuePerVisit + "," + this.level + "," + this.priceOfUpgrade;
+    }
 }

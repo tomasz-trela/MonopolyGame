@@ -79,6 +79,8 @@ public class GamePanel extends JPanel{
         this.setBackground(Color.WHITE);
         this.setLayout(null);
 
+        BuildingPanel.setBounds(SCREEN_WIDTH/4, SCREEN_HEIGHT/4, SCREEN_WIDTH/2, SCREEN_HEIGHT/2);
+        BuildingPanel.setBorder(BorderFactory.createLineBorder(Color.black, 5));
         leftPanel.setBounds(0,0,1000, 1000);
         rightPanel.setBounds(1000,0,500, 1000);
 
@@ -570,6 +572,20 @@ public class GamePanel extends JPanel{
         return TempInt;
     }
     public void showBuildingPanel(MouseListener mouseListener) {
+        JPanel TopBuildingPanel = new JPanel();
+        JButton closeButton = new JButton("Close");
+        closeButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                BuildingPanel.setVisible(false);
+                //removeall mozna zastapic aby nie tworzyc za kazdym razem takiej samej gornej czesci
+                BuildingPanel.removeAll();
+            }
+        });
+        TopBuildingPanel.add(closeButton);
+        TopBuildingPanel.setBackground(new Color(100, 100, 250));
+        TopBuildingPanel.setVisible(true);
+        BuildingPanel.add(TopBuildingPanel, BorderLayout.NORTH);
         if (Board.getFieldsArray()[getFieldIndex(mouseListener)] instanceof ToBuy) {
             if (!(((ToBuy) Board.getFieldsArray()[getFieldIndex(mouseListener)]).getBuildings() == null)) {
                 BuildingPanel.add(new JLabel("Informacje o budynkach:"));
@@ -584,22 +600,9 @@ public class GamePanel extends JPanel{
 
 
             //To dać gdzieś na początek:
-            BuildingPanel.setBounds(SCREEN_WIDTH/4, SCREEN_HEIGHT/4, SCREEN_WIDTH/2, SCREEN_HEIGHT/2);
-            BuildingPanel.setBorder(BorderFactory.createLineBorder(Color.black, 5));
 
 
-            JButton buildButton = new JButton("Build");
-            JButton closeButton = new JButton("Close");
-            closeButton.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    BuildingPanel.setVisible(false);
-                    //removeall mozna zastapic aby nie tworzyc za kazdym razem takiej samej gornej czesci
-                    BuildingPanel.removeAll();
-                }
-            });
-            BuildingPanel.add(buildButton);
-            BuildingPanel.add(closeButton);
+
             BuildingPanel.setVisible(true);
         }
     }

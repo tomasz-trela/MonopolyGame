@@ -20,4 +20,7 @@ public class Farm extends Building{
     public void setRevenueAnually(int revenueAnually) {
         this.revenueAnually = revenueAnually;
     }
+    public String toString() {
+        return this.getRevenuePerVisit() + "," + this.getRevenueAnually() + "," + this.getLevel() + "," + this.getPriceOfUpgrade();
+    }
 }
