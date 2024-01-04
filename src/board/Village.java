@@ -1,5 +1,8 @@
 package board;
 
+import Buildings.Building;
+import Buildings.Farm;
+import Buildings.House;
 import player.Player;
 
 import java.util.Arrays;
@@ -30,4 +33,8 @@ public class Village extends ToBuy {
         }
 
     }
+    public void addBuilding() {
+        this.addBuilding(new Farm());
+    }
+
 }

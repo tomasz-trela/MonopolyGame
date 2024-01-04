@@ -1,5 +1,6 @@
 package board;
 import Buildings.Building;
+import Buildings.House;
 import player.Player;
 
 import java.util.ArrayList;
@@ -43,6 +44,9 @@ public abstract class ToBuy extends Field {
     }
     public void addBuilding(Building building) {
         this.Buildings.add(building);
+    }
+    public void addBuilding() {
+        this.Buildings.add(new House());
     }
 
     public ArrayList<Building> getBuildings() {

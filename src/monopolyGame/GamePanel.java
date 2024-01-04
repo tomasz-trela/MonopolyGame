@@ -53,6 +53,7 @@ public class GamePanel extends JPanel{
     JLabel fieldInformation = new JLabel();
     JPanel InfoPanel = new JPanel();
     JPanel BuildingPanel = new JPanel();
+    JPanel TopBuildingPanel = new JPanel();
     JPanel leftPanel=new JPanel();
     JPanel rightPanel= new JPanel();
     JPanel strategyPanel = new JPanel();
@@ -82,6 +83,20 @@ public class GamePanel extends JPanel{
 
         BuildingPanel.setBounds(SCREEN_WIDTH/4, SCREEN_HEIGHT/4, SCREEN_WIDTH/2, SCREEN_HEIGHT/2);
         BuildingPanel.setBorder(BorderFactory.createLineBorder(Color.black, 5));
+        JButton closeButton = new JButton("Close");
+        closeButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                BuildingPanel.setVisible(false);
+                BuildingPanel.removeAll();
+            }
+        });
+
+        TopBuildingPanel.setLayout(new BorderLayout());
+        TopBuildingPanel.add(closeButton, BorderLayout.EAST);
+        TopBuildingPanel.setVisible(true);
+        TopBuildingPanel.setBackground(new Color(100, 100, 250));
+
         leftPanel.setBounds(0,0,1000, 1000);
         rightPanel.setBounds(1000,0,500, 1000);
 
@@ -573,37 +588,40 @@ public class GamePanel extends JPanel{
         return TempInt;
     }
     public void showBuildingPanel(MouseListener mouseListener) {
-        JPanel TopBuildingPanel = new JPanel();
-        JButton closeButton = new JButton("Close");
-        closeButton.addActionListener(new ActionListener() {
+        BuildingPanel.setLayout(new FlowLayout(FlowLayout.RIGHT));
+        BuildingPanel.add(TopBuildingPanel, BorderLayout.NORTH);
+        BuildingPanel.setLayout(new FlowLayout());
+        JButton buildButton = new JButton("Build");
+        buildButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                BuildingPanel.setVisible(false);
-                //removeall mozna zastapic aby nie tworzyc za kazdym razem takiej samej gornej czesci
-                BuildingPanel.removeAll();
+                ((ToBuy) Board.getFieldsArray()[getFieldIndex(mouseListener)]).addBuilding();
+                showBuildingPanel(mouseListener);
             }
         });
-        TopBuildingPanel.add(closeButton);
-        TopBuildingPanel.setBackground(new Color(100, 100, 250));
-        TopBuildingPanel.setVisible(true);
-        BuildingPanel.add(TopBuildingPanel, BorderLayout.NORTH);
+        BuildingPanel.add(buildButton);
         if (Board.getFieldsArray()[getFieldIndex(mouseListener)] instanceof ToBuy) {
             if (!(((ToBuy) Board.getFieldsArray()[getFieldIndex(mouseListener)]).getBuildings() == null)) {
-                BuildingPanel.add(new JLabel("Informacje o budynkach:"));
+                ArrayList<JButton> listOfUpgradeButtons = new ArrayList<>();
                 for (int i = 0; i < ((ToBuy) Board.getFieldsArray()[getFieldIndex(mouseListener)]).getBuildings().size(); i++) {
                     BuildingPanel.add(new JLabel(((ToBuy) Board.getFieldsArray()[getFieldIndex(mouseListener)]).getBuildings().get(i).toString()));
+                    JButton upgradeButton = new JButton("Upgrade");
+                    listOfUpgradeButtons.add(upgradeButton);
+                    upgradeButton.addActionListener(new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            for (int i = 0; i < listOfUpgradeButtons.size(); i++) {
+                                if (listOfUpgradeButtons.get(i).getActionListeners()[0] == this) {
+                                    ((ToBuy) Board.getFieldsArray()[getFieldIndex(mouseListener)]).getBuildings().get(i).upgrade();
+                                }
+                            }
+                        }
+                    });
                     if (((ToBuy) Board.getFieldsArray()[getFieldIndex(mouseListener)]).getBuildings().get(i).getLevel() < 5) {
-                        BuildingPanel.add(new JButton("Upgrade"));
+                        BuildingPanel.add(upgradeButton);
                     }
                 }
-
             }
-
-
-            //To dać gdzieś na początek:
-
-
-
             BuildingPanel.setVisible(true);
         }
     }

@@ -1,5 +1,7 @@
 package board;
 
+import Buildings.Building;
+import Buildings.House;
 import player.Player;
 
 public class City extends ToBuy {
@@ -29,4 +31,8 @@ public class City extends ToBuy {
             return "Type: City,Name: " + this.getName() + ",Owner: " + "null" + ",Price in euro: " + this.getPrice()[0] + ",Price in dollars: " + this.getPrice()[1] + ",Size: " + this.getSize() + ",Tourist attraction: " + this.getTouristAttraction();
         }
     }
+    public void addBuilding() {
+        this.addBuilding(new House());
+    }
+
 }
