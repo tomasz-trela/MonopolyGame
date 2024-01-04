@@ -238,6 +238,7 @@ public class GamePanel extends JPanel{
         diceLabel1.setBounds(450, 540, 50, 50);
         diceLabel2.setBounds(500, 540, 50, 50);
         strategyPanel.setBounds(385, 430, 230,80);
+        carButton.setBounds(460,600,80,30);
         for(int i=fieldnumber/4; i<fieldnumber; i+=fieldnumber/4)
         {
             fieldArray[i].setLayout(new FlowLayout(0,0,0));

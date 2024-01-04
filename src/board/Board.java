@@ -45,9 +45,9 @@ public class Board {
 
     public static void generateBoard(int boardNumber){
         fields[0] = new Start();
-        fields[9] = new Exchange("Kantor1", GameDolarRate, GameDolarRate); //kantory musza byc osobnymi obiektami aby dzialala strategia
-        fields[18] = new Exchange("Kantor2", GameDolarRate, GameDolarRate);
-        fields[27] = new Exchange("Kantor3", GameDolarRate, GameDolarRate);
+        fields[9] = new Exchange("Kantor1", GameDolarRate, GameEuroRate); //kantory musza byc osobnymi obiektami aby dzialala strategia
+        fields[18] = new Exchange("Kantor2", GameDolarRate, GameEuroRate);
+        fields[27] = new Exchange("Kantor3", GameDolarRate, GameEuroRate);
         if(boardNumber==1) {
             fields[1] = new Village("Leirose", 20000, 0, null, 0.5f);
             fields[2] = new Chance("Szansa1", listOfChances);
