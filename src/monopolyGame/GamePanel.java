@@ -822,6 +822,31 @@ public class GamePanel extends JPanel{
     }
 
     public void updateBalanceLabels(){
+
+        for(int i=0;i<board.GetPlayersArray().length;i++) {
+            String PlayerNumber = "Player " + (i + 1);
+            String EuroBalance = "Euro: " + board.GetPlayersArray()[i].getBalance()[0];
+            String DolarBalance = "Dolar: " + board.GetPlayersArray()[i].getBalance()[1];
+
+            String PlayerInfo = "<html>" + PlayerNumber + "<br>" + EuroBalance + "<br>" + DolarBalance;
+
+
+            switch (i) {
+                case 0:
+                    balancePlayer0Label.setText(PlayerInfo);
+                    break;
+                case 1:
+                    balancePlayer1Label.setText(PlayerInfo);
+                    break;
+                case 2:
+                    balancePlayer2Label.setText(PlayerInfo);
+                    break;
+                case 3:
+                    balancePlayer3Label.setText(PlayerInfo);
+                    break;
+            }
+        }
+        
         revalidate();
     }
     public void CreateExchangeLabels(){
@@ -963,9 +988,10 @@ public class GamePanel extends JPanel{
                 rollButton.setVisible(false);
             }
             board.incrementMoveCounter();
-            updateBalanceLabels();
             subject.notifyObserversEuro();
             subject.notifyObserversDollar();
+            
+            updateBalanceLabels();
         }
     }
     public void createCarButton(){
