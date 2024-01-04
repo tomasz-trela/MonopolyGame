@@ -936,6 +936,7 @@ public class GamePanel extends JPanel{
             }else {
                 rollButton.setVisible(true);
             }
+            updateBalanceLabels();
         }
     }
     class StrategyPanelButtonNoReaction implements ActionListener {
@@ -944,6 +945,7 @@ public class GamePanel extends JPanel{
             strategyPanel.setVisible(false);
             carButton.setVisible(false);
             rollButton.setVisible(true);
+            updateBalanceLabels();
         }
     }
     class StrategyPanelButtonOkReaction implements ActionListener {
@@ -952,6 +954,7 @@ public class GamePanel extends JPanel{
             strategyPanel.setVisible(false);
             carButton.setVisible(false);
             rollButton.setVisible(true);
+            updateBalanceLabels();
         }
     }
 
