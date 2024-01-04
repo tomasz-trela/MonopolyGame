@@ -9,24 +9,12 @@ public class BuyBuildingStrategy implements ActionStrategy {
     private static int temp2 = 0;
     @Override
     public void action(Board board) {
-        int currentIndex = (board.getCurrentPlayer()).getFieldIndex();
-        ToBuy field = (ToBuy) Board.getFieldsArray()[currentIndex];
-        Building[] buildings = field.getBuildings();
+        ToBuy field = (ToBuy) Board.getFieldsArray()[board.getCurrentPlayer().getFieldIndex()];
         if (field instanceof City){
-            if (temp1 < 3){
-                if (buildings[temp1] == null){
-                    buildings[temp1] = new House();
-                    temp1++;
-                }
-            }
+            field.addBuilding(new House());
         }
         if (field instanceof Village){
-            if (temp2 < 3) {
-                if (buildings[temp2] == null){
-                    buildings[temp2] = new Farm();
-                    temp2++;
-                }
-            }
+            field.addBuilding(new Farm());
         }
 
     }
