@@ -52,6 +52,7 @@ public class GamePanel extends JPanel{
     JLabel diceLabel2;
     JLabel fieldInformation = new JLabel();
     JPanel InfoPanel = new JPanel();
+    JPanel BuildingPanel = new JPanel();
     JPanel leftPanel=new JPanel();
     JPanel rightPanel= new JPanel();
     JPanel strategyPanel = new JPanel();
@@ -104,7 +105,7 @@ public class GamePanel extends JPanel{
             rightTopPanel.add(EuroBalance);
             rightTopPanel.add(DolarBalance);
         }*/
-
+        this.add(BuildingPanel);
         this.add(leftPanel);
         this.add(rightPanel);
         this.setFocusable(true);
@@ -115,6 +116,7 @@ public class GamePanel extends JPanel{
         leftPanel.add(rollButton);
         leftPanel.add(fieldInformation);
         rollButton.setVisible(true);
+        BuildingPanel.setVisible(false);
 
       // createBoard(36);
 
@@ -553,7 +555,9 @@ public class GamePanel extends JPanel{
 
         @Override
         public void mouseEntered(MouseEvent e) {
-            showFieldInformation(this);
+            if (!(BuildingPanel.isVisible())) {
+                showFieldInformation(this);
+            }
         }
 
         @Override
@@ -577,25 +581,37 @@ public class GamePanel extends JPanel{
     }
     public void showBuildingPanel(MouseListener mouseListener) {
         if (Board.getFieldsArray()[getFieldIndex(mouseListener)] instanceof ToBuy) {
-            if (((ToBuy) Board.getFieldsArray()[getFieldIndex(mouseListener)]).getBuildings() != null) {
-                ArrayList<JLabel> tempList = new ArrayList<>();
-                for (int i = 0; i < ((ToBuy) Board.getFieldsArray()[getFieldIndex(mouseListener)]).getBuildings().length; i++) {
-                    //InfoPanel.add(new JLabel(((ToBuy) Board.getFieldsArray()[getFieldIndex(mouseListener)]).getBuildings()[i].toString()));
+            if (!(((ToBuy) Board.getFieldsArray()[getFieldIndex(mouseListener)]).getBuildings() == null)) {
+                BuildingPanel.add(new JLabel("Informacje o budynkach:"));
+                for (int i = 0; i < ((ToBuy) Board.getFieldsArray()[getFieldIndex(mouseListener)]).getBuildings().size(); i++) {
+                    BuildingPanel.add(new JLabel(((ToBuy) Board.getFieldsArray()[getFieldIndex(mouseListener)]).getBuildings().get(i).toString()));
+                    if (((ToBuy) Board.getFieldsArray()[getFieldIndex(mouseListener)]).getBuildings().get(i).getLevel() < 5) {
+                        BuildingPanel.add(new JButton("Upgrade"));
+                    }
                 }
+
             }
+
+
+            //To dać gdzieś na początek:
+            BuildingPanel.setBounds(SCREEN_WIDTH/4, SCREEN_HEIGHT/4, SCREEN_WIDTH/2, SCREEN_HEIGHT/2);
+            BuildingPanel.setBorder(BorderFactory.createLineBorder(Color.black, 5));
+
+
+            JButton buildButton = new JButton("Build");
+            JButton closeButton = new JButton("Close");
+            closeButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    BuildingPanel.setVisible(false);
+                    //removeall mozna zastapic aby nie tworzyc za kazdym razem takiej samej gornej czesci
+                    BuildingPanel.removeAll();
+                }
+            });
+            BuildingPanel.add(buildButton);
+            BuildingPanel.add(closeButton);
+            BuildingPanel.setVisible(true);
         }
-        JPanel Temp = null;
-        int y = 200;
-        InfoPanel.setBounds(fieldArray[getFieldIndex(mouseListener)].getX() + FIELD_WIDTH/2, fieldArray[getFieldIndex(mouseListener)].getY() - 2*FIELD_HEIGHT, 200, 10 + 280);
-        if (InfoPanel.getY() > 300) {
-            InfoPanel.setBounds(fieldArray[getFieldIndex(mouseListener)].getX() + FIELD_WIDTH/2, fieldArray[getFieldIndex(mouseListener)].getY() - 2*FIELD_HEIGHT, 200, 10 + 280);
-        } else {
-            InfoPanel.setBounds(fieldArray[getFieldIndex(mouseListener)].getX() + FIELD_WIDTH/2, fieldArray[getFieldIndex(mouseListener)].getY() + FIELD_HEIGHT/2, 200, 10 + 280);
-        }
-        InfoPanel.setMinimumSize(new Dimension(1, 1));
-        InfoPanel.setLayout(new BoxLayout(InfoPanel, BoxLayout.Y_AXIS));
-        InfoPanel.setBorder(BorderFactory.createLineBorder(Color.black, 5));
-        InfoPanel.setVisible(true);
     }
     public Board getBoard() {
         return board;
@@ -633,15 +649,7 @@ public class GamePanel extends JPanel{
     }
     public void showFieldInformation(MouseListener mouseListener) {
         JPanel Temp = null;
-        int TempInt = 0;
-        while (TempInt <= fieldArray.length & Temp == null) {
-            assert fieldArray[TempInt] != null;
-            if (fieldArray[TempInt].getMouseListeners()[0] == mouseListener) {
-                Temp = fieldArray[TempInt];
-            } else {
-                TempInt++;
-            }
-        }
+        int TempInt = getFieldIndex(mouseListener);
         ArrayList<JLabel> tempList = new ArrayList<>();
         String [] tempString = Board.getFieldsArray()[TempInt].toString().split(",");
         for (int i = 0; i < tempString.length; i++) {
