@@ -2,22 +2,26 @@ package board;
 
 import ChancesAndModifications.Chances;
 import monopolyGame.GameFrame;
+import observer.Subject;
 import player.Player;
 
 public class Board {
+    Subject subjects = new Subject();
     private static Field[] fields ;
     private static Player[] players;
     private int moveCounter; //licznik ruchów
     private int round; //oblicza index gracza którego aktualnie jest kolej ruchu
     private Player currentPlayer;
     private static final Chances[] listOfChances = {new Chances("Chance1", 1000, 0, 0, 0)};
-    private static double GameDolarRate;
-    private static double GameEuroRate;
+    private double dollarRate;
+    private double euroRate;
 
     public Board(){
         moveCounter = 0;
         round = 0;
         fields = new Field[36];
+        euroRate = 1.0;
+        dollarRate = 1.0;
         /*fields[0] = new Start();
         fields[1] = new Village("Wioska 1", 20000, 0, null,0.5f);
         fields[2] = new Village("Wioska 2", 30000, 0, null, 0.5f);
@@ -37,17 +41,13 @@ public class Board {
     public static Player[] GetPlayersArray(){
         return players;
     }
-    static Exchange kantor  = new Exchange("Kantor", GameDolarRate, GameEuroRate);
 
-    public static Exchange getExchange() {
-        return kantor;
-    }
 
     public static void generateBoard(int boardNumber){
         fields[0] = new Start();
-        fields[9] = new Exchange("Kantor1", GameDolarRate, GameEuroRate); //kantory musza byc osobnymi obiektami aby dzialala strategia
-        fields[18] = new Exchange("Kantor2", GameDolarRate, GameEuroRate);
-        fields[27] = new Exchange("Kantor3", GameDolarRate, GameEuroRate);
+        fields[9] = new Exchange("Kantor1"); //kantory musza byc osobnymi obiektami aby dzialala strategia
+        fields[18] = new Exchange("Kantor2");
+        fields[27] = new Exchange("Kantor3");
         if(boardNumber==1) {
             fields[1] = new Village("Leirose", 20000, 0, null, 0.5f);
             fields[2] = new Chance("Szansa1", listOfChances);
@@ -157,5 +157,48 @@ public class Board {
     }
     public Player[] getPlayers() {
         return players;
+    }
+
+    public double getDollarRate() {
+        return dollarRate;
+    }
+
+    public double getEuroRate() {
+        return euroRate;
+    }
+
+    public void setDollarRate(double dollarRate) {
+        this.dollarRate = dollarRate;
+    }
+
+    public void setEuroRate(double euroRate) {
+        this.euroRate = euroRate;
+    }
+
+    public int[] ExchangeEURtoUSD(int amount, int howMuch, Board board) {
+        // amount-bilans gracza w euro, howMuch-liczba dolarów jakie gracz chce wymienić
+        int[] tab = new int[2];
+        int pom = (int) Math.round(howMuch * dollarRate);
+        // tab[0]=ile trzeba dodać do balance[0] gracza (EURO)
+        // tab[1]=ile trzeba dodać do balance[1] gracza (DOLARY)
+        if (pom <= amount) {
+            tab[0] = -pom;
+            tab[1] = howMuch;
+            subjects.notifyObserversDollar(board); // Aktualizujemy kurs waluty Dollara
+        }
+        return tab;
+    }
+    public int[] ExchangeUSDtoEUR(int amount, int howMuch, Board board){
+        // amount-bilans gracza w dolarach, howMuch-liczba euro jakie gracz chce wymienić
+        int[] tab=new int[2];
+        // tab[0]=ile trzeba dodać do balance[0] gracza
+        // tab[1]=ile trzeba dodać do balance[1] gracza
+        int pom=(int) Math.round(howMuch*euroRate);
+        if(pom<=amount){
+            tab[0]=howMuch;
+            tab[1]=-pom;
+            subjects.notifyObserversEuro(board); // Aktualizujemy kurs waluty Euro
+        }
+        return tab;
     }
 }

@@ -2,7 +2,7 @@ package board;
 
 public class Start extends Field {
     public int startMoney;
-    public Start(String name, int index, int startMoney) {
+    public Start(String name, int startMoney) {
         super(name);
         this.startMoney = startMoney;
     }

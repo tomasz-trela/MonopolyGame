@@ -1,5 +1,7 @@
 package observer;
 
+import board.Board;
+
 import java.util.ArrayList;
 
 public class Subject {
@@ -17,15 +19,15 @@ public class Subject {
         observers.remove(observer);
     }
 
-    public void notifyObserversEuro() {
+    public void notifyObserversEuro(Board board) {
         for (Observer observer : observers) {
-            observer.updateEuro();
+            observer.updateEuro(board);
         }
     }
 
-    public void notifyObserversDollar() {
+    public void notifyObserversDollar(Board board) {
         for (Observer observer : observers) {
-            observer.updateDollar();
+            observer.updateDollar(board);
         }
     }
 }

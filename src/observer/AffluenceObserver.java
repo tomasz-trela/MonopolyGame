@@ -66,20 +66,20 @@ public class AffluenceObserver implements Observer{
 
     // Zwiększamy kursy walut tylko, jeśli dokonano nimi płatności
     @Override
-    public void updateDollar() {
+    public void updateDollar(Board board) {
         if (moneyWasSpent() == 1) {
-            Board.getExchange().setDolarRate(Board.getExchange().getDolarRate() + Observer.rateModifier);
+            board.setDollarRate(board.getDollarRate() + Observer.rateModifier);
             updateCurrentMoneyAmount();
-            System.out.println(Board.getExchange().getDolarRate());
+            System.out.println(board.getDollarRate());
         }
     }
 
     @Override
-    public void updateEuro() {
+    public void updateEuro(Board board) {
         if (moneyWasSpent() == 0) {
-            Board.getExchange().setEuroRate(Board.getExchange().getEuroRate() + Observer.rateModifier);
+            board.setEuroRate(board.getEuroRate() + Observer.rateModifier);
             updateCurrentMoneyAmount();
-            System.out.println(Board.getExchange().getEuroRate());
+            System.out.println(board.getEuroRate());
         }
     }
 }

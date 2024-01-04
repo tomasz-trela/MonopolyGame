@@ -5,17 +5,15 @@ import board.Exchange;
 
 public class ExchangeObserver implements Observer{
 
-    // Nowe zmienne dla Przejrzystości
-    private Exchange kantor = Board.getExchange(); 
 
     // Metody zwiększające kurs waluty
     @Override
-    public void updateDollar() {
-        kantor.setDolarRate(Board.getExchange().getDolarRate() + Observer.rateModifier);
+    public void updateDollar(Board board) {
+        board.setDollarRate(board.getDollarRate() + Observer.rateModifier);
     }
 
     @Override
-    public void updateEuro() {
-        kantor.setEuroRate(Board.getExchange().getEuroRate() + Observer.rateModifier);
+    public void updateEuro(Board board) {
+        board.setEuroRate(board.getEuroRate() + Observer.rateModifier);
     }
 }

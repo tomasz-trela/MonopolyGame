@@ -853,13 +853,11 @@ public class GamePanel extends JPanel{
         RightBottomPanel.setBorder(BorderFactory.createLineBorder(Color.decode("#000000"), 10, true));
         RightBottomPanel.setLayout(new BoxLayout(RightBottomPanel, BoxLayout.PAGE_AXIS));
         Font f = new Font(Font.SANS_SERIF, Font.BOLD, 23);
-        Exchange e = Board.getExchange();
-        
-        
+
         //obecny kurs walut
-        double tmp = Math.round(e.getDolarRate()/e.getEuroRate() * 100) / 100;
+        double tmp = Math.round(board.getDollarRate()/board.getEuroRate() * 100) / 100;
         String EuroTODolar = "1 Euro is worth " + Double.toString((tmp)) + " Dolars";
-        tmp = Math.round(e.getEuroRate()/e.getDolarRate() * 100) / 100;
+        tmp = Math.round(board.getEuroRate()/board.getDollarRate() * 100) / 100;
         String DolarTOEuro = "1 Dolar is worth " + Double.toString((tmp)) + " Euros";
 
         JLabel EurotoDolar = new JLabel(EuroTODolar);
@@ -987,8 +985,8 @@ public class GamePanel extends JPanel{
                 rollButton.setVisible(false);
             }
             board.incrementMoveCounter();
-            subject.notifyObserversEuro();
-            subject.notifyObserversDollar();
+            subject.notifyObserversEuro(board);
+            subject.notifyObserversDollar(board);
             
             updateBalanceLabels();
         }
