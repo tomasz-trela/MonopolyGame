@@ -66,6 +66,12 @@ public class GamePanel extends JPanel{
     JLabel balancePlayer1Label;
     JLabel balancePlayer2Label;
     JLabel balancePlayer3Label;
+    JLabel EurotoDolar;
+    JLabel DolartoEuro;
+    JComboBox<String> optionsOfExchange;
+    JTextField moneyInput;
+    JButton seeWhatYouGet;
+    JLabel moneyOutput;
 
     protected Subject subject;
     Pawn pawn0=new Pawn(0);
@@ -857,15 +863,33 @@ public class GamePanel extends JPanel{
         RightBottomPanel.setBorder(BorderFactory.createLineBorder(Color.decode("#000000"), 10, true));
         RightBottomPanel.setLayout(new BoxLayout(RightBottomPanel, BoxLayout.PAGE_AXIS));
         Font f = new Font(Font.SANS_SERIF, Font.BOLD, 23);
+<<<<<<< Updated upstream
 
         //obecny kurs walut
         double tmp = Math.round(board.getDollarRate()/board.getEuroRate() * 100) / 100;
         String EuroTODolar = "1 Euro is worth " + Double.toString((tmp)) + " Dolars";
         tmp = Math.round(board.getEuroRate()/board.getDollarRate() * 100) / 100;
+=======
+<<<<<<< HEAD
+        Exchange e = board.getExchange();
+        
+
+        //obecny kurs walut
+        double tmp = Math.round(e.getDolarRate()/e.getEuroRate() * 100.0) / 100.0;
+        String EuroTODolar = "1 Euro is worth " + Double.toString((tmp)) + " Dolars";
+        tmp = Math.round(e.getEuroRate()/e.getDolarRate() * 100.0) / 100.0;
+=======
+
+        //obecny kurs walut
+        double tmp = Math.round(board.getDollarRate()/board.getEuroRate() * 100) / 100;
+        String EuroTODolar = "1 Euro is worth " + Double.toString((tmp)) + " Dolars";
+        tmp = Math.round(board.getEuroRate()/board.getDollarRate() * 100) / 100;
+>>>>>>> c6ea1a5c66fd259e7b3ca491ba795b5ebcf2380e
+>>>>>>> Stashed changes
         String DolarTOEuro = "1 Dolar is worth " + Double.toString((tmp)) + " Euros";
 
-        JLabel EurotoDolar = new JLabel(EuroTODolar);
-        JLabel DolartoEuro = new JLabel(DolarTOEuro);
+        EurotoDolar = new JLabel(EuroTODolar);
+        DolartoEuro = new JLabel(DolarTOEuro);
         EurotoDolar.setAlignmentX(Component.CENTER_ALIGNMENT);
         DolartoEuro.setAlignmentX(Component.CENTER_ALIGNMENT);
         EurotoDolar.setFont(f);
@@ -874,21 +898,24 @@ public class GamePanel extends JPanel{
         
         //opcje wyboru wymiany
         String[] choices = {"Euro to Dolar", "Dolar to Euro"};
-        JComboBox<String> options = new JComboBox<String>(choices);
-        options.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
-        options.setMaximumSize(options.getPreferredSize());
-        options.setAlignmentX(Component.CENTER_ALIGNMENT);       
+        optionsOfExchange = new JComboBox<String>(choices);
+        optionsOfExchange.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+        optionsOfExchange.setMaximumSize(optionsOfExchange.getPreferredSize());
+        optionsOfExchange.setAlignmentX(Component.CENTER_ALIGNMENT);       
         
-        JTextField moneyInput = new JTextField("Enter the amount");
+        moneyInput = new JTextField("Enter the amount");
         Dimension a = new Dimension(200, 30);
         moneyInput.setMaximumSize(a);
         moneyInput.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        String money = "You will recieve " ;
-        //jakoś trzeba dodać że w zależności od wcześniej wybranych opcji 
-        //wyświetla przeliczoną kwotę i walutę
+        seeWhatYouGet = new JButton("get");
+        seeWhatYouGet.setMaximumSize(seeWhatYouGet.getPreferredSize());
+        seeWhatYouGet.setAlignmentX(Component.CENTER_ALIGNMENT);
+        seeWhatYouGet.addActionListener(new ExchangeSeeWhatYouGetButtonReaction());
 
-        JLabel moneyOutput = new JLabel(money);
+        String money = "" ;
+
+        moneyOutput = new JLabel(money);
         moneyOutput.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         JLabel space = new JLabel("<html> <br> <br> <br> </html>");
@@ -905,8 +932,9 @@ public class GamePanel extends JPanel{
 
         RightBottomPanel.add(EurotoDolar);
         RightBottomPanel.add(DolartoEuro);
-        RightBottomPanel.add(options);
+        RightBottomPanel.add(optionsOfExchange);
         RightBottomPanel.add(moneyInput);
+        RightBottomPanel.add(seeWhatYouGet);
         RightBottomPanel.add(moneyOutput);
         RightBottomPanel.add(space);
         RightBottomPanel.add(exchangeButton);
@@ -922,6 +950,34 @@ public class GamePanel extends JPanel{
             rollButton.setVisible(true);
         }
     }
+<<<<<<< Updated upstream
+=======
+
+    class ExchangeSeeWhatYouGetButtonReaction implements ActionListener{
+        
+        @Override
+        public void actionPerformed(ActionEvent event){
+            double money = Integer.valueOf(moneyInput.getText());
+            String selectedOption = (String) optionsOfExchange.getSelectedItem();;
+            Exchange e = board.getExchange();
+            double multiplier = 1;
+            String currency="";
+
+            if(selectedOption == "Euro to Dolar"){
+                multiplier = Math.round(e.getDolarRate()/e.getEuroRate() * 100.0) / 100.;
+                currency = "$";
+
+            }else if(selectedOption == "Dolar to Euro"){
+                multiplier = Math.round(e.getEuroRate()/e.getDolarRate() * 100.0) / 100.0;
+                currency = "€";
+            }
+
+            money = money*multiplier;
+
+            moneyOutput.setText("You will recieve: " + Double.toString(money) + " " + currency);
+        }
+    }
+>>>>>>> Stashed changes
 
     class StrategyPanelButtonYesReaction implements ActionListener {
         @Override
@@ -930,12 +986,24 @@ public class GamePanel extends JPanel{
 
             strategyPanel.setVisible(false);
             carButton.setVisible(false);
+<<<<<<< Updated upstream
+=======
+<<<<<<< HEAD
+            rollButton.setVisible(true);
+
+            updateBalanceLabels();
+=======
+>>>>>>> Stashed changes
             if (board.getCurrentPlayer().isCanExchange()){
                 rollButton.setVisible(false);
                 exchangeButton.setVisible(true);
             }else {
                 rollButton.setVisible(true);
             }
+<<<<<<< Updated upstream
+=======
+>>>>>>> c6ea1a5c66fd259e7b3ca491ba795b5ebcf2380e
+>>>>>>> Stashed changes
         }
     }
     class StrategyPanelButtonNoReaction implements ActionListener {
@@ -944,6 +1012,8 @@ public class GamePanel extends JPanel{
             strategyPanel.setVisible(false);
             carButton.setVisible(false);
             rollButton.setVisible(true);
+
+            updateBalanceLabels();
         }
     }
     class StrategyPanelButtonOkReaction implements ActionListener {
@@ -952,6 +1022,8 @@ public class GamePanel extends JPanel{
             strategyPanel.setVisible(false);
             carButton.setVisible(false);
             rollButton.setVisible(true);
+
+            updateBalanceLabels();
         }
     }
 

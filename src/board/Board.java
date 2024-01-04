@@ -13,8 +13,18 @@ public class Board {
     private int round; //oblicza index gracza którego aktualnie jest kolej ruchu
     private Player currentPlayer;
     private static final Chances[] listOfChances = {new Chances("Chance1", 1000, 0, 0, 0)};
+<<<<<<< Updated upstream
     private double dollarRate;
     private double euroRate;
+=======
+<<<<<<< HEAD
+    private static double GameDolarRate=1.0;
+    private static double GameEuroRate=1.0;
+=======
+    private double dollarRate;
+    private double euroRate;
+>>>>>>> c6ea1a5c66fd259e7b3ca491ba795b5ebcf2380e
+>>>>>>> Stashed changes
 
     public Board(){
         moveCounter = 0;
