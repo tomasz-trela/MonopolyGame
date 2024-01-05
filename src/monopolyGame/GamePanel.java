@@ -55,11 +55,6 @@ public class GamePanel extends JPanel{
     JPanel InfoPanel = new JPanel();
     JPanel BuildingPanel = new JPanel();
     JPanel TopBuildingPanel = new JPanel();
-    JPanel BuildingRevenuePerVisitPanel = new JPanel();
-    JPanel BuildingLevelPanel = new JPanel();
-    JPanel BuildingCostPanel = new JPanel();
-    JPanel BuildingUpgradePanel = new JPanel();
-    JPanel BuildingRevenueAnnually = new JPanel();
     JPanel leftPanel=new JPanel();
     JPanel rightPanel= new JPanel();
     JPanel strategyPanel = new JPanel();
@@ -93,21 +88,11 @@ public class GamePanel extends JPanel{
         this.setBackground(Color.WHITE);
         this.setLayout(null);
 
-        TopBuildingPanel.setBounds(SCREEN_WIDTH/4, SCREEN_HEIGHT/4, SCREEN_WIDTH/2, SCREEN_HEIGHT/25);
-        BuildingPanel.setBounds(TopBuildingPanel.getX(), TopBuildingPanel.getY() + TopBuildingPanel.getHeight(), TopBuildingPanel.getWidth(), SCREEN_HEIGHT/2 - TopBuildingPanel.getHeight());
+        TopBuildingPanel.setBounds(SCREEN_WIDTH/4, SCREEN_HEIGHT/4, SCREEN_WIDTH/3, SCREEN_HEIGHT/25);
+        BuildingPanel.setBounds(TopBuildingPanel.getX(), TopBuildingPanel.getY() + TopBuildingPanel.getHeight(), TopBuildingPanel.getWidth(), SCREEN_HEIGHT/4 - TopBuildingPanel.getHeight());
         BuildingPanel.setBorder(BorderFactory.createLineBorder(Color.black, 5));
         BuildingPanel.setLayout(new FlowLayout());
 
-        BuildingRevenuePerVisitPanel.setLayout(new FlowLayout());
-        BuildingLevelPanel.setLayout(new FlowLayout());
-        BuildingCostPanel.setLayout(new FlowLayout());
-        BuildingUpgradePanel.setLayout(new FlowLayout());
-        BuildingRevenueAnnually.setLayout(new FlowLayout());
-//        BuildingRevenuePerVisitPanel.setLayout(new BoxLayout(new JPanel(), BoxLayout.Y_AXIS));
-//        BuildingRevenueAnnually.setLayout(new BoxLayout(new JPanel(), BoxLayout.Y_AXIS));
-//        BuildingCostPanel.setLayout(new BoxLayout(new JPanel(), BoxLayout.Y_AXIS));
-//        BuildingUpgradePanel.setLayout(new BoxLayout(new JPanel(), BoxLayout.Y_AXIS));
-//        BuildingLevelPanel.setLayout(new BoxLayout(new JPanel(), BoxLayout.Y_AXIS));
 
 
         JButton closeButton = new JButton("Close");
@@ -116,18 +101,8 @@ public class GamePanel extends JPanel{
             public void actionPerformed(ActionEvent e) {
                 BuildingPanel.setVisible(false);
                 TopBuildingPanel.setVisible(false);
-                BuildingCostPanel.setVisible(false);
-                BuildingLevelPanel.setVisible(false);
-                BuildingRevenuePerVisitPanel.setVisible(false);
-                BuildingUpgradePanel.setVisible(false);
-                BuildingRevenueAnnually.setVisible(false);
                 TopBuildingPanel.removeAll();
                 BuildingPanel.removeAll();
-                BuildingCostPanel.removeAll();
-                BuildingLevelPanel.removeAll();
-                BuildingRevenuePerVisitPanel.removeAll();
-                BuildingUpgradePanel.removeAll();
-                BuildingRevenueAnnually.removeAll();
                 TopBuildingPanel.add(closeButton);
             }
         });
@@ -153,14 +128,10 @@ public class GamePanel extends JPanel{
 
        
 
-        this.add(BuildingPanel);
+
 
         this.add(TopBuildingPanel);
-        this.add(BuildingRevenuePerVisitPanel);
-        this.add(BuildingCostPanel);
-        this.add(BuildingLevelPanel);
-        this.add(BuildingUpgradePanel);
-        this.add(BuildingRevenueAnnually);
+        this.add(BuildingPanel);
 
         this.add(leftPanel);
         this.add(rightPanel);
@@ -639,90 +610,104 @@ public class GamePanel extends JPanel{
     }
     public void showBuildingPanel(MouseListener mouseListener) {
 
-        JButton buildButton = new JButton("Build");
-        buildButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                ((ToBuy) Board.getFieldsArray()[getFieldIndex(mouseListener)]).addBuilding();
-                showBuildingPanel(mouseListener);
-            }
-        });
-        TopBuildingPanel.add(buildButton);
 
-        //dla miasta n = 4, a dla wsi n = 5
-        int n = 4;
-
-        if (Board.getFieldsArray()[getFieldIndex(mouseListener)] instanceof City) {
-
-            BuildingPanel.setLayout(new GridLayout(5, 4));
-
-            BuildingPanel.add(new JLabel("Revenue per visit"));
-            BuildingPanel.add(new JLabel("Level"));
-            BuildingPanel.add(new JLabel("Cost of upgrade"));
-            BuildingPanel.add(new JLabel("Upgrade"));
-
-            BuildingRevenuePerVisitPanel.setBounds(BuildingPanel.getX(), BuildingPanel.getY(), BuildingPanel.getWidth() / n, BuildingPanel.getHeight());
-            BuildingLevelPanel.setBounds(BuildingRevenuePerVisitPanel.getX() + BuildingRevenuePerVisitPanel.getWidth(), BuildingPanel.getY(), BuildingPanel.getWidth() / n, BuildingPanel.getHeight());
-            BuildingCostPanel.setBounds(BuildingLevelPanel.getX() + BuildingLevelPanel.getWidth(), BuildingPanel.getY(), BuildingPanel.getWidth() / n, BuildingPanel.getHeight());
-            BuildingUpgradePanel.setBounds(BuildingCostPanel.getX() + BuildingCostPanel.getWidth(), BuildingPanel.getY(), BuildingPanel.getWidth() / n, BuildingPanel.getHeight());
-
-        }
-        if (Board.getFieldsArray()[getFieldIndex(mouseListener)] instanceof Village) {
-
-            BuildingPanel.setLayout(new GridLayout(5, 5));
-
-            BuildingPanel.add(new JLabel("Revenue per visit"));
-            BuildingPanel.add(new JLabel("Revenue per year"));
-            BuildingPanel.add(new JLabel("Level"));
-            BuildingPanel.add(new JLabel("Cost of upgrade"));
-            BuildingPanel.add(new JLabel("Upgrade"));
-
-            BuildingRevenuePerVisitPanel.setBounds(BuildingPanel.getX(), BuildingPanel.getY(), BuildingPanel.getWidth() / (n + 1), BuildingPanel.getHeight());
-            BuildingLevelPanel.setBounds(BuildingRevenuePerVisitPanel.getX() + BuildingRevenuePerVisitPanel.getWidth(), BuildingPanel.getY(), BuildingPanel.getWidth() / (n + 1), BuildingPanel.getHeight());
-            BuildingCostPanel.setBounds(BuildingLevelPanel.getX() + BuildingLevelPanel.getWidth(), BuildingPanel.getY(), BuildingPanel.getWidth() / (n + 1), BuildingPanel.getHeight());
-            BuildingUpgradePanel.setBounds(BuildingCostPanel.getX() + BuildingCostPanel.getWidth(), BuildingPanel.getY(), BuildingPanel.getWidth() / (n + 1), BuildingPanel.getHeight());
-            BuildingRevenueAnnually.setBounds(BuildingUpgradePanel.getX() + BuildingUpgradePanel.getWidth(), BuildingPanel.getY(), BuildingPanel.getWidth() / (n + 1), BuildingPanel.getHeight());
-
-        }
         if (Board.getFieldsArray()[getFieldIndex(mouseListener)] instanceof ToBuy) {
-            if (!(((ToBuy) Board.getFieldsArray()[getFieldIndex(mouseListener)]).getBuildings() == null)) {
-                ArrayList<JButton> listOfUpgradeButtons = new ArrayList<>();
-                for (int i = 0; i < ((ToBuy) Board.getFieldsArray()[getFieldIndex(mouseListener)]).getBuildings().size(); i++) {
+            try {
+                TopBuildingPanel.add(new JLabel("Owner: " + ((ToBuy) Board.getFieldsArray()[getFieldIndex(mouseListener)]).getOwner().getName()), BorderLayout.EAST);
+                if (!(((ToBuy) Board.getFieldsArray()[getFieldIndex(mouseListener)]).getBuildings().size() >= 4)) {
+                    JButton buildButton = new JButton("Build");
+                    buildButton.addActionListener(new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            ((ToBuy) Board.getFieldsArray()[getFieldIndex(mouseListener)]).addBuilding();
+                            BuildingPanel.removeAll();
+                            showBuildingPanel(mouseListener);
+                        }
+                    });
+                    TopBuildingPanel.add(buildButton);
+                }
+            } catch (NullPointerException e) {
+                TopBuildingPanel.add(new JLabel("Owner: null"), BorderLayout.EAST);
+            }
+            try {
+                if (!(((ToBuy) Board.getFieldsArray()[getFieldIndex(mouseListener)]).getBuildings().get(0) == null)) {
 
-                    String [] tempString = ((ToBuy) Board.getFieldsArray()[getFieldIndex(mouseListener)]).getBuildings().get(i).toString().split(",");
-                    BuildingPanel.add(new JLabel(tempString[0]));
-                    BuildingPanel.add(new JLabel(tempString[1]));
-                    BuildingPanel.add(new JLabel(tempString[2]));
-                    if (Board.getFieldsArray()[getFieldIndex(mouseListener)] instanceof Village) {
-                        BuildingPanel.add(new JLabel(tempString[3]));
+                    BuildingPanel.setFont(new Font("Serif", Font.BOLD, 30));
+                    ArrayList<JButton> listOfUpgradeButtons = new ArrayList<>();
+
+                    if (Board.getFieldsArray()[getFieldIndex(mouseListener)] instanceof City) {
+
+                        BuildingPanel.setLayout(new GridLayout(5, 4));
+
+                        BuildingPanel.add(new JLabel("Revenue per visit"));
+                        BuildingPanel.add(new JLabel("Level"));
+                        BuildingPanel.add(new JLabel("Cost of upgrade"));
+                        BuildingPanel.add(new JLabel("Upgrade"));
+
+
+                    } else if (Board.getFieldsArray()[getFieldIndex(mouseListener)] instanceof Village) {
+
+                        BuildingPanel.setLayout(new GridLayout(5, 5));
+
+                        BuildingPanel.add(new JLabel("Revenue per visit"));
+                        BuildingPanel.add(new JLabel("Revenue per year"));
+                        BuildingPanel.add(new JLabel("Level"));
+                        BuildingPanel.add(new JLabel("Cost of upgrade"));
+                        BuildingPanel.add(new JLabel("Upgrade"));
+
+
                     }
-                    if (((ToBuy) Board.getFieldsArray()[getFieldIndex(mouseListener)]).getBuildings().get(i).getLevel() < 5) {
-                        JButton upgradeButton = new JButton("Upgrade");
+                    for (int i = 0; i < ((ToBuy) Board.getFieldsArray()[getFieldIndex(mouseListener)]).getBuildings().size(); i++) {
 
-                        listOfUpgradeButtons.add(upgradeButton);
-                        upgradeButton.addActionListener(new ActionListener() {
-                            @Override
-                            public void actionPerformed(ActionEvent e) {
-                                for (int i = 0; i < listOfUpgradeButtons.size(); i++) {
-                                    if (listOfUpgradeButtons.get(i).getActionListeners()[0] == this) {
-                                        ((ToBuy) Board.getFieldsArray()[getFieldIndex(mouseListener)]).getBuildings().get(i).upgrade();
+                        String [] tempString = ((ToBuy) Board.getFieldsArray()[getFieldIndex(mouseListener)]).getBuildings().get(i).toString().split(",");
+                        BuildingPanel.add(new JLabel(tempString[0]));
+                        BuildingPanel.add(new JLabel(tempString[1]));
+                        BuildingPanel.add(new JLabel(tempString[2]));
+                        if (Board.getFieldsArray()[getFieldIndex(mouseListener)] instanceof Village) {
+                            BuildingPanel.add(new JLabel(tempString[3]));
+                        }
+                        if (((ToBuy) Board.getFieldsArray()[getFieldIndex(mouseListener)]).getBuildings().get(i).getLevel() < 5) {
+
+                            JButton upgradeButton = new JButton("Upgrade");
+                            listOfUpgradeButtons.add(upgradeButton);
+                            upgradeButton.addActionListener(new ActionListener() {
+                                @Override
+                                public void actionPerformed(ActionEvent e) {
+                                    for (int i = 0; i < listOfUpgradeButtons.size(); i++) {
+                                        if (listOfUpgradeButtons.get(i).getActionListeners()[0] == this) {
+                                            ((ToBuy) Board.getFieldsArray()[getFieldIndex(mouseListener)]).getBuildings().get(i).upgrade();
+                                            BuildingPanel.removeAll();
+                                            showBuildingPanel(mouseListener);
+                                        }
                                     }
                                 }
-                            }
-                        });
-                        BuildingPanel.add(upgradeButton);
-                    } else {
-                        BuildingPanel.add(new JLabel("Max level"));
+                            });
+                            BuildingPanel.add(upgradeButton);
+                        } else {
+                            BuildingPanel.add(new JLabel("Max level"));
+                        }
+
+
                     }
-
-
+                    if (Board.getFieldsArray()[getFieldIndex(mouseListener)] instanceof City) {
+                        for (int i = 0; i < (4 - ((ToBuy) Board.getFieldsArray()[getFieldIndex(mouseListener)]).getBuildings().size()) * 4; i++) {
+                            BuildingPanel.add(new JLabel("Hello world"));
+                        }
+                    } else if (Board.getFieldsArray()[getFieldIndex(mouseListener)] instanceof Village) {
+                        for (int i = 0; i < (4 - ((ToBuy) Board.getFieldsArray()[getFieldIndex(mouseListener)]).getBuildings().size()) * 5; i++) {
+                            BuildingPanel.add(new JLabel("Hello world"));
+                        }
+                    }
                 }
+            } catch (IndexOutOfBoundsException e) {
+                BuildingPanel.setLayout(new GridLayout());
+                BuildingPanel.setFont(new Font("Serif", Font.BOLD, 50));
+                BuildingPanel.add(new JLabel("No buildings"));
+
+            } finally {
+                BuildingPanel.setVisible(true);
+                TopBuildingPanel.setVisible(true);
             }
-
-            TopBuildingPanel.setVisible(true);
-            BuildingPanel.setVisible(true);
-
-
         }
     }
     public Board getBoard() {
