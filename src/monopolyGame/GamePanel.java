@@ -29,7 +29,7 @@ public class GamePanel extends JPanel{
     private final static Color FIELD_COLOR2;
     private ArrayList<JLabel> list;
     private static JPanel[] fieldArray;
-     private static JPanel[] descArray;
+    private static JPanel[] descArray;
     private static JPanel[] centerArray;
     private static JPanel[] priceArray;
 
@@ -67,6 +67,12 @@ public class GamePanel extends JPanel{
     JLabel balancePlayer1Label;
     JLabel balancePlayer2Label;
     JLabel balancePlayer3Label;
+    JLabel EurotoDolar;
+    JLabel DolartoEuro;
+    JComboBox<String> optionsOfExchange;
+    JTextField moneyInput;
+    JLabel moneyOutput;
+    JButton CalculateExchange;
 
     protected Subject subject;
     Pawn pawn0=new Pawn(0);
@@ -871,42 +877,45 @@ public class GamePanel extends JPanel{
         revalidate();
     }
     public void CreateExchangeLabels(){
+        
         JPanel RightBottomPanel = new JPanel();
         RightBottomPanel.setBorder(BorderFactory.createLineBorder(Color.decode("#000000"), 10, true));
         RightBottomPanel.setLayout(new BoxLayout(RightBottomPanel, BoxLayout.PAGE_AXIS));
         Font f = new Font(Font.SANS_SERIF, Font.BOLD, 23);
 
         //obecny kurs walut
-        double tmp = Math.round(board.getDollarRate()/board.getEuroRate() * 100) / 100;
+        double tmp = Math.round(board.getDollarRate()/board.getEuroRate() * 100.0) / 100.0;
         String EuroTODolar = "1 Euro is worth " + Double.toString((tmp)) + " Dolars";
-        tmp = Math.round(board.getEuroRate()/board.getDollarRate() * 100) / 100;
+        tmp = Math.round(board.getEuroRate()/board.getDollarRate() * 100.0) / 100.0;
         String DolarTOEuro = "1 Dolar is worth " + Double.toString((tmp)) + " Euros";
 
-        JLabel EurotoDolar = new JLabel(EuroTODolar);
-        JLabel DolartoEuro = new JLabel(DolarTOEuro);
+        EurotoDolar = new JLabel(EuroTODolar);
+        DolartoEuro = new JLabel(DolarTOEuro);
         EurotoDolar.setAlignmentX(Component.CENTER_ALIGNMENT);
         DolartoEuro.setAlignmentX(Component.CENTER_ALIGNMENT);
         EurotoDolar.setFont(f);
         DolartoEuro.setFont(f);
 
-        
         //opcje wyboru wymiany
         String[] choices = {"Euro to Dolar", "Dolar to Euro"};
-        JComboBox<String> options = new JComboBox<String>(choices);
-        options.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
-        options.setMaximumSize(options.getPreferredSize());
-        options.setAlignmentX(Component.CENTER_ALIGNMENT);       
+        optionsOfExchange = new JComboBox<String>(choices);
+        optionsOfExchange.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+        optionsOfExchange.setMaximumSize(optionsOfExchange.getPreferredSize());
+        optionsOfExchange.setAlignmentX(Component.CENTER_ALIGNMENT);       
         
-        JTextField moneyInput = new JTextField("Enter the amount");
+        moneyInput = new JTextField("Enter the amount");
         Dimension a = new Dimension(200, 30);
         moneyInput.setMaximumSize(a);
         moneyInput.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        String money = "You will recieve " ;
-        //jakoś trzeba dodać że w zależności od wcześniej wybranych opcji 
-        //wyświetla przeliczoną kwotę i walutę
+        CalculateExchange = new JButton("Calculate");
+        CalculateExchange.setMaximumSize(CalculateExchange.getPreferredSize());
+        CalculateExchange.setAlignmentX(Component.CENTER_ALIGNMENT);
+        CalculateExchange.addActionListener(new CalculateExchangeReaction());
 
-        JLabel moneyOutput = new JLabel(money);
+        String money = "" ;
+
+        moneyOutput = new JLabel(money);
         moneyOutput.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         JLabel space = new JLabel("<html> <br> <br> <br> </html>");
@@ -923,8 +932,9 @@ public class GamePanel extends JPanel{
 
         RightBottomPanel.add(EurotoDolar);
         RightBottomPanel.add(DolartoEuro);
-        RightBottomPanel.add(options);
+        RightBottomPanel.add(optionsOfExchange);
         RightBottomPanel.add(moneyInput);
+        RightBottomPanel.add(CalculateExchange);
         RightBottomPanel.add(moneyOutput);
         RightBottomPanel.add(space);
         RightBottomPanel.add(exchangeButton);
@@ -932,6 +942,30 @@ public class GamePanel extends JPanel{
         rightPanel.add(RightBottomPanel);
         
     }
+    
+    class CalculateExchangeReaction implements ActionListener{
+        @Override
+        public void actionPerformed(ActionEvent event){
+            double money = Integer.valueOf(moneyInput.getText());
+            String selectedOption = (String) optionsOfExchange.getSelectedItem();
+            double multiplier = 1;
+            String currency="";
+
+            if(selectedOption == "Euro to Dolar"){
+                multiplier = Math.round(board.getDollarRate()/board.getEuroRate() * 100.0) / 100.;
+                currency = "$";
+
+            }else if(selectedOption == "Dolar to Euro"){
+                multiplier = Math.round(board.getEuroRate()/board.getDollarRate() * 100.0) / 100.0;
+                currency = "€";
+            }
+        
+            money = money*multiplier;
+
+            moneyOutput.setText("You will recieve: " + Double.toString(money) + " " + currency);
+        }
+    }
+    
     class ExchangeButtonReaction implements ActionListener{
         @Override
         public void actionPerformed(ActionEvent e) {
