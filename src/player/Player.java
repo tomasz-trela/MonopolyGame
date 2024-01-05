@@ -167,14 +167,18 @@ public class Player {
         board.getCurrentPlayer().changeStrategy();
         board.getCurrentPlayer().setHaveCar(false);
     }
-    public  void exchangeMoney(Board board){
-        //tutaj trzeba zaimplemetowac mechanizm wymiany walut
-
-
-
-
-
-        board.getCurrentPlayer().setCanExchange(false);
+    public void exchangeMoney(Board board, int enteredValue, int typeOfTransaction){ //int typeOfTransaction (1- euro to usd), (2 - usd to euro)
+        Player player = board.getCurrentPlayer();
+        if (typeOfTransaction == 1) {
+            if(enteredValue>player.balance[0]) {
+                player.increaseBalance(board.ExchangeEURtoUSD(player.balance[0], enteredValue, board));
+            }
+        }else if(typeOfTransaction == 2){
+            if (enteredValue>player.balance[1]) {
+                player.increaseBalance(board.ExchangeUSDtoEUR(player.balance[1], enteredValue, board));
+            }
+        }
+        player.setCanExchange(false);
     }
 
 

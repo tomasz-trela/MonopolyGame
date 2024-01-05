@@ -33,6 +33,8 @@ public class GamePanel extends JPanel{
     private static JPanel[] descArray;
     private static JPanel[] centerArray;
     private static JPanel[] priceArray;
+    private static int resultOfExchange = 0;
+    private static int exchangeType = 0;
 
     static {
         SCREEN_WIDTH=1500;
@@ -1025,7 +1027,7 @@ public class GamePanel extends JPanel{
     class CalculateExchangeReaction implements ActionListener{
         @Override
         public void actionPerformed(ActionEvent event){
-            double money = Integer.valueOf(moneyInput.getText());
+            int money = (int) Double.parseDouble(moneyInput.getText());
             String selectedOption = (String) optionsOfExchange.getSelectedItem();
             double multiplier = 1;
             String currency="";
@@ -1033,24 +1035,28 @@ public class GamePanel extends JPanel{
             if(selectedOption == "Euro to Dolar"){
                 multiplier = Math.round(board.getDollarRate()/board.getEuroRate() * 100.0) / 100.;
                 currency = "$";
+                exchangeType = 1;
 
             }else if(selectedOption == "Dolar to Euro"){
                 multiplier = Math.round(board.getEuroRate()/board.getDollarRate() * 100.0) / 100.0;
                 currency = "€";
+                exchangeType = 2;
             }
-        
-            money = money*multiplier;
 
-            moneyOutput.setText("You will recieve: " + Double.toString(money) + " " + currency);
+            resultOfExchange = (int) (money * multiplier);
+
+            moneyOutput.setText("You will recieve: " + resultOfExchange + " " + currency);
         }
     }
     
     class ExchangeButtonReaction implements ActionListener{
         @Override
         public void actionPerformed(ActionEvent e) {
-            board.getCurrentPlayer().exchangeMoney(board);
+            board.getCurrentPlayer().exchangeMoney(board, resultOfExchange , exchangeType);
             exchangeButton.setVisible(false);
             rollButton.setVisible(true);
+            //System.out.println(resultOfExchange);
+            //System.out.println(exchangeType);
         }
     }
 
