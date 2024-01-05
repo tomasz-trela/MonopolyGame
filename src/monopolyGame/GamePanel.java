@@ -1027,25 +1027,32 @@ public class GamePanel extends JPanel{
     class CalculateExchangeReaction implements ActionListener{
         @Override
         public void actionPerformed(ActionEvent event){
-            int money = (int) Double.parseDouble(moneyInput.getText());
-            String selectedOption = (String) optionsOfExchange.getSelectedItem();
-            double multiplier = 1;
-            String currency="";
+            try {
+                int money = (int) Double.parseDouble(moneyInput.getText());
 
-            if(selectedOption == "Euro to Dolar"){
-                multiplier = Math.round(board.getDollarRate()/board.getEuroRate() * 100.0) / 100.;
-                currency = "$";
-                exchangeType = 1;
 
-            }else if(selectedOption == "Dolar to Euro"){
-                multiplier = Math.round(board.getEuroRate()/board.getDollarRate() * 100.0) / 100.0;
-                currency = "€";
-                exchangeType = 2;
+                String selectedOption = (String) optionsOfExchange.getSelectedItem();
+                double multiplier = 1;
+                String currency = "";
+
+                if (selectedOption == "Euro to Dolar") {
+                    multiplier = Math.round(board.getDollarRate() / board.getEuroRate() * 100.0) / 100.;
+                    currency = "$";
+                    exchangeType = 1;
+
+                } else if (selectedOption == "Dolar to Euro") {
+                    multiplier = Math.round(board.getEuroRate() / board.getDollarRate() * 100.0) / 100.0;
+                    currency = "€";
+                    exchangeType = 2;
+                }
+
+                resultOfExchange = (int) (money * multiplier);
+
+                moneyOutput.setText("You will recieve: " + resultOfExchange + " " + currency);
             }
-
-            resultOfExchange = (int) (money * multiplier);
-
-            moneyOutput.setText("You will recieve: " + resultOfExchange + " " + currency);
+             catch (NumberFormatException ex) {
+                JOptionPane.showMessageDialog(null, "Please enter a valid decimal number.");
+            }
         }
     }
     
