@@ -10,9 +10,15 @@ public class Farm extends Building{
         super(1000, 100, 1);
         this.revenueAnually = 200;
     }
+    public Farm(int ryeness) {
+        super(1000, 100, 1);
+        this.revenueAnually = 200 * ryeness;
+    }
     public void upgrade() {
-        super.upgrade();
-        this.setRevenueAnually(this.getRevenueAnually() * 3);
+        if (this.getLevel() < 5) {
+            super.upgrade();
+            this.setRevenueAnually(this.getRevenueAnually() * 3);
+        }
     }
     public int getRevenueAnually() {
         return revenueAnually;
@@ -21,6 +27,11 @@ public class Farm extends Building{
         this.revenueAnually = revenueAnually;
     }
     public String toString() {
-        return this.getRevenuePerVisit() + "," + this.getRevenueAnually() + "," + this.getLevel() + "," + this.getPriceOfUpgrade();
+        if (this.getLevel() < 5) {
+            return this.getRevenuePerVisit() + "," + this.getRevenueAnually() + "," + this.getLevel() + "," + this.getPriceOfUpgrade();
+        }
+        else {
+            return this.getRevenuePerVisit() + "," + this.getRevenueAnually() + "," + this.getLevel() + ",null";
+        }
     }
 }

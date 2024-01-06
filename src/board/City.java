@@ -6,8 +6,8 @@ import player.Player;
 
 public class City extends ToBuy {
     private int size;
-    private float touristAttraction;
-    public City (String name, int priceEuro,int priceDollars, Player owner, int size, float touristAttraction){
+    private int touristAttraction;
+    public City (String name, int priceEuro,int priceDollars, Player owner, int size, int touristAttraction){
         super(name, priceEuro, priceDollars, owner);
         this.size = size;
         this.touristAttraction = touristAttraction;
@@ -15,13 +15,13 @@ public class City extends ToBuy {
     public int getSize(){
         return size;
     }
-    public float getTouristAttraction(){
+    public int getTouristAttraction(){
         return touristAttraction;
     }
     public void setSize(int size){
         this.size = size;
     }
-    public void setTouristAttraction(float touristAttraction){
+    public void setTouristAttraction(int touristAttraction){
         this.touristAttraction = touristAttraction;
     }
     public String toString() {
@@ -32,7 +32,16 @@ public class City extends ToBuy {
         }
     }
     public void addBuilding() {
-        this.addBuilding(new House());
+        this.addBuilding(new House(this.getSize(), this.getTouristAttraction()));
     }
-
+    public int [] getCostOfBuilding() {
+        if (this.getPrice()[0] == 0) {
+            return new int[] {0, 500 * this.getSize()};
+        }
+        else if (this.getPrice()[1] == 0) {
+            return new int[] {500 * this.getSize(), 0};
+        }
+        else
+            return new int[] {500 * this.getSize(), 500 * this.getSize()};
+    }
 }

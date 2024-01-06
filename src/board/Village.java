@@ -8,8 +8,8 @@ import player.Player;
 import java.util.Arrays;
 
 public class Village extends ToBuy {
-    private float ryeness;
-    public Village (String name, int priceEuro,int priceDollars, Player owner, float ryeness){
+    private int ryeness;
+    public Village (String name, int priceEuro,int priceDollars, Player owner, int ryeness){
         super(name, priceEuro, priceDollars, owner);
         this.ryeness = ryeness;
     }
@@ -19,10 +19,10 @@ public class Village extends ToBuy {
     }
 
     //gettery i settery
-    public float getRyeness(){
+    public int getRyeness(){
         return ryeness;
     }
-    public void setRyeness(float ryeness){
+    public void setRyeness(int ryeness){
         this.ryeness = ryeness;
     }
     public String toString() {
@@ -34,7 +34,17 @@ public class Village extends ToBuy {
 
     }
     public void addBuilding() {
-        this.addBuilding(new Farm());
+        this.addBuilding(new Farm(this.ryeness));
+    }
+    public int [] getCostOfBuilding() {
+        if (this.getPrice()[0] == 0) {
+            return new int[] {0, 500};
+        }
+        else if (this.getPrice()[1] == 0) {
+            return new int[] {500, 0};
+        }
+        else
+            return new int[] {500, 500};
     }
 
 }

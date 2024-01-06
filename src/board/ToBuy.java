@@ -59,4 +59,14 @@ public abstract class ToBuy extends Field {
             return "Type: null,Name: " + this.getName() + ",Owner: " + "null" + ",Price in euro: " + this.getPrice()[0] + ",Price in dollars: " + this.getPrice()[1];
         }
     }
+    public int [] getCostOfBuilding() {
+        if (this.getPrice()[0] == 0) {
+            return new int[] {0, 500};
+        }
+        else if (this.getPrice()[1] == 0) {
+            return new int[] {500, 0};
+        }
+        else
+            return new int[] {500, 500};
+    }
 }

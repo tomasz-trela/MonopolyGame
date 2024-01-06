@@ -90,7 +90,7 @@ public class GamePanel extends JPanel{
         this.setBackground(Color.WHITE);
         this.setLayout(null);
 
-        TopBuildingPanel.setBounds(SCREEN_WIDTH/4, SCREEN_HEIGHT/4, SCREEN_WIDTH/3, SCREEN_HEIGHT/25);
+        TopBuildingPanel.setBounds(SCREEN_WIDTH/3, SCREEN_HEIGHT/4, SCREEN_WIDTH/2, SCREEN_HEIGHT/25);
         BuildingPanel.setBounds(TopBuildingPanel.getX(), TopBuildingPanel.getY() + TopBuildingPanel.getHeight(), TopBuildingPanel.getWidth(), SCREEN_HEIGHT/4 - TopBuildingPanel.getHeight());
         BuildingPanel.setBorder(BorderFactory.createLineBorder(Color.black, 5));
         BuildingPanel.setLayout(new FlowLayout());
@@ -615,6 +615,7 @@ public class GamePanel extends JPanel{
                 }
             });
             TopBuildingPanel.add(closeButton);
+            TopBuildingPanel.add(new JLabel(("Cost of building: " + (((ToBuy) Board.getFieldsArray()[getFieldIndex(mouseListener)]).getCostOfBuilding()[0] + ((ToBuy) Board.getFieldsArray()[getFieldIndex(mouseListener)]).getCostOfBuilding()[1]))));
             if (Board.getFieldsArray()[getFieldIndex(mouseListener)] instanceof City) {
                 TopBuildingPanel.add(new JLabel("City: " + Board.getFieldsArray()[getFieldIndex(mouseListener)].getName()), BorderLayout.WEST);
                 TopBuildingPanel.add(new JLabel(("Tourist attraction: " + ((City) Board.getFieldsArray()[getFieldIndex(mouseListener)]).getTouristAttraction())), BorderLayout.EAST);
@@ -625,6 +626,11 @@ public class GamePanel extends JPanel{
             }
             try {
                 TopBuildingPanel.add(new JLabel("Owner: " + ((ToBuy) Board.getFieldsArray()[getFieldIndex(mouseListener)]).getOwner().getName()), BorderLayout.EAST);
+                if (getFieldIndex(mouseListener) < 18) {
+                    TopBuildingPanel.add(new JLabel(("Ballance: " + ((ToBuy) Board.getFieldsArray()[getFieldIndex(mouseListener)]).getOwner().getBalance()[0]) + "€"), BorderLayout.EAST);
+                } else {
+                    TopBuildingPanel.add(new JLabel(("Ballance: " + ((ToBuy) Board.getFieldsArray()[getFieldIndex(mouseListener)]).getOwner().getBalance()[1]) + "$"), BorderLayout.EAST);
+                }
                 if (!(((ToBuy) Board.getFieldsArray()[getFieldIndex(mouseListener)]).getBuildings().size() >= 4)) {
                     JButton buildButton = new JButton("Build");
                     buildButton.addActionListener(new ActionListener() {
@@ -636,11 +642,6 @@ public class GamePanel extends JPanel{
                         }
                     });
                     TopBuildingPanel.add(buildButton);
-                }
-                if (getFieldIndex(mouseListener) < 18) {
-                    TopBuildingPanel.add(new JLabel(("Ballance: " + ((ToBuy) Board.getFieldsArray()[getFieldIndex(mouseListener)]).getOwner().getBalance()[0]) + "€"), BorderLayout.EAST);
-                } else {
-                    TopBuildingPanel.add(new JLabel(("Ballance: " + ((ToBuy) Board.getFieldsArray()[getFieldIndex(mouseListener)]).getOwner().getBalance()[1]) + "$"), BorderLayout.EAST);
                 }
             } catch (NullPointerException e) {
                 TopBuildingPanel.add(new JLabel("Owner: null"), BorderLayout.EAST);
@@ -686,17 +687,13 @@ public class GamePanel extends JPanel{
                         if (((ToBuy) Board.getFieldsArray()[getFieldIndex(mouseListener)]).getBuildings().get(i).getLevel() < 5) {
 
                             JButton upgradeButton = new JButton("Upgrade");
-                            listOfUpgradeButtons.add(upgradeButton);
+                            int temp = i;
                             upgradeButton.addActionListener(new ActionListener() {
                                 @Override
                                 public void actionPerformed(ActionEvent e) {
-                                    for (int i = 0; i < listOfUpgradeButtons.size(); i++) {
-                                        if (listOfUpgradeButtons.get(i).getActionListeners()[0] == this) {
-                                            ((ToBuy) Board.getFieldsArray()[getFieldIndex(mouseListener)]).getBuildings().get(i).upgrade();
-                                            BuildingPanel.removeAll();
-                                            showBuildingPanel(mouseListener);
-                                        }
-                                    }
+                                    ((ToBuy) Board.getFieldsArray()[getFieldIndex(mouseListener)]).getBuildings().get(temp).upgrade();
+                                    BuildingPanel.removeAll();
+                                    showBuildingPanel(mouseListener);
                                 }
                             });
                             BuildingPanel.add(upgradeButton);

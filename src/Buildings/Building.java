@@ -15,9 +15,11 @@ public abstract class Building {
         this.level = 1;
     }
     public void upgrade() {
-        this.setRevenuePerVisit(2 * this.revenuePerVisit);
-        this.level++;
-        this.priceOfUpgrade = 2 * this.priceOfUpgrade;
+        if (this.getLevel() < 5) {
+            this.setRevenuePerVisit(2 * this.revenuePerVisit);
+            this.level++;
+            this.priceOfUpgrade = 2 * this.priceOfUpgrade;
+        }
     }
     public int getPriceOfUpgrade() {
         return priceOfUpgrade;
@@ -38,6 +40,11 @@ public abstract class Building {
         this.level = level;
     }
     public String toString() {
-        return this.revenuePerVisit + "," + this.level + "," + this.priceOfUpgrade;
+        if (this.level < 5) {
+            return this.revenuePerVisit + "," + this.level + "," + this.priceOfUpgrade;
+        }
+        else {
+            return this.revenuePerVisit + "," + this.level + ",null";
+        }
     }
 }
