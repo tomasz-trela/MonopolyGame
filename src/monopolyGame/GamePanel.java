@@ -97,20 +97,9 @@ public class GamePanel extends JPanel{
 
 
 
-        JButton closeButton = new JButton("Close");
-        closeButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                BuildingPanel.setVisible(false);
-                TopBuildingPanel.setVisible(false);
-                TopBuildingPanel.removeAll();
-                BuildingPanel.removeAll();
-                TopBuildingPanel.add(closeButton);
-            }
-        });
 
-        TopBuildingPanel.setLayout(new FlowLayout(FlowLayout.RIGHT));
-        TopBuildingPanel.add(closeButton, BorderLayout.EAST);
+
+        TopBuildingPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
         TopBuildingPanel.setVisible(false);
         TopBuildingPanel.setBackground(new Color(0, 113, 253, 255));
 
@@ -570,9 +559,11 @@ public class GamePanel extends JPanel{
     class ShowInfoPanelMouseListener implements MouseListener{
         @Override
         public void mouseClicked(MouseEvent e) {
-            InfoPanel.setVisible(false);
-            InfoPanel.removeAll();
-            showBuildingPanel(this);
+            if (!(BuildingPanel.isVisible())) {
+                InfoPanel.setVisible(false);
+                InfoPanel.removeAll();
+                showBuildingPanel(this);
+            }
         }
 
         @Override
@@ -613,6 +604,25 @@ public class GamePanel extends JPanel{
 
 
         if (Board.getFieldsArray()[getFieldIndex(mouseListener)] instanceof ToBuy) {
+            TopBuildingPanel.removeAll();
+            JButton closeButton = new JButton("Close");
+            closeButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    BuildingPanel.setVisible(false);
+                    TopBuildingPanel.setVisible(false);
+                    BuildingPanel.removeAll();
+                }
+            });
+            TopBuildingPanel.add(closeButton);
+            if (Board.getFieldsArray()[getFieldIndex(mouseListener)] instanceof City) {
+                TopBuildingPanel.add(new JLabel("City: " + Board.getFieldsArray()[getFieldIndex(mouseListener)].getName()), BorderLayout.WEST);
+                TopBuildingPanel.add(new JLabel(("Tourist attraction: " + ((City) Board.getFieldsArray()[getFieldIndex(mouseListener)]).getTouristAttraction())), BorderLayout.EAST);
+
+            } else if (Board.getFieldsArray()[getFieldIndex(mouseListener)] instanceof Village) {
+                TopBuildingPanel.add(new JLabel("Village: " + Board.getFieldsArray()[getFieldIndex(mouseListener)].getName()), BorderLayout.WEST);
+                TopBuildingPanel.add(new JLabel(("Ryeness: " + ((Village) Board.getFieldsArray()[getFieldIndex(mouseListener)]).getRyeness())), BorderLayout.EAST);
+            }
             try {
                 TopBuildingPanel.add(new JLabel("Owner: " + ((ToBuy) Board.getFieldsArray()[getFieldIndex(mouseListener)]).getOwner().getName()), BorderLayout.EAST);
                 if (!(((ToBuy) Board.getFieldsArray()[getFieldIndex(mouseListener)]).getBuildings().size() >= 4)) {
@@ -627,9 +637,15 @@ public class GamePanel extends JPanel{
                     });
                     TopBuildingPanel.add(buildButton);
                 }
+                if (getFieldIndex(mouseListener) < 18) {
+                    TopBuildingPanel.add(new JLabel(("Ballance: " + ((ToBuy) Board.getFieldsArray()[getFieldIndex(mouseListener)]).getOwner().getBalance()[0]) + "€"), BorderLayout.EAST);
+                } else {
+                    TopBuildingPanel.add(new JLabel(("Ballance: " + ((ToBuy) Board.getFieldsArray()[getFieldIndex(mouseListener)]).getOwner().getBalance()[1]) + "$"), BorderLayout.EAST);
+                }
             } catch (NullPointerException e) {
                 TopBuildingPanel.add(new JLabel("Owner: null"), BorderLayout.EAST);
             }
+
             try {
                 if (!(((ToBuy) Board.getFieldsArray()[getFieldIndex(mouseListener)]).getBuildings().get(0) == null)) {
 
@@ -692,11 +708,11 @@ public class GamePanel extends JPanel{
                     }
                     if (Board.getFieldsArray()[getFieldIndex(mouseListener)] instanceof City) {
                         for (int i = 0; i < (4 - ((ToBuy) Board.getFieldsArray()[getFieldIndex(mouseListener)]).getBuildings().size()) * 4; i++) {
-                            BuildingPanel.add(new JLabel("Hello world"));
+                            BuildingPanel.add(new JLabel(" "));
                         }
                     } else if (Board.getFieldsArray()[getFieldIndex(mouseListener)] instanceof Village) {
                         for (int i = 0; i < (4 - ((ToBuy) Board.getFieldsArray()[getFieldIndex(mouseListener)]).getBuildings().size()) * 5; i++) {
-                            BuildingPanel.add(new JLabel("Hello world"));
+                            BuildingPanel.add(new JLabel(" "));
                         }
                     }
                 }
