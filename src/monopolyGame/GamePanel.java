@@ -118,7 +118,6 @@ public class GamePanel extends JPanel{
         rightPanel.setBounds(1000,0,500, 1000);
 
         leftPanel.setLayout(null);
-        //rightPanel.setLayout(null);
         InfoPanel.setBackground(new Color(0,250,250));
         leftPanel.add(InfoPanel);
 
@@ -126,11 +125,6 @@ public class GamePanel extends JPanel{
 
         leftPanel.setVisible(true);
         rightPanel.setVisible(true);
-
-
-       
-
-
 
         this.add(TopBuildingPanel);
         this.add(BuildingPanel);
@@ -161,11 +155,17 @@ public class GamePanel extends JPanel{
         leftPanel.add(pawn0.getPawn());
         this.setVisible(true);
     }
-    public void setPawnsStart(){
+    public void setPawnsStart(int numberOfPawns){
         pawn0.placePawnOn(0);
         pawn1.placePawnOn(0);
         pawn2.placePawnOn(0);
         pawn3.placePawnOn(0);
+
+        if(numberOfPawns == 2){
+            pawn2.hidePawn();
+            pawn3.hidePawn();
+        }
+        if(numberOfPawns == 3) pawn3.hidePawn();
     }
 
    public void createBoard(int fieldnumber){
@@ -290,7 +290,6 @@ public class GamePanel extends JPanel{
             centerArray[i].setBorder(BorderFactory.createLineBorder(Color.black,2));
             centerArray[i].setBackground(FIELD_COLOR1);
         }
-       this.setPawnsStart();
     }
     public void drawHorizontal(int i)
     {

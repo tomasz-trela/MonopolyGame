@@ -19,6 +19,9 @@ public class Pawn
     {
         return pawn;
     }
+    public void hidePawn(){
+        pawn.setVisible(false);
+    }
     public int getTyp()
     {
         return typ;
