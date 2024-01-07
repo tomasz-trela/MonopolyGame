@@ -1093,6 +1093,8 @@ public class GamePanel extends JPanel{
                 rollButton.setVisible(true);
             }
             updateBalanceLabels();
+            subject.notifyObserversEuro(board);
+            subject.notifyObserversDollar(board);
         }
     }
     class StrategyPanelButtonNoReaction implements ActionListener {
@@ -1163,10 +1165,11 @@ public class GamePanel extends JPanel{
                 rollButton.setVisible(false);
             }
             board.incrementMoveCounter();
-            subject.notifyObserversEuro(board);
-            subject.notifyObserversDollar(board);
             
             updateBalanceLabels();
+
+            // subject.notifyObserversEuro(board);
+            // subject.notifyObserversDollar(board);
         }
     }
     public void createCarButton(){

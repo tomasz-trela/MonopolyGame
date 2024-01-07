@@ -1,7 +1,6 @@
 package observer;
 
 import board.Board;
-import board.Exchange;
 
 public class ExchangeObserver implements Observer{
 

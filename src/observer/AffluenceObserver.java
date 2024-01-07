@@ -1,10 +1,8 @@
 package observer;
 
 import board.Board;
-import monopolyGame.GameFrame;
 import player.Player;
 
-import java.util.Arrays;
 
 /* LOGIKA AFFLUENCE_OBSERVER:
  * 
@@ -17,23 +15,15 @@ import java.util.Arrays;
 
 
 public class AffluenceObserver implements Observer{
-    private int euroSum = 0;
-    private int dollarSum = 0;
+    private int euroSum = 2000000; // TODO Tu trzeba zaktualizować przy optymalizacji liczb w grze
+    private int dollarSum = 2000000; // TODO Tu trzeba zaktualizować przy optymalizacji liczb w grze
     private int[] currentAmountOfMoney;
 
     public AffluenceObserver(){
         currentAmountOfMoney = new int[2];
-
+        currentAmountOfMoney[0] = euroSum;
+        currentAmountOfMoney[1] = dollarSum;
     }
-
-    // Instancja Boarda w GamePanelu w GameFrame'ie
-    // // Euro i Dollar rates
-    // double dollarRate = Board.getExchange().getDolarRate();
-    // double euroRate = Board.getExchange().getEuroRate();
-
-    // // Wyrażenie Dollara przez Euro i Euro przez Dollara
-    // double euroByDollar = euroRate / dollarRate;
-    // double dollarByEuro = dollarRate / euroRate;
 
     // Metoda sumująca wszystkie pieniądze graczy
     public int[] sumMoneyInTheGame() {
@@ -44,7 +34,6 @@ public class AffluenceObserver implements Observer{
             euroSum = euroSum + player.getBalance()[0];
             dollarSum = dollarSum + player.getBalance()[1];
         }
-
         return new int[] {euroSum, dollarSum};
     }
 
@@ -55,12 +44,17 @@ public class AffluenceObserver implements Observer{
 
     // Metoda sprawdzająca czy gracze wydali euro do banku
     public int moneyWasSpent() {
-        if (sumMoneyInTheGame()[0] < currentAmountOfMoney[0]) {
+        int[] saveCurrentAmountOfMoney = currentAmountOfMoney;
+        int[] currentSum = sumMoneyInTheGame();
+        if (currentSum[0] < saveCurrentAmountOfMoney[0]) {
+            System.out.println("Wydano Euro");
             return 0; // Wydano Euro
         }
-        else if (sumMoneyInTheGame()[1] < currentAmountOfMoney[1]) {
+        else if (currentSum[1] < saveCurrentAmountOfMoney[1]) {
+            System.out.println("Wydano Dollary");
             return 1; // Wydano Dollary
         }
+        System.out.println("Nie wydano Dollarow ani Euro");
         return -1; // Nie wydano pieniędzy
     }
 
@@ -70,6 +64,7 @@ public class AffluenceObserver implements Observer{
         if (moneyWasSpent() == 1) {
             board.setDollarRate(board.getDollarRate() + Observer.rateModifier);
             updateCurrentMoneyAmount();
+            System.out.print("Kurs Dollara: ");
             System.out.println(board.getDollarRate());
         }
     }
@@ -79,6 +74,7 @@ public class AffluenceObserver implements Observer{
         if (moneyWasSpent() == 0) {
             board.setEuroRate(board.getEuroRate() + Observer.rateModifier);
             updateCurrentMoneyAmount();
+            System.out.print("Kurs Euro: ");
             System.out.println(board.getEuroRate());
         }
     }
