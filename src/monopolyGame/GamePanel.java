@@ -1035,6 +1035,15 @@ public class GamePanel extends JPanel{
         rightPanel.add(RightBottomPanel);
         
     }
+    public void updateExchageRates(){
+        double tmp = Math.round(board.getDollarRate()/board.getEuroRate() * 100.0) / 100.0;
+        String EuroTODolar = "1 Euro is worth " + Double.toString((tmp)) + " Dolars";
+        tmp = Math.round(board.getEuroRate()/board.getDollarRate() * 100.0) / 100.0;
+        String DolarTOEuro = "1 Dolar is worth " + Double.toString((tmp)) + " Euros";
+
+        EurotoDolar.setText(EuroTODolar);
+        DolartoEuro.setText(DolarTOEuro);
+    }
     
     class CalculateExchangeReaction implements ActionListener{
         @Override
@@ -1095,6 +1104,7 @@ public class GamePanel extends JPanel{
             updateBalanceLabels();
             subject.notifyObserversEuro(board);
             subject.notifyObserversDollar(board);
+            updateExchageRates();
         }
     }
     class StrategyPanelButtonNoReaction implements ActionListener {
@@ -1168,8 +1178,6 @@ public class GamePanel extends JPanel{
             
             updateBalanceLabels();
 
-            // subject.notifyObserversEuro(board);
-            // subject.notifyObserversDollar(board);
         }
     }
     public void createCarButton(){

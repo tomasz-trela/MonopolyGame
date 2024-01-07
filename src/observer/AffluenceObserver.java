@@ -63,9 +63,12 @@ public class AffluenceObserver implements Observer{
     public void updateDollar(Board board) {
         if (moneyWasSpent() == 1) {
             board.setDollarRate(board.getDollarRate() + Observer.rateModifier);
+            board.setEuroRate(1/ board.getDollarRate());
             updateCurrentMoneyAmount();
             System.out.print("Kurs Dollara: ");
             System.out.println(board.getDollarRate());
+            System.out.print("Kurs Euro: ");
+            System.out.println(board.getEuroRate());
         }
     }
 
@@ -73,7 +76,10 @@ public class AffluenceObserver implements Observer{
     public void updateEuro(Board board) {
         if (moneyWasSpent() == 0) {
             board.setEuroRate(board.getEuroRate() + Observer.rateModifier);
+            board.setDollarRate(1/ board.getEuroRate());
             updateCurrentMoneyAmount();
+            System.out.print("Kurs Dollara: ");
+            System.out.println(board.getDollarRate());
             System.out.print("Kurs Euro: ");
             System.out.println(board.getEuroRate());
         }
