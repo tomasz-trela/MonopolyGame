@@ -12,7 +12,7 @@ public class Board {
     private int moveCounter; //licznik ruchów
     private int round; //oblicza index gracza którego aktualnie jest kolej ruchu
     private Player currentPlayer;
-    private static final Chances[] listOfChances = {new Chances("Chance1", 1000, 0, 0, 0)};
+    private static final Chances[] listOfChances = {new Chances("Chance1", new int[]{1000, 0}, new int[] {0, 0}, 0, 0, 0)};
     private double dollarRate;
     private double euroRate;
 

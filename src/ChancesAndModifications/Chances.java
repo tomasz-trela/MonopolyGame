@@ -10,16 +10,16 @@ public class Chances {
     private int [] moneyGivenPerPlayer = new int[2];
     private int positionChange;
     private int finalPosition;
-    //private int taxPerHouse;
-    //private int taxPerHotel;
-    //private int taxPerGround;
-    //private int taxPerPlayer;
-    public Chances(String text, int moneyChange, int moneyGivenPerPlayer, int positionChange, int finalPosition){
+    private int taxPerHouse;
+    public Chances(String text, int [] moneyChange, int [] moneyGivenPerPlayer, int positionChange, int finalPosition, int taxPerHouse){
         this.text = text;
-        this.moneyChange[0] = moneyChange; //w euro
-        this.moneyGivenPerPlayer[1] = moneyGivenPerPlayer; //w dolarach
+        this.moneyChange = moneyChange;
+        this.moneyGivenPerPlayer = moneyGivenPerPlayer;
         this.positionChange = positionChange;
         this.finalPosition = finalPosition;
+        this.taxPerHouse = taxPerHouse;
+    }
+    public void execute() {
     }
 
     public int getPositionChange() {
@@ -60,6 +60,12 @@ public class Chances {
 
     public void setText(String text) {
         this.text = text;
+    }
+    public int getTaxPerHouse() {
+        return taxPerHouse;
+    }
+    public void setTaxPerHouse(int taxPerHouse) {
+        this.taxPerHouse = taxPerHouse;
     }
 
 }
