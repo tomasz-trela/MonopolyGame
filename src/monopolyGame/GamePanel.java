@@ -1083,6 +1083,7 @@ public class GamePanel extends JPanel{
             board.getCurrentPlayer().exchangeMoney(board, resultOfExchange , exchangeType);
             exchangeButton.setVisible(false);
             rollButton.setVisible(true);
+            updateBalanceLabels();
             //System.out.println(resultOfExchange);
             //System.out.println(exchangeType);
         }
