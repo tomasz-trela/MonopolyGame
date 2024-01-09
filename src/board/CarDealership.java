@@ -5,22 +5,17 @@ import java.util.ArrayList;
 
 public class CarDealership extends Field {
     private ArrayList<Car> availableCars;
-    public CarDealership(String name, int index, ArrayList<Car> availableCars){
-        super(name);
-        this.availableCars = availableCars;
-    }
-    public CarDealership(){
+    private String whichCurrency;
+    public CarDealership(String whichCurrency){
         super("Car Dealership");
+        this.whichCurrency = whichCurrency;
         this.availableCars = new ArrayList<Car>();
         for (int i = 0; i < 2; i++){
-            this.availableCars.add(new Car());
-        }
-    }
-    public CarDealership(int amountOfCars){
-        super("Car Dealership");
-        this.availableCars = new ArrayList<Car>();
-        for (int i = 0; i < amountOfCars; i++){
-            this.availableCars.add(new Car());
+            if (whichCurrency.equals("Euro")) {
+                this.availableCars.add(new Car(3000,0));
+            }else {
+                this.availableCars.add(new Car(0,3000));
+            }
         }
     }
     public ArrayList<Car> getAvailableCars(){
@@ -55,5 +50,12 @@ public class CarDealership extends Field {
         return stan;
     }
 
+    public String getWhichCurrency() {
+        return whichCurrency;
+    }
+
+    public void setWhichCurrency(String whichCurrency) {
+        this.whichCurrency = whichCurrency;
+    }
 }
 

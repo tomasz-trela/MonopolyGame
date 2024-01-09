@@ -1,5 +1,6 @@
 package player;
 
+import ChancesAndModifications.Car;
 import board.*;
 import observer.Subject;
 import strategy.*;
@@ -161,7 +162,8 @@ public class Player {
         }
 
     }
-    public void useCar(Board board, int round, int sum){
+    public void useCar(Board board, int sum){
+        int round = board.getRound();
         board.getPlayers()[round].movePlayer(sum);
         board.ChangePlayerLocation(sum);
         board.getCurrentPlayer().changeStrategy();
@@ -179,6 +181,11 @@ public class Player {
             }
         }
         player.setCanExchange(false);
+    }
+    public void chargeForCar(){
+        if(haveCar){
+            decreaseBalance(Car.getCostOfMaintenance());
+        }
     }
 
 

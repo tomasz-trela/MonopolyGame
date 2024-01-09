@@ -19,25 +19,32 @@ public class Chance extends Field{
     public void doChance(Board board){
         Random generator = new Random();
         int i = generator.nextInt(listOfChances.length);
+        System.out.println(i);
         int [] moneyChange = listOfChances[i].getMoneyChange();
         int [] moneyGivenPerPlayer = listOfChances[i].getMoneyGivenPerPlayer();
         int positionChange = listOfChances[i].getPositionChange();
         int finalPosition = listOfChances[i].getFinalPosition();
 
         Player player = board.getCurrentPlayer();
-        player.decreaseBalance(moneyChange);
-
-        player.decreaseBalance(moneyGivenPerPlayer);
-        board.getPlayers()[board.getRound()-1].increaseBalance(moneyGivenPerPlayer);
-
-        player.movePlayer(positionChange);
-        board.ChangePlayerLocation(positionChange);
-        player.changeStrategy();
-
-        player.setFieldIndex(finalPosition);
-        board.SetPlayerLocation(finalPosition);
-        player.changeStrategy();
-
+        if (i==0) {
+            player.decreaseBalance(moneyChange);
+        }
+        if (i==1){
+            player.decreaseBalance(moneyGivenPerPlayer);
+            board.getPlayers()[(board.getRound()+1)%board.getPlayers().length].increaseBalance(moneyGivenPerPlayer);
+        }
+        if (i==2){
+            player.movePlayer(positionChange);
+            board.ChangePlayerLocation(positionChange);
+            player.changeStrategy();
+            board.movePawn();
+        }
+        if (i==3){
+            player.setFieldIndex(finalPosition);
+            board.SetPlayerLocation(finalPosition);
+            player.changeStrategy();
+            board.movePawn();
+        }
     }
     public String toString(){
         return "Chance";

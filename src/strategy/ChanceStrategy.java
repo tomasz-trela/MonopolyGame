@@ -8,6 +8,6 @@ public class ChanceStrategy implements ActionStrategy{
     public void action(Board board) {
         int currentIndex = (board.getCurrentPlayer()).getFieldIndex();
         Chance field = (Chance) Board.getFieldsArray()[currentIndex];
-        //field.doChance(board);
+        field.doChance(board);
     }
 }
