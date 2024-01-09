@@ -977,19 +977,19 @@ public class GamePanel extends JPanel{
 
         switch(round){
             case 0:{
-                balancePlayer0Label.setBackground(Color.decode("#e8e8e8"));
+                balancePlayer0Label.setBackground(Color.decode("#F5BABA"));
                 break;
             }
             case 1:{
-                balancePlayer1Label.setBackground(Color.decode("#e8e8e8"));
+                balancePlayer1Label.setBackground(Color.decode("#BAE3F5"));
                 break;
             }
             case 2:{
-                balancePlayer2Label.setBackground(Color.decode("#e8e8e8"));
+                balancePlayer2Label.setBackground(Color.decode("#F1F5BA"));
                 break;
             }
             case 3:{
-                balancePlayer3Label.setBackground(Color.decode("#e8e8e8"));
+                balancePlayer3Label.setBackground(Color.decode("#C3F5BA"));
                 break;
             }
         }
