@@ -943,6 +943,8 @@ public class GamePanel extends JPanel{
 
     public void updateBalanceLabels(){
 
+        int round = board.getRound();
+
         for(int i=0;i<board.GetPlayersArray().length;i++) {
             String PlayerNumber = "Player " + (i + 1);
             String EuroBalance = "Euro: " + board.GetPlayersArray()[i].getBalance()[0];
@@ -954,19 +956,42 @@ public class GamePanel extends JPanel{
             switch (i) {
                 case 0:
                     balancePlayer0Label.setText(PlayerInfo);
+                    balancePlayer0Label.setBackground(Color.decode("#bfbfbf"));
                     break;
                 case 1:
                     balancePlayer1Label.setText(PlayerInfo);
+                    balancePlayer1Label.setBackground(Color.decode("#bfbfbf"));
                     break;
                 case 2:
                     balancePlayer2Label.setText(PlayerInfo);
+                    balancePlayer2Label.setBackground(Color.decode("#bfbfbf"));
                     break;
                 case 3:
                     balancePlayer3Label.setText(PlayerInfo);
+                    balancePlayer3Label.setBackground(Color.decode("#bfbfbf"));
                     break;
             }
         }
-        
+
+        switch(round){
+            case 0:{
+                balancePlayer0Label.setBackground(Color.decode("#e8e8e8"));
+                break;
+            }
+            case 1:{
+                balancePlayer1Label.setBackground(Color.decode("#e8e8e8"));
+                break;
+            }
+            case 2:{
+                balancePlayer2Label.setBackground(Color.decode("#e8e8e8"));
+                break;
+            }
+            case 3:{
+                balancePlayer3Label.setBackground(Color.decode("#e8e8e8"));
+                break;
+            }
+        }
+
         revalidate();
     }
     public void CreateExchangeLabels(){
