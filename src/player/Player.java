@@ -21,6 +21,7 @@ public class Player {
     protected ActionStrategy actionStrategy;
     private String name;
 
+    private int[] cashPerLap;
 
     public Player() {
         balance[0] = 250000; //euro
@@ -32,6 +33,9 @@ public class Player {
         this.location = null;
         this.actionStrategy = null;
         this.name = "Player";
+        this.cashPerLap = new int[2];
+        cashPerLap[0]=25000;
+        cashPerLap[1]=25000;
     }
     public Player(String name) {
         balance[0] = 250000; //euro
@@ -43,6 +47,9 @@ public class Player {
         this.location = null;
         this.actionStrategy = null;
         this.name = name;
+        this.cashPerLap = new int[2];
+        cashPerLap[0]=25000;
+        cashPerLap[1]=25000;
     }
 
     public void setLocation(Field location) {
@@ -117,9 +124,12 @@ public class Player {
         this.canExchange = canExchange;
     }
 
-    public void movePlayer(int roll) {
-        int currentIndex = fieldIndex;
-        int newIndex = (currentIndex + roll) % 36;
+    public void movePlayer(int roll, Board board, int round) {
+        int oldIndex = fieldIndex;
+        int newIndex = (oldIndex+ roll) % 36;
+        if (newIndex<oldIndex){
+            board.getPlayers()[round].increaseBalance(cashPerLap);
+        }
         setFieldIndex(newIndex);
         setLap(getLap() + 1);
     }
@@ -164,7 +174,7 @@ public class Player {
     }
     public void useCar(Board board, int sum){
         int round = board.getRound();
-        board.getPlayers()[round].movePlayer(sum);
+        board.getPlayers()[round].movePlayer(sum, board, round);
         board.ChangePlayerLocation(sum);
         board.getCurrentPlayer().changeStrategy();
         board.getCurrentPlayer().setHaveCar(false);

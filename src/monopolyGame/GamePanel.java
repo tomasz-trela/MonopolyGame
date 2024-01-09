@@ -1186,7 +1186,7 @@ public class GamePanel extends JPanel{
                 carButton.setVisible(true);
             }
 
-            board.getPlayers()[round].movePlayer(sum);
+            board.getPlayers()[round].movePlayer(sum, board, round);
             board.ChangePlayerLocation(sum);
             //System.out.println("New location: " + board.getCurrentPlayer().getLocation().getName());//test
             board.getCurrentPlayer().changeStrategy();
