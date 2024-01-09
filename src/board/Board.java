@@ -58,26 +58,26 @@ public class Board {
             fields[13] = new Village("Donzy", 20000, 0, null, 1);
             fields[14] = new Chance("Szansa3", listOfChances);
             fields[15] = new City("Antwerp", 50000, 0, null, 10, 3);
-            fields[16] = new Village("Farmville", 400, 1500, null, 2);
+            fields[16] = new Village("Farmville", 40000, 0, null, 2);
             fields[17] = new City("Brussels", 50000, 0, null, 10, 7);
             //fields[18] jest wspolne dla każdej mapy
             fields[19] = new Village("Quebec", 0, 20000, null, 2);
-            fields[20] = new Village("Smalltown", 0, 2000, null, 3);
+            fields[20] = new Village("Smalltown", 0, 20000, null, 3);
             fields[21] = new CarDealership();
             fields[22] = new City("Seattle", 0, 45000, null, 10, 7);
-            fields[23] = new Village("Ruralville", 0, 1000, null, 4);
+            fields[23] = new Village("Ruralville", 0, 25000, null, 4);
             fields[24] = new City("Dallas", 0, 38000, null, 10, 4);
             fields[25] = new City("Miami", 0, 32000, null, 10, 5);
-            fields[26] = new Village("Countryside", 0, 3000, null, 6);
+            fields[26] = new Village("Countryside", 0, 30000, null, 6);
             //fields[27] jest wspolne dla każdej mapy
             fields[28] = new City("Denver", 0, 42000, null, 10, 6);
-            fields[29] = new Village("Hamlet", 0, 800, null, 1);
+            fields[29] = new Village("Hamlet", 0, 23000, null, 1);
             fields[30] = new City("Atlanta", 0,37000, null, 10, 5);
             fields[31] = new City("Minneapolis", 0, 35000, null, 10, 5);
-            fields[32] = new Village("Villageton", 0, 2500, null, 2);
+            fields[32] = new Village("Villageton", 0, 25000, null, 2);
             fields[33] = new CarDealership();
             fields[34] = new Chance("Szansa3", listOfChances);
-            fields[35] = new Village("Hometown", 0, 1800, null, 3);
+            fields[35] = new Village("Hometown", 0, 18000, null, 3);
 
         }
         if(boardNumber==2) {

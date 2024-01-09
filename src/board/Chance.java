@@ -30,7 +30,7 @@ public class Chance extends Field{
         player.decreaseBalance(moneyGivenPerPlayer);
         board.getPlayers()[board.getRound()-1].increaseBalance(moneyGivenPerPlayer);
 
-        player.movePlayer(positionChange);
+        player.movePlayer(positionChange, board, board.getRound());
         board.ChangePlayerLocation(positionChange);
         player.changeStrategy();
 

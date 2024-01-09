@@ -1071,6 +1071,14 @@ public class GamePanel extends JPanel{
         EurotoDolar.setText(EuroTODolar);
         DolartoEuro.setText(DolarTOEuro);
     }
+    private void updatePawnPlacing(int round) {
+        if(round==0) pawn0.placePawnOn(board.getPlayers()[round].getFieldIndex());
+        if(round==1) pawn1.placePawnOn(board.getPlayers()[round].getFieldIndex());
+        if(round==2) pawn2.placePawnOn(board.getPlayers()[round].getFieldIndex());
+        if(round==3) pawn3.placePawnOn(board.getPlayers()[round].getFieldIndex());
+
+        updateStrategyLabel();
+    }
     
     class CalculateExchangeReaction implements ActionListener{
         @Override
@@ -1186,17 +1194,13 @@ public class GamePanel extends JPanel{
                 carButton.setVisible(true);
             }
 
-            board.getPlayers()[round].movePlayer(sum);
+            board.getPlayers()[round].movePlayer(sum, board, round);
             board.ChangePlayerLocation(sum);
             //System.out.println("New location: " + board.getCurrentPlayer().getLocation().getName());//test
             board.getCurrentPlayer().changeStrategy();
 
-            if(round==0) pawn0.placePawnOn(board.getPlayers()[round].getFieldIndex());
-            if(round==1) pawn1.placePawnOn(board.getPlayers()[round].getFieldIndex());
-            if(round==2) pawn2.placePawnOn(board.getPlayers()[round].getFieldIndex());
-            if(round==3) pawn3.placePawnOn(board.getPlayers()[round].getFieldIndex());
+            updatePawnPlacing(round);
 
-            updateStrategyLabel();
             if(board.getCurrentPlayer().getLocation() instanceof Start){
                 rollButton.setVisible(true);
             }else{
@@ -1225,13 +1229,8 @@ public class GamePanel extends JPanel{
             int sum =dice1 +dice2;
             updateDiceImages(dice1, dice2);
             board.getCurrentPlayer().useCar(board, round, sum);
-            if(round==0) pawn0.placePawnOn(board.getPlayers()[round].getFieldIndex());
-            if(round==1) pawn1.placePawnOn(board.getPlayers()[round].getFieldIndex());
-            if(round==2) pawn2.placePawnOn(board.getPlayers()[round].getFieldIndex());
-            if(round==3) pawn3.placePawnOn(board.getPlayers()[round].getFieldIndex());
-            updateStrategyLabel();
 
-
+            updatePawnPlacing(round);
             carButton.setVisible(false);
         }
     }
