@@ -22,8 +22,8 @@ public class Player {
 
 
     public Player() {
-        balance[0] = 500000; //euro
-        balance[1] = 500000; //dolary
+        balance[0] = 250000; //euro
+        balance[1] = 250000; //dolary
         this.haveCar = false;
         this.canExchange = false;
         this.OwnedFields = new ArrayList<>();
@@ -33,8 +33,8 @@ public class Player {
         this.name = "Player";
     }
     public Player(String name) {
-        balance[0] = 500000; //euro
-        balance[1] = 500000; //dolary
+        balance[0] = 250000; //euro
+        balance[1] = 250000; //dolary
         this.haveCar = false;
         this.canExchange = false;
         this.OwnedFields = new ArrayList<>();

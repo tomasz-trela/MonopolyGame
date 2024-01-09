@@ -19,7 +19,7 @@ public class MenuPanel extends JPanel{
         this.setBackground(Color.WHITE);
         this.setFocusable(true);
         this.setVisible(true);
-        this.add(Box.createVerticalStrut(80));
+        this.add(Box.createVerticalStrut(210));
         addPlayersLabel();
         this.add(Box.createVerticalStrut(30));
         addPlayersSlider();
@@ -41,7 +41,7 @@ public class MenuPanel extends JPanel{
         g.drawImage(backgroundImage, 0, 0, 1500, 1500, this);
         imageIcon = new ImageIcon("src/images/paper.png");
         Image paperImage = imageIcon.getImage();
-        g.drawImage(paperImage, 540, 30, 420, 400, this);
+        g.drawImage(paperImage, 540, 160, 420, 400, this);
 
     }
     public void addPlayersLabel() {
@@ -106,6 +106,7 @@ public class MenuPanel extends JPanel{
             gameFrame.GetGamePanel().CreateExchangeLabels();
             gameFrame.GetGamePanel().createBoard(36);
             gameFrame.GetGamePanel().setPawnsStart(playersSilder.getValue());
+            gameFrame.GetGamePanel().createSubject();
         }
     }
 

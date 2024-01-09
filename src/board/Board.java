@@ -22,13 +22,7 @@ public class Board {
         fields = new Field[36];
         euroRate = 1.0;
         dollarRate = 1.0;
-        /*fields[0] = new Start();
-        fields[1] = new Village("Wioska 1", 20000, 0, null,0.5f);
-        fields[2] = new Village("Wioska 2", 30000, 0, null, 0.5f);
-        for(int i=3; i< fields.length; i++)
-        {
-            fields[i] = new City("Pole %s".formatted(i), 1, 0, null, 12, 0.5f);
-        }*/
+
     }
     public static void generatePlayers(int playersCount){
         players = new Player[playersCount];

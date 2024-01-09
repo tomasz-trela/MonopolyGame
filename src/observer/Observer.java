@@ -3,7 +3,7 @@ package observer;
 import board.Board;
 
 public interface Observer {
-    double rateModifier = 0.05; // TODO o tyle będzie rósł kurs wydanej waluty (DO MODYFIKACJI)
+    double rateModifier = 0.5;
 
     // Dwie wersje update() dla łatwiejszej implementacji
     void updateDollar(Board board);

@@ -83,8 +83,6 @@ public class GamePanel extends JPanel{
     Pawn pawn2=new Pawn(2);
     Pawn pawn3=new Pawn(3);
     GamePanel(){
-        subject = new Subject();
-        subject.registerObserver(new AffluenceObserver());
 
         this.setPreferredSize(new Dimension(SCREEN_WIDTH,SCREEN_HEIGHT));
         this.setBackground(Color.WHITE);
@@ -143,6 +141,10 @@ public class GamePanel extends JPanel{
         leftPanel.add(pawn3.getPawn());
         leftPanel.add(pawn0.getPawn());
         this.setVisible(true);
+    }
+    public void createSubject(){
+        subject = new Subject();
+        subject.registerObserver(new AffluenceObserver(board));
     }
     public void setPawnsStart(int numberOfPawns){
         pawn0.placePawnOn(0);

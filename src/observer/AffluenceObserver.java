@@ -15,14 +15,19 @@ import player.Player;
 
 
 public class AffluenceObserver implements Observer{
-    private int euroSum = 2000000; // TODO Tu trzeba zaktualizować przy optymalizacji liczb w grze
-    private int dollarSum = 2000000; // TODO Tu trzeba zaktualizować przy optymalizacji liczb w grze
     private int[] currentAmountOfMoney;
-
-    public AffluenceObserver(){
+    private double modifier;
+    private int euroSum;
+    private int dollarSum;
+    public AffluenceObserver(Board board){
         currentAmountOfMoney = new int[2];
-        currentAmountOfMoney[0] = euroSum;
-        currentAmountOfMoney[1] = dollarSum;
+        for(int i=0;i<board.getPlayers().length; i++){
+            for(int k=0; k<currentAmountOfMoney.length; k++){
+                currentAmountOfMoney[k]+=board.getPlayers()[i].getBalance()[k];
+            }
+        }
+        euroSum = currentAmountOfMoney[0];
+        dollarSum = currentAmountOfMoney[1];
     }
 
     // Metoda sumująca wszystkie pieniądze graczy
@@ -48,21 +53,25 @@ public class AffluenceObserver implements Observer{
         int[] currentSum = sumMoneyInTheGame();
         if (currentSum[0] < saveCurrentAmountOfMoney[0]) {
             System.out.println("Wydano Euro");
+            modifier = ((double) saveCurrentAmountOfMoney[0]/(double)currentSum[0]-1)*Observer.rateModifier+1;
             return 0; // Wydano Euro
         }
         else if (currentSum[1] < saveCurrentAmountOfMoney[1]) {
             System.out.println("Wydano Dollary");
+            modifier =((double)saveCurrentAmountOfMoney[1]/(double)currentSum[1]-1)*Observer.rateModifier+1;
             return 1; // Wydano Dollary
         }
-        System.out.println("Nie wydano Dollarow ani Euro");
-        return -1; // Nie wydano pieniędzy
+        else {
+            System.out.println("Nie wydano Dollarow ani Euro");
+            return -1; // Nie wydano pieniędzy
+        }
     }
 
     // Zwiększamy kursy walut tylko, jeśli dokonano nimi płatności
     @Override
     public void updateDollar(Board board) {
         if (moneyWasSpent() == 1) {
-            board.setDollarRate(board.getDollarRate() + Observer.rateModifier);
+            board.setDollarRate(board.getDollarRate()/modifier);
             board.setEuroRate(1/ board.getDollarRate());
             updateCurrentMoneyAmount();
             System.out.print("Kurs Dollara: ");
@@ -75,7 +84,7 @@ public class AffluenceObserver implements Observer{
     @Override
     public void updateEuro(Board board) {
         if (moneyWasSpent() == 0) {
-            board.setEuroRate(board.getEuroRate() + Observer.rateModifier);
+            board.setEuroRate(board.getEuroRate()/modifier);
             board.setDollarRate(1/ board.getEuroRate());
             updateCurrentMoneyAmount();
             System.out.print("Kurs Dollara: ");
