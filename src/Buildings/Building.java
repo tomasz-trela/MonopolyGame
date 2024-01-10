@@ -10,8 +10,8 @@ public abstract class Building {
         this.level = level;
     }
     public Building() {
-        this.priceOfUpgrade = 1000;
-        this.revenuePerVisit = 1000;
+        this.priceOfUpgrade = 5000;
+        this.revenuePerVisit = 3000;
         this.level = 1;
     }
     public void upgrade() {

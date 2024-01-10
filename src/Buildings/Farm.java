@@ -7,11 +7,11 @@ public class Farm extends Building{
         this.revenueAnually = revenueAnually;
     }
     public Farm() {
-        super(1000, 100, 1);
+        super(5000, 3000, 1);
         this.revenueAnually = 200;
     }
     public Farm(int ryeness) {
-        super(1000, 100, 1);
+        super(5000, 3000, 1);
         this.revenueAnually = 200 * ryeness;
     }
     public void upgrade() {
