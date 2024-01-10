@@ -10,12 +10,15 @@ public class BuyBuildingStrategy implements ActionStrategy {
     @Override
     public void action(Board board) {
         ToBuy field = (ToBuy) Board.getFieldsArray()[board.getCurrentPlayer().getFieldIndex()];
-        if (field instanceof City){
-            field.addBuilding(new House());
+        Player currentPlayer = board.getPlayers()[board.getRound()];
+        if (currentPlayer.getBalance()[0] > ((ToBuy) board.getCurrentPlayer().getLocation()).getCostOfBuilding()[0] && currentPlayer.getBalance()[1] > ((ToBuy) board.getCurrentPlayer().getLocation()).getCostOfBuilding()[1]){
+            if (field instanceof City){
+                field.addBuilding(new House());
+            }
+            if (field instanceof Village){
+                field.addBuilding(new Farm());
+            }
+            currentPlayer.decreaseBalance(((ToBuy) board.getCurrentPlayer().getLocation()).getCostOfBuilding());
         }
-        if (field instanceof Village){
-            field.addBuilding(new Farm());
-        }
-
     }
 }

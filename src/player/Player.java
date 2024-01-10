@@ -8,6 +8,7 @@ import strategy.*;
 import java.io.File;
 import java.util.ArrayList;
 
+import static java.util.function.Predicate.not;
 import static player.Dice.Roll;
 
 public class Player {
@@ -16,6 +17,7 @@ public class Player {
     private int[] balance = new int[2];
     private boolean haveCar;
     private boolean canExchange;
+    private boolean canMoveAfterChance;
     private ArrayList<Field> OwnedFields;
     private Field location;
     protected ActionStrategy actionStrategy;
@@ -28,6 +30,7 @@ public class Player {
         balance[1] = 250000; //dolary
         this.haveCar = false;
         this.canExchange = false;
+        this.canMoveAfterChance = false;
         this.OwnedFields = new ArrayList<>();
         this.lap = 0;
         this.location = null;
@@ -42,6 +45,7 @@ public class Player {
         balance[1] = 250000; //dolary
         this.haveCar = false;
         this.canExchange = false;
+        this.canMoveAfterChance = false;
         this.OwnedFields = new ArrayList<>();
         this.lap = 0;
         this.location = null;
@@ -124,6 +128,13 @@ public class Player {
         this.canExchange = canExchange;
     }
 
+    public boolean isCanMoveAfterChance() {
+        return canMoveAfterChance;
+    }
+    public void setCanMoveAfterChance(boolean canMoveAfterChance) {
+        this.canMoveAfterChance = canMoveAfterChance;
+    }
+
     public void movePlayer(int roll, Board board, int round) {
         int oldIndex = fieldIndex;
         int newIndex = (oldIndex+ roll) % 36;
@@ -197,6 +208,18 @@ public class Player {
             decreaseBalance(Car.getCostOfMaintenance());
         }
     }
+    public void payFeeForBuiliding(Board board){
+        if(!(((ToBuy) board.getCurrentPlayer().getLocation()).getOwner() == null)){
+            if(!(getOwnedFields().contains(getLocation()))){
+                for (int i = 0; i < ((ToBuy) board.getCurrentPlayer().getLocation()).getBuildings().size(); i++) {
+                    //decreaseBalance(((ToBuy) board.getCurrentPlayer().getLocation()).getBuildings().get(i).getRevenuePerVisit());
+                    /*wzystkie ceny w pakiecie buidilgs są int zamiast int[], wiec pobieranie oplaty można zrobić dopiero po zmianie tych cen
+                    chyba że ktoś ma na to jakiś inny pomysł*/
+                }
+            }
+        }
+    }
+
 
 
 }
