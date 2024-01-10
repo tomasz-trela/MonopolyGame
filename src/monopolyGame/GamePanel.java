@@ -1126,9 +1126,15 @@ public class GamePanel extends JPanel{
             if (board.getCurrentPlayer().isCanExchange()){
                 rollButton.setVisible(false);
                 exchangeButton.setVisible(true);
-            }else {
+            }else if (board.getCurrentPlayer().isCanMoveAfterChance()) {
+                rollButton.setVisible(false);
+                updateStrategyLabel();
+                board.getCurrentPlayer().setCanMoveAfterChance(false);
+            }
+            else {
                 rollButton.setVisible(true);
             }
+
             updateBalanceLabels();
             subject.notifyObserversEuro(board);
             subject.notifyObserversDollar(board);
@@ -1150,6 +1156,7 @@ public class GamePanel extends JPanel{
             strategyPanel.setVisible(false);
             carButton.setVisible(false);
             rollButton.setVisible(true);
+            board.getCurrentPlayer().payFeeForBuiliding(board);
             updateBalanceLabels();
         }
     }

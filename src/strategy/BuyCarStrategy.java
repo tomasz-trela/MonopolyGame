@@ -14,13 +14,16 @@ public class BuyCarStrategy implements ActionStrategy {
     @Override
     public void action(Board board) {
         Player currentPlayer = board.getPlayers()[board.getRound()];
-
         int currentIndex = currentPlayer.getFieldIndex();
         CarDealership field = (CarDealership) Board.getFieldsArray()[currentIndex];
 
         Random random = new Random();
-        currentPlayer.decreaseBalance(field.getCar(random.nextInt(2)).getPrice());
+        int whichCar = random.nextInt(2);
 
-        currentPlayer.setHaveCar(true);
+        if (currentPlayer.getBalance()[0]>field.getCar(whichCar).getPrice()[0] && currentPlayer.getBalance()[1]>field.getCar(whichCar).getPrice()[1]){
+            currentPlayer.decreaseBalance(field.getCar(whichCar).getPrice());
+            currentPlayer.setHaveCar(true);
+        }
+
     }
 }

@@ -252,6 +252,10 @@ public class Board {
     public void incrementMoveCounter(){
         moveCounter++;
     }
+    public void decrementMoveCounter(){
+        moveCounter--;
+    }
+
     public int getRound(){
         return round;
     }
