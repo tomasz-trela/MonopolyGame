@@ -2,6 +2,7 @@ package monopolyGame;
 
 import javax.swing.*;
 import javax.swing.border.Border;
+import javax.swing.border.MatteBorder;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -78,6 +79,7 @@ public class GamePanel extends JPanel{
     JButton CalculateExchange;
     Timer timer;
     private int seconds;
+    JPanel RightBottomPanel;
 
     protected Subject subject;
     Pawn pawn0= Board.getPawns()[0];
@@ -1018,10 +1020,22 @@ public class GamePanel extends JPanel{
 
         revalidate();
     }
+
     public void CreateExchangeLabels(){
         
-        JPanel RightBottomPanel = new JPanel();
-        RightBottomPanel.setBorder(BorderFactory.createLineBorder(Color.decode("#000000"), 10, true));
+        RightBottomPanel = new JPanel(){
+            protected void paintComponent(Graphics g){
+                super.paintComponent(g);
+                Graphics2D g2d = (Graphics2D) g.create();
+                Image backGroundExchange = new ImageIcon("src/images/exchangeRightBottom.png").getImage();
+                
+                g2d.drawImage(backGroundExchange, null, RightBottomPanel);
+                g2d.dispose();
+            }
+        };
+
+        
+        
         RightBottomPanel.setLayout(new BoxLayout(RightBottomPanel, BoxLayout.PAGE_AXIS));
         Font f = new Font(Font.SANS_SERIF, Font.BOLD, 23);
 
@@ -1031,8 +1045,11 @@ public class GamePanel extends JPanel{
         tmp = Math.round(board.getEuroRate()/board.getDollarRate() * 100.0) / 100.0;
         String DolarTOEuro = "1 Dolar is worth " + Double.toString((tmp)) + " Euros";
 
+        
         EurotoDolar = new JLabel(EuroTODolar);
+        EurotoDolar.setForeground(Color.WHITE);
         DolartoEuro = new JLabel(DolarTOEuro);
+        DolartoEuro.setForeground(Color.WHITE);
         EurotoDolar.setAlignmentX(Component.CENTER_ALIGNMENT);
         DolartoEuro.setAlignmentX(Component.CENTER_ALIGNMENT);
         EurotoDolar.setFont(f);
@@ -1044,23 +1061,35 @@ public class GamePanel extends JPanel{
         optionsOfExchange.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
         optionsOfExchange.setMaximumSize(optionsOfExchange.getPreferredSize());
         optionsOfExchange.setAlignmentX(Component.CENTER_ALIGNMENT);       
-        
+        optionsOfExchange.setBackground(Color.BLACK);
+        optionsOfExchange.setForeground(Color.white);
+
         moneyInput = new JTextField("Enter the amount");
         Dimension a = new Dimension(200, 30);
         moneyInput.setMaximumSize(a);
         moneyInput.setAlignmentX(Component.CENTER_ALIGNMENT);
+        moneyInput.setBackground(Color.black);
+        moneyInput.setForeground(Color.white);
+        moneyInput.setBorder(new MatteBorder(0, 0, 2, 0, Color.white));
+
 
         CalculateExchange = new JButton("Calculate");
         CalculateExchange.setMaximumSize(CalculateExchange.getPreferredSize());
         CalculateExchange.setAlignmentX(Component.CENTER_ALIGNMENT);
         CalculateExchange.addActionListener(new CalculateExchangeReaction());
+        CalculateExchange.setBackground(Color.white);
+
 
         String money = "" ;
 
         moneyOutput = new JLabel(money);
         moneyOutput.setAlignmentX(Component.CENTER_ALIGNMENT);
+        moneyOutput.setForeground(Color.white);
 
-        JLabel space = new JLabel("<html> <br> <br> <br> </html>");
+        //jak jest tylo jedna to niedziała idk dlaczego
+        //if it works it works tho
+        JLabel space0 = new JLabel("<html> <br> <br> <br> <br> <br> <br> <br> </html>");
+        JLabel space = new JLabel("<html> <br> <br> <br> <br> <br> <br> <br> </html>");
         
         exchangeButton = new JButton("Exchange");
         exchangeButton.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -1072,6 +1101,7 @@ public class GamePanel extends JPanel{
         exchangeButton.setVisible(false);
         exchangeButton.addActionListener(new ExchangeButtonReaction());
 
+        RightBottomPanel.add(space0);
         RightBottomPanel.add(EurotoDolar);
         RightBottomPanel.add(DolartoEuro);
         RightBottomPanel.add(optionsOfExchange);
