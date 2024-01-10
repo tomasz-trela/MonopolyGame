@@ -116,7 +116,6 @@ public class GamePanel extends JPanel{
         timer = new Timer(1000, new TimerActionListener());
         leftPanel.add(timerLabel);
 
-
         rightPanel.setLayout(new GridLayout(2,1));
 
         leftPanel.setVisible(true);
@@ -151,14 +150,20 @@ public class GamePanel extends JPanel{
     public void startTimer(int time){
         seconds =time;
         timer.start();
+        updateTimer();
     }
     public void updateTimer(){
         seconds-=1;
         String minutes =String.valueOf(seconds/60);
         String secondsLeft = String.valueOf(seconds%60);
-        if((seconds%60)<=10)timerLabel.setText(minutes + ":0" + secondsLeft);
+        if((seconds%60)<10)timerLabel.setText(minutes + ":0" + secondsLeft);
         else timerLabel.setText(minutes + ":" + secondsLeft);
+        if(seconds==0){
+            timer.stop();
+            rollButton.setVisible(false);
+        }
     }
+
     public void createSubject(){
         subject = new Subject();
         subject.registerObserver(new AffluenceObserver(board));

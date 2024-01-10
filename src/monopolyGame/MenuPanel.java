@@ -100,9 +100,9 @@ public class MenuPanel extends JPanel{
     }
 
     public void addTimeSlider() {
-        timeSilder = new JSlider(5, 60, 5);
+        timeSilder = new JSlider(5, 30, 5);
         addMenuSlider(timeSilder);
-        timeSilder.setMajorTickSpacing(15);
+        timeSilder.setMajorTickSpacing(5);
 
         this.add(timeSilder);
     }
