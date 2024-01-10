@@ -2,7 +2,6 @@ package monopolyGame;
 
 import javax.swing.*;
 import javax.swing.border.Border;
-import javax.swing.border.LineBorder;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -70,12 +69,15 @@ public class GamePanel extends JPanel{
     JLabel balancePlayer1Label;
     JLabel balancePlayer2Label;
     JLabel balancePlayer3Label;
+    JLabel timerLabel;
     JLabel EurotoDolar;
     JLabel DolartoEuro;
     JComboBox<String> optionsOfExchange;
     JTextField moneyInput;
     JLabel moneyOutput;
     JButton CalculateExchange;
+    Timer timer;
+    private int seconds;
 
     protected Subject subject;
     Pawn pawn0= Board.getPawns()[0];
@@ -93,10 +95,6 @@ public class GamePanel extends JPanel{
         BuildingPanel.setBorder(BorderFactory.createLineBorder(Color.black, 5));
         BuildingPanel.setLayout(new FlowLayout());
 
-
-
-
-
         TopBuildingPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
         TopBuildingPanel.setVisible(false);
         TopBuildingPanel.setBackground(new Color(0, 113, 253, 255));
@@ -107,6 +105,17 @@ public class GamePanel extends JPanel{
         leftPanel.setLayout(null);
         InfoPanel.setBackground(new Color(0,250,250));
         leftPanel.add(InfoPanel);
+
+        seconds = 1800;
+        timerLabel = new JLabel("30:00",SwingConstants.CENTER);
+        timerLabel.setFont(new Font("Arial", Font.PLAIN, 40));
+        timerLabel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 3));
+        timerLabel.setBounds(440,25,120,50);
+        timerLabel.setOpaque(true);
+        timerLabel.setBackground(Color.WHITE);
+        timer = new Timer(1000, new TimerActionListener());
+        leftPanel.add(timerLabel);
+
 
         rightPanel.setLayout(new GridLayout(2,1));
 
@@ -119,7 +128,6 @@ public class GamePanel extends JPanel{
         this.add(leftPanel);
         this.add(rightPanel);
 
-
         this.setFocusable(true);
         createRollButton();
         createDiceLabels();
@@ -130,8 +138,6 @@ public class GamePanel extends JPanel{
         rollButton.setVisible(true);
         BuildingPanel.setVisible(false);
 
-      // createBoard(36);
-
         leftPanel.add(diceLabel1);
         leftPanel.add(diceLabel2);
         leftPanel.add(strategyPanel);
@@ -141,6 +147,17 @@ public class GamePanel extends JPanel{
         leftPanel.add(pawn3.getPawn());
         leftPanel.add(pawn0.getPawn());
         this.setVisible(true);
+    }
+    public void startTimer(int time){
+        seconds =time;
+        timer.start();
+    }
+    public void updateTimer(){
+        seconds-=1;
+        String minutes =String.valueOf(seconds/60);
+        String secondsLeft = String.valueOf(seconds%60);
+        if((seconds%60)<=10)timerLabel.setText(minutes + ":0" + secondsLeft);
+        else timerLabel.setText(minutes + ":" + secondsLeft);
     }
     public void createSubject(){
         subject = new Subject();
@@ -1062,6 +1079,12 @@ public class GamePanel extends JPanel{
         rightPanel.add(RightBottomPanel);
         
     }
+    public int RollDices(){
+        int dice1 = Roll();
+        int dice2 = Roll();
+        updateDiceImages(dice1, dice2);
+        return dice1+dice2;
+    }
     public void updateExchageRates(){
         double tmp = Math.round(board.getDollarRate()/board.getEuroRate() * 100.0) / 100.0;
         String EuroTODolar = "1 Euro is worth " + Double.toString((tmp)) + " Dolars";
@@ -1183,11 +1206,7 @@ public class GamePanel extends JPanel{
             //System.out.println("Gracz: " + (round+1));//test
             board.setCurrentPlayer(board.getPlayers()[round]);
 
-            int dice1 = Roll();
-            int dice2 = Roll();
-            int sum =dice1 +dice2;
-            //System.out.println("Suma: " + sum);//test
-            updateDiceImages(dice1, dice2);
+            int sum =RollDices();
 
             if(board.getCurrentPlayer().isHaveCar()) {
                 carButton.setVisible(true);
@@ -1223,15 +1242,18 @@ public class GamePanel extends JPanel{
     class CarButtonReaction implements ActionListener{
         @Override
         public void actionPerformed(ActionEvent e) {
-            int dice1 = Roll();
-            int dice2 = Roll();
-            int sum =dice1 +dice2;
-            updateDiceImages(dice1, dice2);
+            int sum = RollDices();
             board.getCurrentPlayer().useCar(board, sum);
             board.movePawn();
             updateStrategyLabel();
             carButton.setVisible(false);
         }
 
+    }
+    class TimerActionListener implements ActionListener{
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            updateTimer();
+        }
     }
 }

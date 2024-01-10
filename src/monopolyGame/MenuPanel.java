@@ -12,6 +12,8 @@ public class MenuPanel extends JPanel{
     JLabel playersLabel;
     JSlider boardsSilder;
     JLabel boardsLabel;
+    JSlider timeSilder;
+    JLabel timeLabel;
     JButton startButton;
 
     MenuPanel() {
@@ -27,6 +29,10 @@ public class MenuPanel extends JPanel{
         addBoardsLabel();
         this.add(Box.createVerticalStrut(30));
         addBoardsSlider();
+        this.add(Box.createVerticalStrut(70));
+        addTimeLabel();
+        this.add(Box.createVerticalStrut(30));
+        addTimeSlider();
         this.add(Box.createVerticalStrut(200));
         addStartButton();
         this.add(Box.createVerticalGlue());
@@ -41,7 +47,7 @@ public class MenuPanel extends JPanel{
         g.drawImage(backgroundImage, 0, 0, 1500, 1500, this);
         imageIcon = new ImageIcon("src/images/paper.png");
         Image paperImage = imageIcon.getImage();
-        g.drawImage(paperImage, 540, 160, 420, 400, this);
+        g.drawImage(paperImage, 540, 160, 420, 550, this);
 
     }
     public void addPlayersLabel() {
@@ -55,18 +61,18 @@ public class MenuPanel extends JPanel{
         slider.setMaximumSize(new Dimension(330, 60));
         slider.setFont(new Font("Monotype Corsiva", Font.BOLD, 18));
         slider.setPaintTrack(true);
-        slider.setMajorTickSpacing(1);
         slider.setAlignmentX(Component.CENTER_ALIGNMENT); // Wyśrodkowanie wzdłuż osi X
         slider.setPaintLabels(true);
-        slider.setBackground(new Color(255, 255, 255, 50));
         slider.setOpaque(false);
 
-        this.add(slider);
     }
 
     public void addPlayersSlider() {
         playersSilder = new JSlider(2, 4, 2);
         addMenuSlider(playersSilder);
+        playersSilder.setMajorTickSpacing(1);
+
+        this.add(playersSilder);
     }
 
     public void addBoardsLabel() {
@@ -80,8 +86,25 @@ public class MenuPanel extends JPanel{
     public void addBoardsSlider() {
         boardsSilder = new JSlider(1, 4, 1);
         addMenuSlider(boardsSilder);
+        boardsSilder.setMajorTickSpacing(1);
 
         this.add(boardsSilder);
+    }
+
+    public void addTimeLabel() {
+        timeLabel = new JLabel("Game Duration");
+        timeLabel.setAlignmentX(Component.CENTER_ALIGNMENT); // Wyśrodkowanie wzdłuż osi X
+        timeLabel.setFont(new Font("Monotype Corsiva", Font.BOLD, 25));
+
+        this.add(timeLabel);
+    }
+
+    public void addTimeSlider() {
+        timeSilder = new JSlider(5, 60, 5);
+        addMenuSlider(timeSilder);
+        timeSilder.setMajorTickSpacing(15);
+
+        this.add(timeSilder);
     }
 
     public void addStartButton() {
@@ -101,6 +124,7 @@ public class MenuPanel extends JPanel{
             Board.generateBoard(boardsSilder.getValue());
             Board.generatePlayers(playersSilder.getValue());
             GameFrame gameFrame = GameFrame.getInstance();
+            gameFrame.GetGamePanel().startTimer((timeSilder.getValue())*60);
             gameFrame.showGamePanel();
             gameFrame.GetGamePanel().createBalanceLabels();
             gameFrame.GetGamePanel().CreateExchangeLabels();
