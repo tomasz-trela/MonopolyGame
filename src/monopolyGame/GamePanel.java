@@ -1033,9 +1033,7 @@ public class GamePanel extends JPanel{
 
         
         EurotoDolar = new JLabel(EuroTODolar);
-        EurotoDolar.setForeground(Color.WHITE);
         DolartoEuro = new JLabel(DolarTOEuro);
-        DolartoEuro.setForeground(Color.WHITE);
         EurotoDolar.setAlignmentX(Component.CENTER_ALIGNMENT);
         DolartoEuro.setAlignmentX(Component.CENTER_ALIGNMENT);
         EurotoDolar.setFont(f);
@@ -1047,16 +1045,14 @@ public class GamePanel extends JPanel{
         optionsOfExchange.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
         optionsOfExchange.setMaximumSize(optionsOfExchange.getPreferredSize());
         optionsOfExchange.setAlignmentX(Component.CENTER_ALIGNMENT);       
-        optionsOfExchange.setBackground(Color.BLACK);
-        optionsOfExchange.setForeground(Color.white);
+        optionsOfExchange.setBackground(Color.decode("#D1D1D1"));
 
         moneyInput = new JTextField("Enter the amount");
         Dimension a = new Dimension(200, 30);
         moneyInput.setMaximumSize(a);
         moneyInput.setAlignmentX(Component.CENTER_ALIGNMENT);
-        moneyInput.setBackground(Color.black);
-        moneyInput.setForeground(Color.white);
-        moneyInput.setBorder(new MatteBorder(0, 0, 2, 0, Color.white));
+        moneyInput.setBackground(Color.decode("#D1D1D1"));
+        moneyInput.setBorder(new MatteBorder(0, 0, 2, 0, Color.black));
 
 
         CalculateExchange = new JButton("Calculate");
@@ -1070,7 +1066,6 @@ public class GamePanel extends JPanel{
 
         moneyOutput = new JLabel(money);
         moneyOutput.setAlignmentX(Component.CENTER_ALIGNMENT);
-        moneyOutput.setForeground(Color.white);
 
         //jak jest tylo jedna to niedziała idk dlaczego
         //if it works it works tho
