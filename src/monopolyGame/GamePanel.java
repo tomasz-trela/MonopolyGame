@@ -2,6 +2,7 @@ package monopolyGame;
 
 import javax.swing.*;
 import javax.swing.border.Border;
+import javax.swing.border.LineBorder;
 import javax.swing.border.MatteBorder;
 
 import java.awt.*;
@@ -49,6 +50,7 @@ public class GamePanel extends JPanel{
         ROLL_BUTTON_HEIGHT=60;
         ROLL_BUTTON_WIDTH = 100;
     }
+    JPanel ownedFieldsPanel = new JPanel();
     Board board = new Board();
     JButton rollButton;
     JLabel diceLabel1;
@@ -101,6 +103,9 @@ public class GamePanel extends JPanel{
         TopBuildingPanel.setVisible(false);
         TopBuildingPanel.setBackground(new Color(0, 113, 253, 255));
 
+        ownedFieldsPanel.setBorder(new LineBorder(new Color(250, 100, 100)));
+        ownedFieldsPanel.setBackground(new Color(100, 100, 250));
+
         leftPanel.setBounds(0,0,1000, 1000);
         rightPanel.setBounds(1000,0,500, 1000);
 
@@ -123,8 +128,12 @@ public class GamePanel extends JPanel{
         leftPanel.setVisible(true);
         rightPanel.setVisible(true);
 
+        ownedFieldsPanel.setVisible(false);
+
         this.add(TopBuildingPanel);
         this.add(BuildingPanel);
+
+        this.add(ownedFieldsPanel);
 
         this.add(leftPanel);
         this.add(rightPanel);
@@ -883,6 +892,52 @@ public class GamePanel extends JPanel{
         }
 
     }
+    public void ballanceLabelsAddMouselisteners(JLabel label, Player player) {
+        label.addMouseListener(new MouseListener() {
+
+            @Override
+            public void mouseClicked(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                if (player.getOwnedFields().isEmpty()) {
+                    ownedFieldsPanel.add(new JLabel("No owned fields"));
+                } else {
+                    for (int i = 0; i < player.getOwnedFields().size(); i++) {
+                        ownedFieldsPanel.add(new JLabel((player.getOwnedFields().get(i)).getName()));
+                        for (int j = 0; j < player.getOwnedFields().get(i).getBuildings().size(); j++) {
+                            if (player.getOwnedFields().get(i) instanceof City) {
+                                ownedFieldsPanel.add(new JLabel("House level " + player.getOwnedFields().get(i).getBuildings().get(j).getLevel()));
+                            } else {
+                                ownedFieldsPanel.add(new JLabel("Farm level " + player.getOwnedFields().get(i).getBuildings().get(j).getLevel()));
+                            }
+                        }
+                    }
+                }
+                ownedFieldsPanel.setBounds(120, 120, 200, 200);
+                ownedFieldsPanel.setVisible(true);
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                ownedFieldsPanel.setVisible(false);
+                ownedFieldsPanel.removeAll();
+            }
+        });
+
+    }
 
     public void createBalanceLabels(){
         JPanel rightTopPanel = new JPanel();
@@ -891,10 +946,10 @@ public class GamePanel extends JPanel{
         
         rightPanel.add(rightTopPanel);
         
-        for(int i=0;i<board.GetPlayersArray().length;i++) {
+        for(int i = 0; i< Board.GetPlayersArray().length; i++) {
             String PlayerNumber = "Player " + (i + 1);
-            String EuroBalance = "Euro: " + board.GetPlayersArray()[i].getBalance()[0];
-            String DolarBalance = "Dolar: " + board.GetPlayersArray()[i].getBalance()[1];
+            String EuroBalance = "Euro: " + Board.GetPlayersArray()[i].getBalance()[0];
+            String DolarBalance = "Dolar: " + Board.GetPlayersArray()[i].getBalance()[1];
 
             String PlayerInfo = "<html>" + PlayerNumber + "<br>" + EuroBalance + "<br>" + DolarBalance;
 
@@ -902,18 +957,22 @@ public class GamePanel extends JPanel{
             switch (i) {
                 case 0:
                     balancePlayer0Label = new JLabel(PlayerInfo);
+                    ballanceLabelsAddMouselisteners(balancePlayer0Label, Board.GetPlayersArray()[i]);
                     createPlayerLabel(balancePlayer0Label, f, i, rightTopPanel);
                     break;
                 case 1:
                     balancePlayer1Label = new JLabel(PlayerInfo);
+                    ballanceLabelsAddMouselisteners(balancePlayer1Label, Board.GetPlayersArray()[i]);
                     createPlayerLabel(balancePlayer1Label, f, i, rightTopPanel);
                     break;
                 case 2:
                     balancePlayer2Label = new JLabel(PlayerInfo);
+                    ballanceLabelsAddMouselisteners(balancePlayer2Label, Board.GetPlayersArray()[i]);
                     createPlayerLabel(balancePlayer2Label, f, i, rightTopPanel);
                     break;
                 case 3:
                     balancePlayer3Label = new JLabel(PlayerInfo);
+                    ballanceLabelsAddMouselisteners(balancePlayer3Label, Board.GetPlayersArray()[i]);
                     createPlayerLabel(balancePlayer3Label, f, i, rightTopPanel);
                     break;
             }
@@ -949,6 +1008,7 @@ public class GamePanel extends JPanel{
                 break;
             }
         }
+
 
         rightTopPanel.add(AllInOne);
     }
