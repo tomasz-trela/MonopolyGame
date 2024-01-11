@@ -38,8 +38,8 @@ public class Player {
         this.actionStrategy = null;
         this.name = "Player";
         this.cashPerLap = new int[2];
-        cashPerLap[0]=25000;
-        cashPerLap[1]=25000;
+        cashPerLap[0]=20000;
+        cashPerLap[1]=20000;
     }
     public Player(String name) {
         balance[0] = 250000; //euro
@@ -53,8 +53,8 @@ public class Player {
         this.actionStrategy = null;
         this.name = name;
         this.cashPerLap = new int[2];
-        cashPerLap[0]=25000;
-        cashPerLap[1]=25000;
+        cashPerLap[0]=20000;
+        cashPerLap[1]=20000;
     }
 
     public void setLocation(Field location) {
