@@ -6,6 +6,7 @@ import board.CarDealership;
 import board.ToBuy;
 import player.Player;
 
+import javax.swing.*;
 import java.util.Random;
 
 import static player.Dice.Roll;
@@ -23,6 +24,8 @@ public class BuyCarStrategy implements ActionStrategy {
         if (currentPlayer.getBalance()[0]>field.getCar(whichCar).getPrice()[0] && currentPlayer.getBalance()[1]>field.getCar(whichCar).getPrice()[1]){
             currentPlayer.decreaseBalance(field.getCar(whichCar).getPrice());
             currentPlayer.setHaveCar(true);
+        }else{
+            JOptionPane.showMessageDialog(null, "You don't have enough money in your account");
         }
 
     }

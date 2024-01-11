@@ -3,6 +3,8 @@ import board.Board;
 import board.ToBuy;
 import player.Player;
 
+import javax.swing.*;
+
 public class BuyFieldStrategy implements ActionStrategy {
     @Override
     public void action(Board board) {
@@ -15,6 +17,8 @@ public class BuyFieldStrategy implements ActionStrategy {
             field.setOwner(currentPlayer);
             currentPlayer.decreaseBalance(field.getPrice());
             currentPlayer.getOwnedFields().add(field);
+        }else{
+            JOptionPane.showMessageDialog(null, "You don't have enough money in your account");
         }
 
     }

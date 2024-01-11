@@ -5,6 +5,7 @@ import board.*;
 import observer.Subject;
 import strategy.*;
 
+import javax.swing.*;
 import java.io.File;
 import java.util.ArrayList;
 
@@ -195,10 +196,14 @@ public class Player {
         if (typeOfTransaction == 1) {
             if(enteredValue<player.balance[0]) {
                 player.increaseBalance(board.ExchangeEURtoUSD(player.balance[0], enteredValue, board));
+            }else{
+                JOptionPane.showMessageDialog(null, "You don't have enough money in your account");
             }
         }else if(typeOfTransaction == 2){
             if (enteredValue<player.balance[1]) {
                 player.increaseBalance(board.ExchangeUSDtoEUR(player.balance[1], enteredValue, board));
+            }else{
+                JOptionPane.showMessageDialog(null, "You don't have enough money in your account");
             }
         }
         player.setCanExchange(false);

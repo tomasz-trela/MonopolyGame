@@ -4,6 +4,9 @@ import Buildings.Farm;
 import Buildings.House;
 import board.*;
 import player.Player;
+
+import javax.swing.*;
+
 public class BuyBuildingStrategy implements ActionStrategy {
     private static int temp1 = 0;
     private static int temp2 = 0;
@@ -19,6 +22,8 @@ public class BuyBuildingStrategy implements ActionStrategy {
                 field.addBuilding(new Farm());
             }
             currentPlayer.decreaseBalance(((ToBuy) board.getCurrentPlayer().getLocation()).getCostOfBuilding());
+        }else{
+            JOptionPane.showMessageDialog(null, "You don't have enough money in your account");
         }
     }
 }
