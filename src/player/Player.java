@@ -19,7 +19,7 @@ public class Player {
     private boolean haveCar;
     private boolean canExchange;
     private boolean canMoveAfterChance;
-    private ArrayList<Field> OwnedFields;
+    private ArrayList<ToBuy> OwnedFields;
     private Field location;
     protected ActionStrategy actionStrategy;
     private String name;
@@ -85,11 +85,11 @@ public class Player {
         for (int i = 0; i < cost.length; i++) balance[i] -= cost[i];
     }
 
-    public ArrayList<Field> getOwnedFields() {
+    public ArrayList<ToBuy> getOwnedFields() {
         return OwnedFields;
     }
 
-    public void setOwnedFields(ArrayList<Field> ownedFields) {
+    public void setOwnedFields(ArrayList<ToBuy> ownedFields) {
         OwnedFields = ownedFields;
     }
 

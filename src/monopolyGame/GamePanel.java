@@ -2,6 +2,7 @@ package monopolyGame;
 
 import javax.swing.*;
 import javax.swing.border.Border;
+import javax.swing.border.LineBorder;
 import javax.swing.border.MatteBorder;
 
 import java.awt.*;
@@ -49,14 +50,15 @@ public class GamePanel extends JPanel{
         ROLL_BUTTON_HEIGHT=60;
         ROLL_BUTTON_WIDTH = 100;
     }
+    JPanel ownedFieldsPanel = new JPanel();
     Board board = new Board();
     JButton rollButton;
     JLabel diceLabel1;
     JLabel diceLabel2;
     JLabel fieldInformation = new JLabel();
     JPanel InfoPanel = new JPanel();
-    JPanel BuildingPanel = new JPanel();
-    JPanel TopBuildingPanel = new JPanel();
+    static JPanel BuildingPanel = new JPanel();
+    static JPanel TopBuildingPanel = new JPanel();
     JPanel leftPanel=new JPanel();
     JPanel rightPanel= new JPanel();
     JPanel strategyPanel = new JPanel();
@@ -101,6 +103,9 @@ public class GamePanel extends JPanel{
         TopBuildingPanel.setVisible(false);
         TopBuildingPanel.setBackground(new Color(0, 113, 253, 255));
 
+        ownedFieldsPanel.setBorder(new LineBorder(new Color(250, 100, 100)));
+        ownedFieldsPanel.setBackground(new Color(100, 100, 250));
+
         leftPanel.setBounds(0,0,1000, 1000);
         rightPanel.setBounds(1000,0,500, 1000);
 
@@ -123,8 +128,12 @@ public class GamePanel extends JPanel{
         leftPanel.setVisible(true);
         rightPanel.setVisible(true);
 
+        ownedFieldsPanel.setVisible(false);
+
         this.add(TopBuildingPanel);
         this.add(BuildingPanel);
+
+        this.add(ownedFieldsPanel);
 
         this.add(leftPanel);
         this.add(rightPanel);
@@ -585,11 +594,6 @@ public class GamePanel extends JPanel{
     class ShowInfoPanelMouseListener implements MouseListener{
         @Override
         public void mouseClicked(MouseEvent e) {
-            if (!(BuildingPanel.isVisible())) {
-                InfoPanel.setVisible(false);
-                InfoPanel.removeAll();
-                showBuildingPanel(this);
-            }
         }
 
         @Override
@@ -626,10 +630,7 @@ public class GamePanel extends JPanel{
         }
         return TempInt;
     }
-    public void showBuildingPanel(MouseListener mouseListener) {
-
-
-        if (Board.getFieldsArray()[getFieldIndex(mouseListener)] instanceof ToBuy) {
+    public static void showBuildingPanel(ToBuy field) {
             TopBuildingPanel.removeAll();
             JButton closeButton = new JButton("Close");
             closeButton.addActionListener(new ActionListener() {
@@ -641,30 +642,25 @@ public class GamePanel extends JPanel{
                 }
             });
             TopBuildingPanel.add(closeButton);
-            TopBuildingPanel.add(new JLabel(("Cost of building: " + (((ToBuy) Board.getFieldsArray()[getFieldIndex(mouseListener)]).getCostOfBuilding()[0] + ((ToBuy) Board.getFieldsArray()[getFieldIndex(mouseListener)]).getCostOfBuilding()[1]))));
-            if (Board.getFieldsArray()[getFieldIndex(mouseListener)] instanceof City) {
-                TopBuildingPanel.add(new JLabel("City: " + Board.getFieldsArray()[getFieldIndex(mouseListener)].getName()), BorderLayout.WEST);
-                TopBuildingPanel.add(new JLabel(("Tourist attraction: " + ((City) Board.getFieldsArray()[getFieldIndex(mouseListener)]).getTouristAttraction())), BorderLayout.EAST);
+            TopBuildingPanel.add(new JLabel(("Cost of building: " + ((field).getCostOfBuilding()[0] + (field.getCostOfBuilding()[1])))));
+            if (field instanceof City) {
+                TopBuildingPanel.add(new JLabel("City: " + field.getName()), BorderLayout.WEST);
+                TopBuildingPanel.add(new JLabel(("Tourist attraction: " + ((City) field).getTouristAttraction())), BorderLayout.EAST);
 
-            } else if (Board.getFieldsArray()[getFieldIndex(mouseListener)] instanceof Village) {
-                TopBuildingPanel.add(new JLabel("Village: " + Board.getFieldsArray()[getFieldIndex(mouseListener)].getName()), BorderLayout.WEST);
-                TopBuildingPanel.add(new JLabel(("Ryeness: " + ((Village) Board.getFieldsArray()[getFieldIndex(mouseListener)]).getRyeness())), BorderLayout.EAST);
+            } else if (field instanceof Village) {
+                TopBuildingPanel.add(new JLabel("Village: " + field.getName()), BorderLayout.WEST);
+                TopBuildingPanel.add(new JLabel((("Ryeness: " + ((Village) field).getRyeness()))));
             }
             try {
-                TopBuildingPanel.add(new JLabel("Owner: " + ((ToBuy) Board.getFieldsArray()[getFieldIndex(mouseListener)]).getOwner().getName()), BorderLayout.EAST);
-                if (getFieldIndex(mouseListener) < 18) {
-                    TopBuildingPanel.add(new JLabel(("Ballance: " + ((ToBuy) Board.getFieldsArray()[getFieldIndex(mouseListener)]).getOwner().getBalance()[0]) + "€"), BorderLayout.EAST);
-                } else {
-                    TopBuildingPanel.add(new JLabel(("Ballance: " + ((ToBuy) Board.getFieldsArray()[getFieldIndex(mouseListener)]).getOwner().getBalance()[1]) + "$"), BorderLayout.EAST);
-                }
-                if (!(((ToBuy) Board.getFieldsArray()[getFieldIndex(mouseListener)]).getBuildings().size() >= 4)) {
+                TopBuildingPanel.add(new JLabel("Owner: " + field.getOwner().getName()), BorderLayout.EAST);
+                if (!((field.getBuildings().size() >= 4))) {
                     JButton buildButton = new JButton("Build");
                     buildButton.addActionListener(new ActionListener() {
                         @Override
                         public void actionPerformed(ActionEvent e) {
-                            ((ToBuy) Board.getFieldsArray()[getFieldIndex(mouseListener)]).addBuilding();
+                            field.addBuilding();
                             BuildingPanel.removeAll();
-                            showBuildingPanel(mouseListener);
+                            showBuildingPanel(field);
                         }
                     });
                     TopBuildingPanel.add(buildButton);
@@ -674,12 +670,12 @@ public class GamePanel extends JPanel{
             }
 
             try {
-                if (!(((ToBuy) Board.getFieldsArray()[getFieldIndex(mouseListener)]).getBuildings().get(0) == null)) {
+                if (!(field.getBuildings().get(0) == null)) {
 
                     BuildingPanel.setFont(new Font("Serif", Font.BOLD, 30));
                     ArrayList<JButton> listOfUpgradeButtons = new ArrayList<>();
 
-                    if (Board.getFieldsArray()[getFieldIndex(mouseListener)] instanceof City) {
+                    if (field instanceof City) {
 
                         BuildingPanel.setLayout(new GridLayout(5, 4));
 
@@ -689,7 +685,7 @@ public class GamePanel extends JPanel{
                         BuildingPanel.add(new JLabel("Upgrade"));
 
 
-                    } else if (Board.getFieldsArray()[getFieldIndex(mouseListener)] instanceof Village) {
+                    } else if (field instanceof Village) {
 
                         BuildingPanel.setLayout(new GridLayout(5, 5));
 
@@ -701,25 +697,25 @@ public class GamePanel extends JPanel{
 
 
                     }
-                    for (int i = 0; i < ((ToBuy) Board.getFieldsArray()[getFieldIndex(mouseListener)]).getBuildings().size(); i++) {
+                    for (int i = 0; i < field.getBuildings().size(); i++) {
 
-                        String [] tempString = ((ToBuy) Board.getFieldsArray()[getFieldIndex(mouseListener)]).getBuildings().get(i).toString().split(",");
+                        String [] tempString = field.getBuildings().get(i).toString().split(",");
                         BuildingPanel.add(new JLabel(tempString[0]));
                         BuildingPanel.add(new JLabel(tempString[1]));
                         BuildingPanel.add(new JLabel(tempString[2]));
-                        if (Board.getFieldsArray()[getFieldIndex(mouseListener)] instanceof Village) {
+                        if (field instanceof Village) {
                             BuildingPanel.add(new JLabel(tempString[3]));
                         }
-                        if (((ToBuy) Board.getFieldsArray()[getFieldIndex(mouseListener)]).getBuildings().get(i).getLevel() < 5) {
+                        if (field.getBuildings().get(i).getLevel() < 5) {
 
                             JButton upgradeButton = new JButton("Upgrade");
                             int temp = i;
                             upgradeButton.addActionListener(new ActionListener() {
                                 @Override
                                 public void actionPerformed(ActionEvent e) {
-                                    ((ToBuy) Board.getFieldsArray()[getFieldIndex(mouseListener)]).getBuildings().get(temp).upgrade();
+                                    field.getBuildings().get(temp).upgrade();
                                     BuildingPanel.removeAll();
-                                    showBuildingPanel(mouseListener);
+                                    showBuildingPanel(field);
                                 }
                             });
                             BuildingPanel.add(upgradeButton);
@@ -729,12 +725,12 @@ public class GamePanel extends JPanel{
 
 
                     }
-                    if (Board.getFieldsArray()[getFieldIndex(mouseListener)] instanceof City) {
-                        for (int i = 0; i < (4 - ((ToBuy) Board.getFieldsArray()[getFieldIndex(mouseListener)]).getBuildings().size()) * 4; i++) {
+                    if (field instanceof City) {
+                        for (int i = 0; i < (4 - (field.getBuildings().size()) * 4); i++) {
                             BuildingPanel.add(new JLabel(" "));
                         }
-                    } else if (Board.getFieldsArray()[getFieldIndex(mouseListener)] instanceof Village) {
-                        for (int i = 0; i < (4 - ((ToBuy) Board.getFieldsArray()[getFieldIndex(mouseListener)]).getBuildings().size()) * 5; i++) {
+                    } else if (field instanceof Village) {
+                        for (int i = 0; i < (4 - (field.getBuildings().size()) * 5); i++) {
                             BuildingPanel.add(new JLabel(" "));
                         }
                     }
@@ -749,7 +745,6 @@ public class GamePanel extends JPanel{
                 TopBuildingPanel.setVisible(true);
             }
         }
-    }
     public Board getBoard() {
         return board;
     }
@@ -897,6 +892,52 @@ public class GamePanel extends JPanel{
         }
 
     }
+    public void ballanceLabelsAddMouselisteners(JLabel label, Player player) {
+        label.addMouseListener(new MouseListener() {
+
+            @Override
+            public void mouseClicked(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                if (player.getOwnedFields().isEmpty()) {
+                    ownedFieldsPanel.add(new JLabel("No owned fields"));
+                } else {
+                    for (int i = 0; i < player.getOwnedFields().size(); i++) {
+                        ownedFieldsPanel.add(new JLabel((player.getOwnedFields().get(i)).getName()));
+                        for (int j = 0; j < player.getOwnedFields().get(i).getBuildings().size(); j++) {
+                            if (player.getOwnedFields().get(i) instanceof City) {
+                                ownedFieldsPanel.add(new JLabel("House level " + player.getOwnedFields().get(i).getBuildings().get(j).getLevel()));
+                            } else {
+                                ownedFieldsPanel.add(new JLabel("Farm level " + player.getOwnedFields().get(i).getBuildings().get(j).getLevel()));
+                            }
+                        }
+                    }
+                }
+                ownedFieldsPanel.setBounds(120, 120, 200, 200);
+                ownedFieldsPanel.setVisible(true);
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                ownedFieldsPanel.setVisible(false);
+                ownedFieldsPanel.removeAll();
+            }
+        });
+
+    }
 
     public void createBalanceLabels(){
         JPanel rightTopPanel = new JPanel();
@@ -905,10 +946,10 @@ public class GamePanel extends JPanel{
         
         rightPanel.add(rightTopPanel);
         
-        for(int i=0;i<board.GetPlayersArray().length;i++) {
+        for(int i = 0; i< Board.GetPlayersArray().length; i++) {
             String PlayerNumber = "Player " + (i + 1);
-            String EuroBalance = "Euro: " + board.GetPlayersArray()[i].getBalance()[0];
-            String DolarBalance = "Dolar: " + board.GetPlayersArray()[i].getBalance()[1];
+            String EuroBalance = "Euro: " + Board.GetPlayersArray()[i].getBalance()[0];
+            String DolarBalance = "Dolar: " + Board.GetPlayersArray()[i].getBalance()[1];
 
             String PlayerInfo = "<html>" + PlayerNumber + "<br>" + EuroBalance + "<br>" + DolarBalance;
 
@@ -916,18 +957,22 @@ public class GamePanel extends JPanel{
             switch (i) {
                 case 0:
                     balancePlayer0Label = new JLabel(PlayerInfo);
+                    ballanceLabelsAddMouselisteners(balancePlayer0Label, Board.GetPlayersArray()[i]);
                     createPlayerLabel(balancePlayer0Label, f, i, rightTopPanel);
                     break;
                 case 1:
                     balancePlayer1Label = new JLabel(PlayerInfo);
+                    ballanceLabelsAddMouselisteners(balancePlayer1Label, Board.GetPlayersArray()[i]);
                     createPlayerLabel(balancePlayer1Label, f, i, rightTopPanel);
                     break;
                 case 2:
                     balancePlayer2Label = new JLabel(PlayerInfo);
+                    ballanceLabelsAddMouselisteners(balancePlayer2Label, Board.GetPlayersArray()[i]);
                     createPlayerLabel(balancePlayer2Label, f, i, rightTopPanel);
                     break;
                 case 3:
                     balancePlayer3Label = new JLabel(PlayerInfo);
+                    ballanceLabelsAddMouselisteners(balancePlayer3Label, Board.GetPlayersArray()[i]);
                     createPlayerLabel(balancePlayer3Label, f, i, rightTopPanel);
                     break;
             }
@@ -963,6 +1008,7 @@ public class GamePanel extends JPanel{
                 break;
             }
         }
+
 
         rightTopPanel.add(AllInOne);
     }
@@ -1047,9 +1093,7 @@ public class GamePanel extends JPanel{
 
         
         EurotoDolar = new JLabel(EuroTODolar);
-        EurotoDolar.setForeground(Color.WHITE);
         DolartoEuro = new JLabel(DolarTOEuro);
-        DolartoEuro.setForeground(Color.WHITE);
         EurotoDolar.setAlignmentX(Component.CENTER_ALIGNMENT);
         DolartoEuro.setAlignmentX(Component.CENTER_ALIGNMENT);
         EurotoDolar.setFont(f);
@@ -1061,16 +1105,14 @@ public class GamePanel extends JPanel{
         optionsOfExchange.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
         optionsOfExchange.setMaximumSize(optionsOfExchange.getPreferredSize());
         optionsOfExchange.setAlignmentX(Component.CENTER_ALIGNMENT);       
-        optionsOfExchange.setBackground(Color.BLACK);
-        optionsOfExchange.setForeground(Color.white);
+        optionsOfExchange.setBackground(Color.decode("#D1D1D1"));
 
         moneyInput = new JTextField("Enter the amount");
         Dimension a = new Dimension(200, 30);
         moneyInput.setMaximumSize(a);
         moneyInput.setAlignmentX(Component.CENTER_ALIGNMENT);
-        moneyInput.setBackground(Color.black);
-        moneyInput.setForeground(Color.white);
-        moneyInput.setBorder(new MatteBorder(0, 0, 2, 0, Color.white));
+        moneyInput.setBackground(Color.decode("#D1D1D1"));
+        moneyInput.setBorder(new MatteBorder(0, 0, 2, 0, Color.black));
 
 
         CalculateExchange = new JButton("Calculate");
@@ -1084,7 +1126,6 @@ public class GamePanel extends JPanel{
 
         moneyOutput = new JLabel(money);
         moneyOutput.setAlignmentX(Component.CENTER_ALIGNMENT);
-        moneyOutput.setForeground(Color.white);
 
         //jak jest tylo jedna to niedziała idk dlaczego
         //if it works it works tho
