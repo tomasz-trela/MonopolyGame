@@ -2,6 +2,8 @@ package player;
 
 import ChancesAndModifications.Car;
 import board.*;
+import monopolyGame.GameFrame;
+import monopolyGame.GamePanel;
 import observer.Subject;
 import strategy.*;
 
@@ -82,7 +84,32 @@ public class Player {
     }
 
     public void decreaseBalance(int[] cost) {
-        for (int i = 0; i < cost.length; i++) balance[i] -= cost[i];
+        for (int i = 0; i < cost.length; i++) {
+
+            if ((balance[i] - cost[i]) < 0) {
+                forceExchange(cost);
+            }
+            
+            balance[i] -= cost[i];
+        }
+    }
+
+    // Zmuszamy gracza do wymiany waluty kiedy nie ma czym zapłacić
+    public void forceExchange(int[] cost) {
+        Board boardInstance = GameFrame.getInstance().GetGamePanel().getBoard();
+        int[] amount = {0, 0};
+        if (cost[0] == 0) {
+            while (amount[1] < cost[1]) {
+                amount[1] = amount[1] + boardInstance.ExchangeEURtoUSD(balance[0], 100, boardInstance)[1]; // Panowie ale używanie boarda w boardzie jest do wyjebania
+                balance[1] = balance[1] - amount[1]; // Na razie zakładamy, że gracza stać i nie ma końca gry
+            }
+        }     
+        else if (cost[1] == 0) {
+            while (amount[0] < cost[0]) {
+                amount[0] = amount[0] + boardInstance.ExchangeUSDtoEUR(balance[1], 100, boardInstance)[0]; // Panowie ale używanie boarda w boardzie jest do wyjebania
+                balance[0] = balance[0] - amount[0]; // Na razie zakładamy, że gracza stać i nie ma końca gry
+            }
+        }
     }
 
     public ArrayList<ToBuy> getOwnedFields() {
