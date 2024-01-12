@@ -36,6 +36,7 @@ public class AffluenceObserver implements Observer{
         dollarSum = 0;
 
         for (Player player : (Board.GetPlayersArray())) {
+            // terminateProgram(player.getBalance()[0], player.getBalance()[1]);
             euroSum = euroSum + player.getBalance()[0];
             dollarSum = dollarSum + player.getBalance()[1];
         }
@@ -93,4 +94,17 @@ public class AffluenceObserver implements Observer{
             System.out.println(board.getEuroRate());
         }
     }
+
+    // // Zakończ rozgrywkę
+    // public void terminateProgram(int euroBalance, int dollarBalance) {
+    //     if (euroBalance == 0 || dollarBalance == 0) {
+    //         System.out.println("A player has a balance of 0. Terminating program.");
+    //         System.exit(0);
+    //     }
+    // }
+
+    // // TODO metoda wyświetlająca statystyki
+    // public void showGameStats() {
+
+    // }
 }
