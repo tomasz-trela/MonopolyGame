@@ -40,8 +40,8 @@ public class GamePanel extends JPanel{
     static {
         SCREEN_WIDTH=1500;
         SCREEN_HEIGHT = 1000;
-        BOARD_WIDTH = 528;
-        BOARD_HEIGHT = 528;
+        BOARD_WIDTH = 800;
+        BOARD_HEIGHT = 800;
         BOARD_COLOR = new Color(200, 224,196);
         FIELD_COLOR1 = new Color(232, 220,202);
         FIELD_COLOR2 = new Color(97, 211,171);
@@ -88,6 +88,16 @@ public class GamePanel extends JPanel{
     Pawn pawn1= Board.getPawns()[1];
     Pawn pawn2 = Board.getPawns()[2];
     Pawn pawn3= Board.getPawns()[3];
+    private static int boardsides=4;
+    private static int heighttowidth=2;
+    private static int gap=100;
+    Font font = new Font("Arial", Font.BOLD, 12);
+    private ImageIcon start= new ImageIcon("src/images/start.png");
+    private ImageIcon villpicture= new ImageIcon("src/images/village.png");
+    private ImageIcon citypicture= new ImageIcon("src/images/city.png");
+    private ImageIcon exchangepicture= new ImageIcon("src/images/Exchange.png");
+    private ImageIcon chancepicture= new ImageIcon("src/images/chance.png");
+    private ImageIcon carpicture= new ImageIcon("src/images/car.png");
     GamePanel(){
 
         this.setPreferredSize(new Dimension(SCREEN_WIDTH,SCREEN_HEIGHT));
@@ -192,37 +202,123 @@ public class GamePanel extends JPanel{
         if(numberOfPawns == 3) pawn3.hidePawn();
     }
 
-   public void createBoard(int fieldnumber){
+    public void createBoard(int fieldnumber)
+    {
         fieldArray=new JPanel[fieldnumber];
-
-
         descArray= new JPanel[fieldnumber];
         centerArray=new JPanel[fieldnumber];
         priceArray= new JPanel[fieldnumber];
-
-        FIELD_WIDTH=800/((fieldnumber/4)+3);
-        FIELD_HEIGHT=2*FIELD_WIDTH;
+        FIELD_WIDTH=BOARD_WIDTH/((fieldnumber/boardsides)+heighttowidth+1);
+        FIELD_HEIGHT=heighttowidth*FIELD_WIDTH;
+        int x,y;
+        x=gap;
+        System.out.println(FIELD_HEIGHT);
+        System.out.println(FIELD_WIDTH);
+        System.out.println(gap);
+        System.out.println(fieldnumber);
+        System.out.println(boardsides);
+        y=gap+FIELD_HEIGHT+FIELD_WIDTH*((fieldnumber/boardsides)-1);
+        System.out.println(x+" "+y+" "+FIELD_WIDTH+" "+FIELD_HEIGHT);
+        for(int i=0; i<fieldnumber; i++)
+        {
+            fieldArray[i]=new JPanel();
+            centerArray[i]=new JPanel();
+            descArray[i]= new JPanel();
+            priceArray[i]=new JPanel();
+        }
+        for(int i=0; i<fieldnumber; i++)
+        {
+            if(i==0)
+            {
+                cornerpiece(i,x,y);
+                y-=FIELD_WIDTH;
+                drawStart(i);
+            }
+            if(i>0 && i<fieldnumber/boardsides)
+            {
+                verticalpiece(i,x,y);
+                drawVertical1(i);
+                y-=FIELD_WIDTH;
+            }
+            if(i==fieldnumber/boardsides)
+            {
+                y-=FIELD_WIDTH;
+                cornerpiece(i,x,y);
+                drawExchange(i);
+                x+=FIELD_HEIGHT;
+            }
+            if(i>fieldnumber/boardsides && i<2*fieldnumber/boardsides)
+            {
+                horizontalpiece(i,x,y);
+                drawHorizontal(i);
+                x+=FIELD_WIDTH;
+            }
+            if(i==2*fieldnumber/boardsides)
+            {
+                cornerpiece(i,x,y);
+                drawExchange(i);
+                y+=FIELD_HEIGHT;
+            }
+            if(i>2*fieldnumber/boardsides && i<3*fieldnumber/boardsides)
+            {
+                verticalpiece(i,x,y);
+                drawVertical2(i);
+                y+=FIELD_WIDTH;
+            }
+            if(i==3*fieldnumber/boardsides)
+            {
+                cornerpiece(i,x,y);
+                drawExchange(i);
+                x-=FIELD_WIDTH;
+            }
+            if(i>3*fieldnumber/boardsides && i<fieldnumber)
+            {
+                horizontalpiece(i,x,y);
+                drawHorizontal(i);
+                x-=FIELD_WIDTH;
+            }
+        }
+        for(JPanel m: fieldArray){
+            leftPanel.add(m);
+        }
+        for(int i=0; i<fieldnumber; i++)
+        {
+            fieldArray[i].setBorder(BorderFactory.createLineBorder(Color.black,1));
+            fieldArray[i].setDoubleBuffered(true);
+            descArray[i].setBorder(BorderFactory.createLineBorder(Color.black,1));
+            centerArray[i].setBorder(BorderFactory.createLineBorder(Color.black,1));
+            priceArray[i].setBorder(BorderFactory.createLineBorder(Color.black,1));
+        }
+        rollButton.setBounds(450, 470, ROLL_BUTTON_WIDTH,ROLL_BUTTON_HEIGHT);
+        diceLabel1.setBounds(450, 540, 50, 50);
+        diceLabel2.setBounds(500, 540, 50, 50);
+        strategyPanel.setBounds(385, 430, 230,80);
+        carButton.setBounds(460,600,80,30);
         pawn0.SizeSet(FIELD_WIDTH/3, FIELD_WIDTH/3);
         pawn1.SizeSet(FIELD_WIDTH/3, FIELD_WIDTH/3);
         pawn2.SizeSet(FIELD_WIDTH/3, FIELD_WIDTH/3);
         pawn3.SizeSet(FIELD_WIDTH/3, FIELD_WIDTH/3);
-
-
-        for(int i=0;i<fieldArray.length; i++){
-            fieldArray[i]=new JPanel();
-            descArray[i]=new JPanel();
-            centerArray[i]=new JPanel();
-            priceArray[i]=new JPanel();
+        for(int i=0; i<fieldnumber; i++)
+        {
+            fieldArray[i].addMouseListener(new ShowInfoPanelMouseListener());
         }
-
-        int x,y;
-        x=100;
-        y=100+FIELD_HEIGHT+FIELD_WIDTH*((fieldnumber/4)-1);
-
-
-        fieldArray[0].setBounds(x,y, FIELD_HEIGHT, FIELD_HEIGHT);
-        fieldArray[0].setLayout(new FlowLayout(0,0,0));
-        centerArray[0]= new JPanel() {
+    }
+    public void cornerpiece(int i, int x, int y)
+    {
+        fieldArray[i].setBounds(x,y,FIELD_HEIGHT, FIELD_HEIGHT);
+    }
+    public void verticalpiece(int i, int x, int y)
+    {
+        fieldArray[i].setBounds(x,y, FIELD_HEIGHT, FIELD_WIDTH);
+    }
+    public void horizontalpiece(int i, int x, int y)
+    {
+        fieldArray[i].setBounds(x,y,FIELD_WIDTH, FIELD_HEIGHT);
+    }
+    public void drawStart(int i)
+    {
+        fieldArray[i].setLayout(new FlowLayout(0,0,0));
+        centerArray[i]= new JPanel() {
             @Override
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
@@ -234,338 +330,175 @@ public class GamePanel extends JPanel{
             }
 
         };
-        centerArray[0].setPreferredSize(new Dimension(FIELD_HEIGHT, FIELD_HEIGHT));
-        fieldArray[0].setBackground(FIELD_COLOR1);
-        fieldArray[0].add(centerArray[0]);
-
-
-
-        y-=FIELD_WIDTH;
-        for(int i=1; i<(fieldnumber/4);i++){
-            fieldArray[i].setLayout(new BoxLayout(fieldArray[i],BoxLayout.X_AXIS));
-            drawVertical1(i);
-            fieldArray[i].setBounds(x,y, FIELD_HEIGHT, FIELD_WIDTH);
-            y=y-FIELD_WIDTH;
-
-        }
-
-        y-=FIELD_WIDTH;
-        fieldArray[(fieldnumber/4)].setBounds(x, y, FIELD_HEIGHT, FIELD_HEIGHT);
-        fieldArray[(fieldnumber/4)].setBackground(FIELD_COLOR2);
-
-        x+=FIELD_HEIGHT;
-        for(int i=(fieldnumber/4)+1; i<2*(fieldnumber/4);i++){
-            fieldArray[i].setLayout(new BoxLayout(fieldArray[i],BoxLayout.Y_AXIS));
-            fieldArray[i].setBounds(x,y, FIELD_WIDTH, FIELD_HEIGHT);
-            drawHorizontal(i);
-            fieldArray[i].setBackground(FIELD_COLOR1);
-            x=x+FIELD_WIDTH;
-        }
-
-        fieldArray[2*(fieldnumber/4)].setBounds(x, y, FIELD_HEIGHT, FIELD_HEIGHT);
-        fieldArray[2*(fieldnumber/4)].setBackground(FIELD_COLOR2);
-
-
-        y+=FIELD_HEIGHT;
-
-        for(int i=2*(fieldnumber/4)+1; i<3*(fieldnumber/4);i++){
-            fieldArray[i].setBounds(x,y, FIELD_HEIGHT, FIELD_WIDTH);
-            fieldArray[i].setLayout(new BoxLayout(fieldArray[i],BoxLayout.X_AXIS));
-            drawVertical2(i);
-            fieldArray[i].setBackground(FIELD_COLOR1);
-            y=y+FIELD_WIDTH;
-        }
-
-        fieldArray[3*(fieldnumber/4)].setBounds(x, y, FIELD_HEIGHT, FIELD_HEIGHT);
-        fieldArray[3*(fieldnumber/4)].setBackground(FIELD_COLOR2);
-
-
-        x-=FIELD_WIDTH;
-
-        for(int i=3*(fieldnumber/4)+1; i<fieldnumber;i++){
-            fieldArray[i].setLayout(new BoxLayout(fieldArray[i],BoxLayout.Y_AXIS));
-            fieldArray[i].setBounds(x,y, FIELD_WIDTH, FIELD_HEIGHT);
-            drawHorizontal(i);
-            fieldArray[i].setBackground(FIELD_COLOR1);
-            x=x-FIELD_WIDTH;
-
-        }
-
-        rollButton.setBounds(450, 470, ROLL_BUTTON_WIDTH,ROLL_BUTTON_HEIGHT);
-        diceLabel1.setBounds(450, 540, 50, 50);
-        diceLabel2.setBounds(500, 540, 50, 50);
-        strategyPanel.setBounds(385, 430, 230,80);
-        carButton.setBounds(460,600,80,30);
-        for(int i=fieldnumber/4; i<fieldnumber; i+=fieldnumber/4)
-        {
-            fieldArray[i].setLayout(new FlowLayout(0,0,0));
-            centerArray[i].setBorder(BorderFactory.createLineBorder(Color.black,2));
-            drawExchange(i);
-        }
-        for(JPanel m: fieldArray){
-            leftPanel.add(m);
-        }
-        for (int i = 0; i < fieldArray.length; i++) {
-            fieldArray[i].addMouseListener(new ShowInfoPanelMouseListener());
-            priceArray[i].setBorder(BorderFactory.createLineBorder(Color.black,2));
-            priceArray[i].setBackground(FIELD_COLOR1);
-            descArray[i].setBorder(BorderFactory.createLineBorder(Color.black,2));
-            descArray[i].setBackground(Color.cyan);
-            centerArray[i].setBorder(BorderFactory.createLineBorder(Color.black,2));
-            centerArray[i].setBackground(FIELD_COLOR1);
-        }
+        centerArray[i].setPreferredSize(new Dimension(FIELD_HEIGHT, FIELD_HEIGHT));
+        fieldArray[i].setBackground(FIELD_COLOR1);
+        fieldArray[i].add(centerArray[0]);
     }
     public void drawHorizontal(int i)
     {
-            final int tmp=i;
-
-            if(Board.getFieldsArray()[i] instanceof ToBuy)
-            {
-                descArray[i]= new JPanel() {
-                    @Override
-                    protected void paintComponent(Graphics g) {
-                        super.paintComponent(g);
-                        Graphics2D g2d = (Graphics2D) g.create();
-                        Font font = new Font("Arial", Font.BOLD, 12);
-                        g2d.setFont(font);
-                        String nap=Board.getFieldsArray()[tmp].getName();
-                        FontMetrics fontMetrics = g.getFontMetrics(font);
-                        int textWidth = fontMetrics.stringWidth(nap);
-                        int x = (getWidth() - textWidth) / 2;
-                        int y = (getHeight() - fontMetrics.getHeight()) / 2 + fontMetrics.getAscent();
-                        g2d.drawString(nap, x,y);
-                        g2d.dispose();
-                    }
-                };
-                descArray[i].setMaximumSize(new Dimension(FIELD_WIDTH,25));
-                fieldArray[i].add(descArray[i]);
-            }
-            centerArray[i]= new JPanel()
-            {
-                @Override
-                protected void paintComponent(Graphics g) {
-                    super.paintComponent(g);
-                    Graphics2D g2d = (Graphics2D) g.create();
-                    if(Board.getFieldsArray()[tmp] instanceof City)
-                    {
-                        Image backgroundImage = new ImageIcon("src/images/city.png").getImage();
-                        AffineTransform at= scaleIMG(backgroundImage, getWidth(), getHeight(), 0);
-                        g2d.drawImage(backgroundImage, at, null);
-                    }
-                    if(Board.getFieldsArray()[tmp] instanceof Village)
-                    {
-                        Image backgroundImage = new ImageIcon("src/images/village.png").getImage();
-                        AffineTransform at= scaleIMG(backgroundImage, getWidth(), getHeight(), 0);
-                        g2d.drawImage(backgroundImage, at, null);
-                    }
-                    if(Board.getFieldsArray()[tmp] instanceof Chance)
-                    {
-                        Image backgroundImage = new ImageIcon("src/images/chance.png").getImage();
-                        AffineTransform at= scaleIMG(backgroundImage, getWidth(), getHeight(), 0);
-                        g2d.drawImage(backgroundImage, at, null);
-                    }
-                    if(Board.getFieldsArray()[tmp] instanceof CarDealership)
-                    {
-                        Image backgroundImage = new ImageIcon("src/images/car.png").getImage();
-                        AffineTransform at= scaleIMG(backgroundImage, getWidth(), getHeight(), 0);
-                        g2d.drawImage(backgroundImage, at, null);
-                    }
-                }
-            };
-            fieldArray[i].add(centerArray[i]);
-            if(Board.getFieldsArray()[i] instanceof ToBuy)
-            {
-                priceArray[tmp]= new JPanel() {
-
-                    @Override
-                    protected void paintComponent(Graphics g) {
-                        super.paintComponent(g);
-                        Graphics2D g2d = (Graphics2D) g.create();
-                        Font font = new Font("Arial", Font.BOLD, 12);
-                        g2d.setFont(font);
-                        String nap=getActualPrice(tmp);
-                        FontMetrics fontMetrics = g.getFontMetrics(font);
-                        int textWidth = fontMetrics.stringWidth(nap);
-                        int x = (getWidth() - textWidth) / 2;
-                        int y = (getHeight() - fontMetrics.getHeight()) / 2 + fontMetrics.getAscent()+1;
-                        g2d.drawString(nap, x,y);
-                        g2d.dispose();
-                    }
-                };
-                priceArray[i].setMaximumSize(new Dimension(FIELD_WIDTH, 15));
-                fieldArray[i].add(priceArray[i]);
-            }
+        fieldArray[i].setLayout(new BoxLayout(fieldArray[i],BoxLayout.Y_AXIS));
+        if(Board.getFieldsArray()[i] instanceof ToBuy)
+        {
+            drawDesc(0, i);
+            fieldArray[i].add(descArray[i]);
+        }
+        drawPictcent(0,i);
+        fieldArray[i].add(centerArray[i]);
+        centerArray[i].setPreferredSize(new Dimension(getHeight(), getWidth()));
+        if(Board.getFieldsArray()[i] instanceof ToBuy)
+        {
+            drawPrice(0,i);
+            fieldArray[i].add(priceArray[i]);
+        }
     }
     public void drawVertical1(int i)
     {
-        final int tmp=i;
-
-
+        fieldArray[i].setLayout(new BoxLayout(fieldArray[i],BoxLayout.X_AXIS));
+        FontMetrics fontMetrics = fieldArray[i].getFontMetrics(font);
         if(Board.getFieldsArray()[i] instanceof ToBuy)
         {
-            priceArray[tmp]= new JPanel() {
-
-                @Override
-                protected void paintComponent(Graphics g) {
-                    super.paintComponent(g);
-                    Graphics2D g2d = (Graphics2D) g.create();
-                    g2d.rotate(Math.PI / 2);
-                    Font font = new Font("Arial", Font.BOLD, 12);
-                    g2d.setFont(font);
-                    String nap=getActualPrice(tmp);
-                    FontMetrics fontMetrics = g.getFontMetrics(font);
-                    int textWidth = fontMetrics.stringWidth(nap);
-                    int x = (getHeight() - textWidth) / 2;
-                    int y = (getWidth() - fontMetrics.getHeight()) / 2 -2;
-                    g2d.drawString(nap, x,y);
-                    g2d.dispose();
-                }
-            };
-            priceArray[i].setMaximumSize(new Dimension(15, FIELD_WIDTH));
+            drawPrice(Math.PI/2, i);
+            // priceArray[i].setSize(fontMetrics.getHeight()+1, FIELD_WIDTH);
             fieldArray[i].add(priceArray[i]);
         }
-
-
-        centerArray[i]= new JPanel()
-        {
-            @Override
-            protected void paintComponent(Graphics g) {
-                super.paintComponent(g);
-                Graphics2D g2d = (Graphics2D) g.create();
-                if(Board.getFieldsArray()[tmp] instanceof City)
-                {
-                    Image backgroundImage = new ImageIcon("src/images/city.png").getImage();
-                    AffineTransform at= scaleIMG(backgroundImage, getWidth(), getHeight(), Math.PI/2);
-                    g2d.drawImage(backgroundImage, at, null);
-                }
-                if(Board.getFieldsArray()[tmp] instanceof Village)
-                {
-                    Image backgroundImage = new ImageIcon("src/images/village.png").getImage();
-                    AffineTransform at= scaleIMG(backgroundImage, getWidth(), getHeight(), Math.PI/2);
-                    g2d.drawImage(backgroundImage, at, null);
-                }
-                if(Board.getFieldsArray()[tmp] instanceof Chance)
-                {
-                    Image backgroundImage = new ImageIcon("src/images/chance.png").getImage();
-                    AffineTransform at= scaleIMG(backgroundImage, getWidth(), getHeight(), Math.PI/2);
-                    g2d.drawImage(backgroundImage, at, null);
-                }
-                if(Board.getFieldsArray()[tmp] instanceof CarDealership)
-                {
-                    Image backgroundImage = new ImageIcon("src/images/car.png").getImage();
-                    AffineTransform at= scaleIMG(backgroundImage, getWidth(), getHeight(), Math.PI/2);
-                    g2d.drawImage(backgroundImage, at, null);
-                }
-            }
-        };
+        drawPictcent(Math.PI / 2, i);
         fieldArray[i].add(centerArray[i]);
+        centerArray[i].setPreferredSize(new Dimension(getWidth(), getHeight()));
         if(Board.getFieldsArray()[i] instanceof ToBuy)
         {
-            descArray[i]= new JPanel() {
-                @Override
-                protected void paintComponent(Graphics g) {
-                    super.paintComponent(g);
-                    Graphics2D g2d = (Graphics2D) g.create();
-                    g2d.rotate(Math.PI / 2);
-                    Font font = new Font("Arial", Font.BOLD, 12);
-                    g2d.setFont(font);
-                    String nap=Board.getFieldsArray()[tmp].getName();
-                    FontMetrics fontMetrics = g.getFontMetrics(font);
-                    int textWidth = fontMetrics.stringWidth(nap);
-                    int x = (getHeight() - textWidth) / 2;
-                    int y = (getWidth() - fontMetrics.getHeight()) / 2 -2;
-                    g2d.drawString(nap, x,y);
-                    g2d.dispose();
-                }
-
-            };
-            descArray[i].setMaximumSize(new Dimension(25, FIELD_WIDTH));
+            drawDesc(Math.PI/2, i);
+            //    descArray[i].setSize(fontMetrics.getHeight()+1, FIELD_WIDTH);
             fieldArray[i].add(descArray[i]);
         }
     }
     public void drawVertical2(int i)
     {
-        final int tmp=i;
+        FontMetrics fontMetrics = fieldArray[i].getFontMetrics(font);
+        fieldArray[i].setLayout(new BoxLayout(fieldArray[i],BoxLayout.X_AXIS));
         if(Board.getFieldsArray()[i] instanceof ToBuy)
         {
-            descArray[i]= new JPanel() {
-                @Override
-                protected void paintComponent(Graphics g) {
-                    super.paintComponent(g);
-                    Graphics2D g2d = (Graphics2D) g.create();
-                    Font font = new Font("Arial", Font.BOLD, 12);
-                    g2d.setFont(font);
-                    g2d.rotate(-Math.PI/2);
-                    String nap=Board.getFieldsArray()[tmp].getName();
-                    FontMetrics fontMetrics = g2d.getFontMetrics(font);
-                    int textHeight = fontMetrics.stringWidth(nap);
-                    int textDescent = fontMetrics.getDescent();
-                    int x=(-getHeight()-textHeight)/2;
-                    int y=(getWidth() + fontMetrics.getAscent()) / 2 - textDescent+2;
-                    g2d.drawString(nap, x, y);
-                    g2d.dispose();
-                }
-            };
-            descArray[i].setMaximumSize(new Dimension(25,FIELD_WIDTH));
+            drawDesc(-Math.PI/2, i);
+            descArray[i].setSize(fontMetrics.getHeight()+1, FIELD_WIDTH);
             fieldArray[i].add(descArray[i]);
         }
-        centerArray[i]= new JPanel()
+        drawPictcent(-Math.PI/2, i);
+        fieldArray[i].add(centerArray[i]);
+        centerArray[i].setPreferredSize(new Dimension(getWidth(), getHeight()));
+        if(Board.getFieldsArray()[i] instanceof ToBuy)
+        {
+            drawPrice(-Math.PI/2, i);
+            priceArray[i].setSize(fontMetrics.getHeight()+1, FIELD_WIDTH);
+            fieldArray[i].add(priceArray[i]);
+        }
+    }
+    private void drawDesc(double rotation, int ind)
+    {
+        descArray[ind]= new JPanel() {
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                Graphics2D g2d = (Graphics2D) g.create();
+                g2d.rotate(rotation);
+                g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+                g2d.setFont(font);
+                String nap=Board.getFieldsArray()[ind].getName();
+                FontMetrics fontMetrics= g2d.getFontMetrics();
+                int textWidth = fontMetrics.stringWidth(nap);
+                int x=0;
+                int y=0;
+                if(rotation==0)
+                {
+                    x = (getWidth() - textWidth) / 2;
+                    y = (getHeight() - fontMetrics.getHeight())/2 + fontMetrics.getAscent();
+                }
+                else
+                {
+                    if(rotation==Math.PI/2)
+                    {
+                        x = (getHeight() - textWidth) / 2;
+                        y = (getWidth() - fontMetrics.getHeight()) / 2-1 ;
+                    }
+                    if (rotation==-Math.PI/2)
+                    {
+                        x = (-textWidth-getHeight())/2;
+                        y =(getWidth() + fontMetrics.getHeight()) / 2-3;
+                    }
+                }
+                g2d.drawString(nap, x,y);
+                g2d.dispose();
+                this.setBackground(FIELD_COLOR1);
+            }
+
+        };
+        descArray[ind].setDoubleBuffered(true);
+    }
+    private void drawPrice(double rotation, int ind)
+    {
+        priceArray[ind]= new JPanel() {
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                Graphics2D g2d = (Graphics2D) g.create();
+                g2d.rotate(rotation);
+                this.setDoubleBuffered(true);
+                g2d.setFont(font);
+                String nap=getActualPrice(ind);
+                FontMetrics fontMetrics = g.getFontMetrics(font);
+                int textWidth = fontMetrics.stringWidth(nap);
+                int x=0;
+                int y=0;
+                if(rotation==0)
+                {
+                    x = (getWidth() - textWidth) / 2;
+                    y = (getHeight() - fontMetrics.getHeight()) / 2 + fontMetrics.getAscent();
+                }
+                else
+                {
+                    if(rotation==Math.PI/2)
+                    {
+                        x = (getHeight() - textWidth) / 2;
+                        y = (getWidth() - fontMetrics.getHeight()) / 2 ;
+                    }
+                    if (rotation==-Math.PI/2) {
+                        x = (-textWidth - getHeight()) / 2;
+                        y = (getWidth() + fontMetrics.getHeight()) / 2 -2;
+                    }
+                }
+                g2d.drawString(nap, x,y);
+                this.setBackground(FIELD_COLOR1);
+                g2d.dispose();
+            }
+        };
+    }
+    private void drawPictcent(double rotation, int ind)
+    {
+        centerArray[ind]= new JPanel()
         {
             @Override
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
                 Graphics2D g2d = (Graphics2D) g.create();
-                if(Board.getFieldsArray()[tmp] instanceof City)
+                g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+                Image backgroundImage = null;
+                if(Board.getFieldsArray()[ind] instanceof City)
                 {
-                    Image backgroundImage = new ImageIcon("src/images/city.png").getImage();
-                    AffineTransform at= scaleIMG(backgroundImage, getWidth(), getHeight(), -Math.PI/2);
-                    g2d.drawImage(backgroundImage, at, null);
-                }
-                if(Board.getFieldsArray()[tmp] instanceof Village)
+                    backgroundImage=citypicture.getImage();
+                } else if (Board.getFieldsArray()[ind] instanceof Village)
                 {
-                    Image backgroundImage = new ImageIcon("src/images/village.png").getImage();
-                    AffineTransform at= scaleIMG(backgroundImage, getWidth(), getHeight(), -Math.PI/2);
-                    g2d.drawImage(backgroundImage, at, null);
-                }
-                if(Board.getFieldsArray()[tmp] instanceof Chance)
+                    backgroundImage=villpicture.getImage();
+                } else if(Board.getFieldsArray()[ind] instanceof Chance)
                 {
-                    Image backgroundImage = new ImageIcon("src/images/chance.png").getImage();
-                    AffineTransform at= scaleIMG(backgroundImage, getWidth(), getHeight(), -Math.PI/2);
-                    g2d.drawImage(backgroundImage, at, null);
-                }
-                if(Board.getFieldsArray()[tmp] instanceof CarDealership)
+                    backgroundImage=chancepicture.getImage();
+                } else if(Board.getFieldsArray()[ind] instanceof CarDealership)
                 {
-                    Image backgroundImage = new ImageIcon("src/images/car.png").getImage();
-                    AffineTransform at= scaleIMG(backgroundImage, getWidth(), getHeight(), -Math.PI/2);
-                    g2d.drawImage(backgroundImage, at, null);
+                    backgroundImage=carpicture.getImage();
                 }
+                AffineTransform at= scaleIMG(backgroundImage, getWidth(), getHeight(), rotation);
+                this.setBackground(FIELD_COLOR1);
+                g2d.drawImage(backgroundImage, at, null);
             }
         };
-        fieldArray[i].add(centerArray[i]);
-        if(Board.getFieldsArray()[i] instanceof ToBuy)
-        {
-            priceArray[tmp]= new JPanel() {
-
-                @Override
-                protected void paintComponent(Graphics g) {
-                    super.paintComponent(g);
-                    Graphics2D g2d = (Graphics2D) g.create();
-                    Font font = new Font("Arial", Font.BOLD, 12);
-                    g2d.setFont(font);
-                    g2d.rotate(-Math.PI/2);
-                    String nap=getActualPrice(tmp);
-                    FontMetrics fontMetrics = g2d.getFontMetrics(font);
-                    int textHeight = fontMetrics.stringWidth(nap);
-                    int textDescent = fontMetrics.getDescent();
-                    int x=(-getHeight()-textHeight)/2;
-                    int y=(getWidth() + fontMetrics.getAscent()) / 2 - textDescent+2;
-                    g2d.drawString(nap, x, y);
-                    g2d.dispose();
-                }
-            };
-            priceArray[i].setMaximumSize(new Dimension(15, FIELD_WIDTH));
-            fieldArray[i].add(priceArray[i]);
-        }
+        centerArray[ind].setDoubleBuffered(true);
     }
     public AffineTransform scaleIMG(Image backgroundImage, int panelWidth, int panelHeight, double rotationAngleInRadians)
     {
@@ -760,6 +693,7 @@ public class GamePanel extends JPanel{
                 g2d.dispose();
             }
         };
+        fieldArray[i].setLayout(new BorderLayout(0,0));
         centerArray[i].setPreferredSize(new Dimension(FIELD_HEIGHT, FIELD_HEIGHT));
         fieldArray[i].setBackground(FIELD_COLOR1);
         fieldArray[i].add(centerArray[i]);
