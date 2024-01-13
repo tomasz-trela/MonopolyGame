@@ -316,4 +316,11 @@ public class Board {
         }
         return tab;
     }
+    public long[] Ranking(){
+        long[] scoreboard = new long[players.length];
+        for(int i = 0; i < players.length; i++){
+            scoreboard[i] = players[i].totalNetWorth(this);
+        }
+        return scoreboard;
+    }
 }
