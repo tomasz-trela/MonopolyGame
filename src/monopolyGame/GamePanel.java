@@ -1332,4 +1332,67 @@ public class GamePanel extends JPanel{
             updateTimer();
         }
     }
+
+        public static void showChance(int chanceIndex){
+            ImageIcon chanceIcon = new ImageIcon("src/images/chance.png");
+            double scale=0.3;
+
+
+            Image scaledChanceImage = chanceIcon.getImage().getScaledInstance((int) (chanceIcon.getIconWidth()*scale), (int) (chanceIcon.getIconHeight()*scale),Image.SCALE_SMOOTH);
+
+            ImageIcon scaledChanceIcon = new ImageIcon(scaledChanceImage);
+
+
+
+            JFrame chanceFrame = new JFrame();
+            chanceFrame.setVisible(true);
+            chanceFrame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+
+
+
+            JPanel chance= new JPanel();
+            chance.setLayout(new BoxLayout(chance, BoxLayout.Y_AXIS));
+            chance.setBackground(Color.WHITE);
+            chance.setVisible(true);
+
+
+            JLabel txt=new JLabel("CHANCE");
+            txt.setFont(new Font("Arial", Font.BOLD, 25));
+            txt.setHorizontalAlignment(JLabel.CENTER);
+            txt.setIcon(scaledChanceIcon);
+            txt.setIconTextGap(0);
+            //txt.setVerticalTextPosition(SwingConstants.BOTTOM);
+
+            JPanel txtPanel = new JPanel();
+            txtPanel.add(txt);
+            txtPanel.setBackground(FIELD_COLOR1);
+
+
+
+
+
+            JTextArea cardTxt= new JTextArea(Board.getListOfChances()[chanceIndex].getText());
+
+
+            cardTxt.setLineWrap(true);
+            cardTxt.setWrapStyleWord(true);
+            cardTxt.setEditable(false);
+            cardTxt.setFocusable(false);
+            cardTxt.setFont(new Font("Arial", Font.PLAIN, 18));
+
+
+            cardTxt.setBackground(FIELD_COLOR1);
+            JScrollPane scrollPane = new JScrollPane(cardTxt);
+            scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+            scrollPane.setPreferredSize(new Dimension(150,125));
+            chanceFrame.setLayout(new FlowLayout(FlowLayout.CENTER,0,5));
+            chance.add(txtPanel);
+            chance.add(scrollPane);
+            chanceFrame.add(chance);
+            chanceFrame.setResizable(false);
+            chanceFrame.setBounds(SCREEN_WIDTH/2,SCREEN_HEIGHT/2,200,250);
+            chanceFrame.setIconImage(chanceIcon.getImage());
+            chanceFrame.setAlwaysOnTop(true);
+        }
+
 }

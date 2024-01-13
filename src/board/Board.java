@@ -324,4 +324,8 @@ public class Board {
         return scoreboard;
         // scoreboard[i] to laczny majatek Playeri
     }
+
+    public static Chances[] getListOfChances() {
+        return listOfChances;
+    }
 }

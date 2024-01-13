@@ -1,5 +1,6 @@
 package board;
 import ChancesAndModifications.Chances;
+import monopolyGame.GamePanel;
 import player.Player;
 
 import java.util.Random;
@@ -24,6 +25,7 @@ public class Chance extends Field{
         int [] moneyGivenPerPlayer = listOfChances[i].getMoneyGivenPerPlayer();
         int positionChange = listOfChances[i].getPositionChange();
         int finalPosition = listOfChances[i].getFinalPosition();
+        GamePanel.showChance(i);
 
         Player player = board.getCurrentPlayer();
         if (i==0) {
