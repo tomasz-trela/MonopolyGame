@@ -9,7 +9,7 @@ public class BuyFieldStrategy implements ActionStrategy {
     @Override
     public void action(Board board) {
 
-        Player currentPlayer = board.getPlayers()[board.getRound()];
+        Player currentPlayer = board.getCurrentPlayer();
         int currentIndex = currentPlayer.getFieldIndex();
         ToBuy field = (ToBuy) Board.getFieldsArray()[currentIndex];
 

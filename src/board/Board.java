@@ -1,8 +1,6 @@
 package board;
 
 import ChancesAndModifications.Chances;
-import monopolyGame.GameFrame;
-import monopolyGame.GamePanel;
 import observer.Subject;
 import player.Pawn;
 import player.Player;
@@ -22,8 +20,11 @@ public class Board {
     private Player currentPlayer;
     private static final Chances[] listOfChances = {
             new Chances("You are losing 10000 euro", new int[]{10000, 0}, new int[] {0, 0}, 0, 0, 0),
+            new Chances("You are losing 20000 euro", new int[]{20000, 0}, new int[] {0, 0}, 0, 0, 0),
             new Chances("You must give 10000 dolars for next player",new int[] {0, 0}, new int[]{0,10000}, 0, 0, 0),
+            new Chances("You must give 15000 dolars for next player",new int[] {0, 0}, new int[]{0,15000}, 0, 0, 0),
             new Chances("You go 6 fields ahead", new int[] {0, 0}, new int[]{0,0}, 6, 0, 0),
+            new Chances("You go 1 field ahead", new int[] {0, 0}, new int[]{0,0}, 1, 0, 0),
             new Chances("Start again",new int[] {0, 0}, new int[]{0,0}, 0, 0, 0),
     };
     private double dollarRate;
@@ -211,7 +212,15 @@ public class Board {
         if(round==2) pawns[2].placePawnOn(players[round].getFieldIndex());
         if(round==3) pawns[3].placePawnOn(players[round].getFieldIndex());
     }
-    public void ChangePlayerLocation(int roll){
+    public void changePlayerLocation(int roll){
+        int oldIndex = currentPlayer.getFieldIndex();
+        int newIndex = (oldIndex+ roll) % 36;
+        if (newIndex<oldIndex){
+            currentPlayer.increaseBalance(currentPlayer.getCashPerLap());
+        }
+        currentPlayer.setFieldIndex(newIndex);
+        currentPlayer.setLap(currentPlayer.getLap() + 1);
+
         int temp = 0;
         if (fields != null){
             for (int i = 0; i < fields.length; i++) {

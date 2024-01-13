@@ -8,14 +8,14 @@ import java.util.ArrayList;
 public abstract class ToBuy extends Field {
     private Player owner;
     private int[] price = new int[2];
-
-    //private Country country;
+    private int stayFee;
     private ArrayList<Building> Buildings;
 
-    public ToBuy(String name, int priceEuro, int priceDollars, Player owner) {
+    public ToBuy(String name, int priceEuro, int priceDollars, int feature, Player owner) {
         super(name);
         this.price[0] = priceEuro;
         this.price[1] = priceDollars;
+        this.stayFee = CalculateStayFee(feature);
         this.Buildings = new ArrayList<>();
         this.owner = owner;
     }
@@ -71,5 +71,14 @@ public abstract class ToBuy extends Field {
     }
     public int NumberOfBuildings(){
         return Buildings.size();
+    }
+    public int CalculateStayFee(int feature){
+        return 500*feature;
+    }
+    public int getStayFee() {
+        return stayFee;
+    }
+    public void setStayFee(int stayFee) {
+        this.stayFee = stayFee;
     }
 }

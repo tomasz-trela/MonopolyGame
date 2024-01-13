@@ -28,21 +28,20 @@ public class Chance extends Field{
         GamePanel.showChance(i);
 
         Player player = board.getCurrentPlayer();
-        if (i==0) {
+        if (i==0 || i==1) {
             player.decreaseBalance(moneyChange);
         }
-        if (i==1){
+        if (i==2 || i==3){
             player.decreaseBalance(moneyGivenPerPlayer);
             board.getPlayers()[(board.getRound()+1)%board.getPlayers().length].increaseBalance(moneyGivenPerPlayer);
         }
-        if (i==2){
+        if (i==4 || i==5){
             player.setCanMoveAfterChance(true);
-            player.movePlayer(positionChange, board, board.getRound());
-            board.ChangePlayerLocation(positionChange);
+            board.changePlayerLocation(positionChange);
             player.changeStrategy();
             board.movePawn();
         }
-        if (i==3){
+        if (i==6){
             player.setFieldIndex(finalPosition);
             board.SetPlayerLocation(finalPosition);
             player.changeStrategy();

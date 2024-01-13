@@ -6,15 +6,17 @@ import java.util.ArrayList;
 public class CarDealership extends Field {
     private ArrayList<Car> availableCars;
     private String whichCurrency;
+    private final int carPrice;
     public CarDealership(String whichCurrency){
         super("Car Dealership");
         this.whichCurrency = whichCurrency;
+        this.carPrice = 3000;
         this.availableCars = new ArrayList<Car>();
         for (int i = 0; i < 2; i++){
             if (whichCurrency.equals("Euro")) {
-                this.availableCars.add(new Car(3000,0));
+                this.availableCars.add(new Car(carPrice,0));
             }else {
-                this.availableCars.add(new Car(0,3000));
+                this.availableCars.add(new Car(0,carPrice));
             }
         }
     }
@@ -40,7 +42,12 @@ public class CarDealership extends Field {
         availableCars.set(index, car);
     }
     public String toString(){
-        return "Car Dealership";
+        try{
+            return "Car Dealership, " + "Car price: " + carPrice + " Cost of maintenance 100 dolars/euro";
+        }
+        catch (NullPointerException e){
+            return "Car Dealership ";
+        }
     }
     public String getStan(ArrayList<Car> availableCars){
         String stan = "";

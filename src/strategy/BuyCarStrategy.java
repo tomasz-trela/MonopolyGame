@@ -14,7 +14,7 @@ import static player.Dice.Roll;
 public class BuyCarStrategy implements ActionStrategy {
     @Override
     public void action(Board board) {
-        Player currentPlayer = board.getPlayers()[board.getRound()];
+        Player currentPlayer = board.getCurrentPlayer();
         int currentIndex = currentPlayer.getFieldIndex();
         CarDealership field = (CarDealership) Board.getFieldsArray()[currentIndex];
 

@@ -10,7 +10,7 @@ import java.util.Arrays;
 public class Village extends ToBuy {
     private int ryeness;
     public Village (String name, int priceEuro,int priceDollars, Player owner, int ryeness){
-        super(name, priceEuro, priceDollars, owner);
+        super(name, priceEuro, priceDollars, ryeness, owner);
         this.ryeness = ryeness;
     }
     public void update() {
