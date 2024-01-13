@@ -212,13 +212,7 @@ public class GamePanel extends JPanel{
         FIELD_HEIGHT=heighttowidth*FIELD_WIDTH;
         int x,y;
         x=gap;
-        System.out.println(FIELD_HEIGHT);
-        System.out.println(FIELD_WIDTH);
-        System.out.println(gap);
-        System.out.println(fieldnumber);
-        System.out.println(boardsides);
         y=gap+FIELD_HEIGHT+FIELD_WIDTH*((fieldnumber/boardsides)-1);
-        System.out.println(x+" "+y+" "+FIELD_WIDTH+" "+FIELD_HEIGHT);
         for(int i=0; i<fieldnumber; i++)
         {
             fieldArray[i]=new JPanel();
