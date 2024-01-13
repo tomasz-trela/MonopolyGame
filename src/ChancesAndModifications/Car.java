@@ -10,7 +10,7 @@ import static player.Dice.Roll;
 public class Car {
     private String name;
     private int[] price = new int[2];
-    private static int costOfMaintenance = 100;
+    private static int[] costOfMaintenance = new int[]{50,50};
     private boolean isAvailable;
     private final String [] nameList = {"Fiat", "Ford", "Audi", "BMW", "Mercedes", "Toyota", "Honda", "Mazda", "Nissan", "Volkswagen"};
 
@@ -26,7 +26,7 @@ public class Car {
         return price;
     }
 
-    public static int getCostOfMaintenance() {
+    public static int[] getCostOfMaintenance() {
         return costOfMaintenance;
     }
 
@@ -38,7 +38,7 @@ public class Car {
         return nameList;
     }
 
-    public static void setCostOfMaintenance(int costOfMaintenance) {
+    public static void setCostOfMaintenance(int[] costOfMaintenance) {
         Car.costOfMaintenance = costOfMaintenance;
     }
 
@@ -56,5 +56,5 @@ public class Car {
 
     public boolean isAvailable() {
         return isAvailable;
-    } //czy nie jest zepsute
+    }
 }

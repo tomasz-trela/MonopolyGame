@@ -1,5 +1,6 @@
 package board;
 
+import Buildings.Building;
 import Buildings.House;
 import player.Player;
 
@@ -7,7 +8,7 @@ public class City extends ToBuy {
     private int size;
     private int touristAttraction;
     public City (String name, int priceEuro,int priceDollars, Player owner, int size, int touristAttraction){
-        super(name, priceEuro, priceDollars, touristAttraction, owner);
+        super(name, priceEuro, priceDollars, owner);
         this.size = size;
         this.touristAttraction = touristAttraction;
     }
@@ -24,17 +25,10 @@ public class City extends ToBuy {
         this.touristAttraction = touristAttraction;
     }
     public String toString() {
-        String price;
-        if (this.getPrice()[0] == 0) {
-            price = ",Price dollars: " + this.getPrice()[1];
-        }
-        else {
-            price = ",Price euro: " + this.getPrice()[0];
-        }
         try {
-            return "Type: City,Name: " + this.getName() + ",Owner: " + this.getOwner().getName() + price + ",Size: " + this.getSize() + ",Tourist attraction: " + this.getTouristAttraction();
+            return "Type: City,Name: " + this.getName() + ",Owner: " + this.getOwner().getName() + ",Price in euro: " + this.getPrice()[0] + ",Price in dollars: " + this.getPrice()[1] + ",Size: " + this.getSize() + ",Tourist attraction: " + this.getTouristAttraction();
         } catch (NullPointerException e) {
-            return "Type: City,Name: " + this.getName() + ",Owner: " + "null" + price + ",Size: " + this.getSize() + ",Tourist attraction: " + this.getTouristAttraction();
+            return "Type: City,Name: " + this.getName() + ",Owner: " + "null" + ",Price in euro: " + this.getPrice()[0] + ",Price in dollars: " + this.getPrice()[1] + ",Size: " + this.getSize() + ",Tourist attraction: " + this.getTouristAttraction();
         }
     }
     public void addBuilding() {

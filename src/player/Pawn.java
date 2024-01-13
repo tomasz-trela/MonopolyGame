@@ -9,38 +9,31 @@ public class Pawn
     JLabel pawn= new JLabel();
     private int typ;// pionek moze miec trzy cztery typy ideksowane od 0 do 3
     private int position;// aktualna pozycja pionka
-
     public Pawn(int typ)
     {
         this.position=0;
         pawn.setBounds(0, 0, 0,0);
         this.typ=typ;
     }
-
     public JLabel getPawn()
     {
         return pawn;
     }
-
     public void hidePawn(){
         pawn.setVisible(false);
     }
-
     public int getTyp()
     {
         return typ;
     }
-
     public int getPosition()
     {
         return position;
     }
-
     public void setPosition(int n)
     {
         position=n;
     }
-
     public void placePawnOn(int nr){
         GamePanel.getFieldArray()[position].remove(pawn); // Usunięcie etykiety z poprzedniego panelu
         GamePanel.getFieldArray()[position].revalidate();
@@ -50,7 +43,6 @@ public class Pawn
         GamePanel.getFieldArray()[position].revalidate();
         GamePanel.getFieldArray()[position].repaint();
     }
-
     public void SizeSet(int x, int y)
     {
         Image pict1 = null;
@@ -74,4 +66,5 @@ public class Pawn
         ImageIcon pict2 = new ImageIcon(tmp);
         this.pawn.setIcon(pict2);
     }
+
 }

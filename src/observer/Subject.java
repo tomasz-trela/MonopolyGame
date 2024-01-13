@@ -1,6 +1,7 @@
 package observer;
 
 import board.Board;
+
 import java.util.ArrayList;
 
 public class Subject {

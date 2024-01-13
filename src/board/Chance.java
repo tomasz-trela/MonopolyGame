@@ -13,11 +13,9 @@ public class Chance extends Field{
     public Chances [] getListOfChances(){
         return listOfChances;
     }
-
     public Chances getChance(int index){
         return listOfChances[index];
     }
-
     public void doChance(Board board){
         Random generator = new Random();
         int i = generator.nextInt(listOfChances.length);
@@ -37,7 +35,8 @@ public class Chance extends Field{
         }
         if (i==2){
             player.setCanMoveAfterChance(true);
-            board.changePlayerLocation(positionChange);
+            player.movePlayer(positionChange, board, board.getRound());
+            board.ChangePlayerLocation(positionChange);
             player.changeStrategy();
             board.movePawn();
         }
