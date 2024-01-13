@@ -593,6 +593,8 @@ public class GamePanel extends JPanel{
                         @Override
                         public void actionPerformed(ActionEvent e) {
                             field.addBuilding();
+                            field.getOwner().decreaseBalance(field.getCostOfBuilding());
+                            GameFrame.getInstance().GetGamePanel().updateBalanceLabels();
                             BuildingPanel.removeAll();
                             showBuildingPanel(field);
                         }
@@ -648,6 +650,12 @@ public class GamePanel extends JPanel{
                                 @Override
                                 public void actionPerformed(ActionEvent e) {
                                     field.getBuildings().get(temp).upgrade();
+                                    if (field.getPrice()[0] == 0) {
+                                        field.getOwner().decreaseBalance(new int[] {0, field.getBuildings().get(temp).getPriceOfUpgrade()});
+                                    } else {
+                                        field.getOwner().decreaseBalance(new int[] {field.getBuildings().get(temp).getPriceOfUpgrade(), 0});
+                                    }
+                                    GameFrame.getInstance().GetGamePanel().updateBalanceLabels();
                                     BuildingPanel.removeAll();
                                     showBuildingPanel(field);
                                 }
