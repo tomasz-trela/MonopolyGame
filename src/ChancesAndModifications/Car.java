@@ -56,5 +56,5 @@ public class Car {
 
     public boolean isAvailable() {
         return isAvailable;
-    }
+    } //czy nie jest zepsute
 }

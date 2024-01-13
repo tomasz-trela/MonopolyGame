@@ -1,8 +1,5 @@
 package ChancesAndModifications;
 
-import board.Board;
-import player.Player;
-
 public class Chances {
 
     private String text;

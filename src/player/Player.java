@@ -252,7 +252,6 @@ public class Player {
                     }else{
                         balance[1] -= revenuePerVisit;
                     }
-
                 }
             }
         }

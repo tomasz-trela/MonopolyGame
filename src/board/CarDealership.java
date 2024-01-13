@@ -20,27 +20,35 @@ public class CarDealership extends Field {
             }
         }
     }
+
     public ArrayList<Car> getAvailableCars(){
         return availableCars;
     }
+
     public void setAvailableCars(ArrayList<Car> availableCars){
         this.availableCars = availableCars;
     }
+
     public void addCar(Car car){
         availableCars.add(car);
     }
+
     public void removeCar(Car car){
         availableCars.remove(car);
     }
+
     public void removeCar(int index){
         availableCars.remove(index);
     }
+
     public Car getCar(int index){
         return availableCars.get(index);
     }
+
     public void setCar(int index, Car car){
         availableCars.set(index, car);
     }
+
     public String toString(){
         try{
             return "Car Dealership, " + "Car price: " + carPrice + " Cost of maintenance 100 dolars/euro";
@@ -48,8 +56,8 @@ public class CarDealership extends Field {
         catch (NullPointerException e){
             return "Car Dealership ";
         }
-
     }
+
     public String getStan(ArrayList<Car> availableCars){
         String stan = "";
         for (int i = 0; i < availableCars.size(); i++){

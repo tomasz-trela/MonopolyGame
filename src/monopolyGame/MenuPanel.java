@@ -37,6 +37,7 @@ public class MenuPanel extends JPanel{
         addStartButton();
         this.add(Box.createVerticalGlue());
     }
+
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -48,8 +49,8 @@ public class MenuPanel extends JPanel{
         imageIcon = new ImageIcon("src/images/paper.png");
         Image paperImage = imageIcon.getImage();
         g.drawImage(paperImage, 540, 160, 420, 550, this);
-
     }
+
     public void addPlayersLabel() {
         playersLabel = new JLabel("Number of players");
         playersLabel.setAlignmentX(Component.CENTER_ALIGNMENT); // Wyśrodkowanie wzdłuż osi X
@@ -57,6 +58,7 @@ public class MenuPanel extends JPanel{
 
         this.add(playersLabel);
     }
+
     private void addMenuSlider(JSlider slider){
         slider.setMaximumSize(new Dimension(330, 60));
         slider.setFont(new Font("Monotype Corsiva", Font.BOLD, 18));
@@ -133,5 +135,4 @@ public class MenuPanel extends JPanel{
             gameFrame.GetGamePanel().createSubject();
         }
     }
-
 }

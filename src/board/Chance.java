@@ -13,9 +13,11 @@ public class Chance extends Field{
     public Chances [] getListOfChances(){
         return listOfChances;
     }
+
     public Chances getChance(int index){
         return listOfChances[index];
     }
+
     public void doChance(Board board){
         Random generator = new Random();
         int i = generator.nextInt(listOfChances.length);

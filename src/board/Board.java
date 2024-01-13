@@ -35,6 +35,7 @@ public class Board {
         dollarRate = 1.0;
 
     }
+
     public static void generatePlayers(int playersCount){
         players = new Player[playersCount];
         for(int i=0; i<players.length; i++){
@@ -46,7 +47,6 @@ public class Board {
     public static Player[] GetPlayersArray(){
         return players;
     }
-
 
     public static void generateBoard(int boardNumber){
         fields[0] = new Start();
@@ -72,6 +72,9 @@ public class Board {
             fields[16] = new Village("Farmville", 40000, 0, null, 2);
             fields[17] = new City("Brussels", 50000, 0, null, 10, 7);
             //fields[18] jest wspolne dla każdej mapy
+
+            //zmiana waluty
+
             fields[19] = new Village("Quebec", 0, 20000, null, 2);
             fields[20] = new Village("Smalltown", 0, 20000, null, 3);
             fields[21] = new CarDealership("Dolar");
@@ -110,6 +113,9 @@ public class Board {
             fields[16] = new Village("Farmville", 400, 1500, null, 6);
             fields[17] = new City("Brussels", 50000, 0, null, 10, 7);
             //fields[18] jest wspolne dla każdej mapy
+
+            //zmiana waluty
+
             fields[19] = new City("Seattle", 0, 45000, null, 10, 7);
             fields[20] = new Village("Smalltown", 0, 2000, null, 7);
             fields[21] = new Chance("Szansa2", listOfChances);
@@ -147,6 +153,9 @@ public class Board {
             fields[16] = new Village("Farmville", 400, 1500, null, 4);
             fields[17] = new City("Brussels", 50000, 0, null, 10, 7);
             //fields[18] jest wspolne dla każdej mapy
+
+            //zmiana waluty
+
             fields[19] = new Village("Quebec", 0, 20000, null, 4);
             fields[20] = new Village("Smalltown", 0, 2000, null, 5);
             fields[21] = new CarDealership("Dolar");
@@ -184,6 +193,9 @@ public class Board {
             fields[16] = new Village("Farmville", 400, 1500, null, 4);
             fields[17] = new City("Brussels", 50000, 0, null, 10, 7);
             //fields[18] jest wspolne dla każdej mapy
+
+            //zmiana waluty
+
             fields[19] = new City("Seattle", 0, 45000, null, 10, 7);
             fields[20] = new City("Los Agenles", 0, 45000, null, 10, 7);
             fields[21] = new Chance("Szansa2", listOfChances);

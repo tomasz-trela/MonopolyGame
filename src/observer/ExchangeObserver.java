@@ -4,7 +4,6 @@ import board.Board;
 
 public class ExchangeObserver implements Observer{
 
-
     // Metody zwiększające kurs waluty
     @Override
     public void updateDollar(Board board) {
