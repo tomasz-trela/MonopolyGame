@@ -33,7 +33,7 @@ public class MenuPanel extends JPanel{
         addTimeLabel();
         this.add(Box.createVerticalStrut(30));
         addTimeSlider();
-        this.add(Box.createVerticalStrut(0));
+        this.add(Box.createVerticalStrut(170));
         addStartButton();
         this.add(Box.createVerticalGlue());
     }
