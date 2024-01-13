@@ -322,5 +322,6 @@ public class Board {
             scoreboard[i] = players[i].totalNetWorth(this);
         }
         return scoreboard;
+        // scoreboard[i] to laczny majatek Playeri
     }
 }
