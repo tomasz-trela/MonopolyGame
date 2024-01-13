@@ -69,7 +69,4 @@ public abstract class ToBuy extends Field {
         else
             return new int[] {500, 500};
     }
-    public int NumberOfBuildings(){
-        return Buildings.size();
-    }
 }

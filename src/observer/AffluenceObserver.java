@@ -107,4 +107,5 @@ public class AffluenceObserver implements Observer{
     // public void showGameStats() {
 
     // }
+    // +1
 }

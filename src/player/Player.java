@@ -6,7 +6,7 @@ import monopolyGame.GameFrame;
 import monopolyGame.GamePanel;
 import observer.Subject;
 import strategy.*;
-import board.Board;
+
 import javax.swing.*;
 import java.io.File;
 import java.util.ArrayList;
@@ -110,20 +110,6 @@ public class Player {
                 balance[0] = balance[0] - amount[0]; // Na razie zakładamy, że gracza stać i nie ma końca gry
             }
         }
-    }
-    public long totalNetWorth(Board now){
-        long suma = balance[0];
-        suma+= (long) Math.round(balance[1]*now.getEuroRate());
-        for(int i=0; i<OwnedFields.size(); i++){
-            if(OwnedFields.get(i).getPrice()[0]!=0){
-                suma+= (long) OwnedFields.get(i).getPrice()[0];
-                suma+= (long) OwnedFields.get(i).getCostOfBuilding()[0]*OwnedFields.get(i).NumberOfBuildings();
-            } else {
-                suma+= (long) Math.round(OwnedFields.get(i).getPrice()[1]*now.getEuroRate());
-                suma+= (long) Math.round(OwnedFields.get(i).getCostOfBuilding()[0]*OwnedFields.get(i).NumberOfBuildings()*now.getEuroRate());
-            }
-        }
-        return suma;
     }
 
     public ArrayList<ToBuy> getOwnedFields() {
@@ -266,8 +252,6 @@ public class Player {
         }
     }
 
-/*public static void main(String[] args){
 
-}*/
 
 }
