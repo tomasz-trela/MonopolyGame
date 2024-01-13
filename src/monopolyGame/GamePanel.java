@@ -1222,20 +1222,9 @@ public class GamePanel extends JPanel{
         @Override
         public void actionPerformed(ActionEvent e) {
             board.getCurrentPlayer().playerAction(board);
-
             strategyPanel.setVisible(false);
             carButton.setVisible(false);
-            if (board.getCurrentPlayer().isCanExchange()){
-                rollButton.setVisible(false);
-                exchangeButton.setVisible(true);
-            }else if (board.getCurrentPlayer().isCanMoveAfterChance()) {
-                rollButton.setVisible(false);
-                updateStrategyLabel();
-                board.getCurrentPlayer().setCanMoveAfterChance(false);
-            }
-            else {
-                rollButton.setVisible(true);
-            }
+            updateRollButtonVisability(true);
 
             updateBalanceLabels();
             subject.notifyObserversEuro(board);
@@ -1296,19 +1285,34 @@ public class GamePanel extends JPanel{
             board.movePawn();
 
             updateStrategyLabel();
-            if(board.getCurrentPlayer().getLocation() instanceof Start){
-                rollButton.setVisible(true);
-            }else{
-                rollButton.setVisible(false);
-            }
-            if((board.getCurrentPlayer().getLocation() instanceof CarDealership) && (board.getCurrentPlayer().isHaveCar())){
-                rollButton.setVisible(true);
-            }
+            updateRollButtonVisability(false);
             board.incrementMoveCounter();
             
             updateBalanceLabels();
 
         }
+    }
+    public void updateRollButtonVisability(boolean bool){ //false - pokaz, true - schowaj (chyba ze wyjatki)
+        if(bool){
+            if (board.getCurrentPlayer().isCanExchange()){
+                rollButton.setVisible(false);
+                exchangeButton.setVisible(true);
+            }else if (board.getCurrentPlayer().isCanMoveAfterChance()) {
+                rollButton.setVisible(false);
+                updateStrategyLabel();
+                board.getCurrentPlayer().setCanMoveAfterChance(false);
+            }
+            else {
+                rollButton.setVisible(true);
+            }
+        }else {
+            if ((board.getCurrentPlayer().getLocation() instanceof Start) || ((board.getCurrentPlayer().getLocation() instanceof CarDealership) && (board.getCurrentPlayer().isHaveCar()))) {
+                rollButton.setVisible(true);
+            } else {
+                rollButton.setVisible(false);
+            }
+        }
+
     }
     public void createCarButton(){
         carButton = new JButton("use car");
@@ -1325,16 +1329,7 @@ public class GamePanel extends JPanel{
             board.getCurrentPlayer().useCar(board, sum);
             board.movePawn();
             updateStrategyLabel();
-            if(board.getCurrentPlayer().getLocation() instanceof Start){
-                rollButton.setVisible(true);
-            }else{
-                rollButton.setVisible(false);
-            }
-            if((board.getCurrentPlayer().getLocation() instanceof CarDealership) && (board.getCurrentPlayer().isHaveCar())){
-                rollButton.setVisible(true);
-            }else {
-                rollButton.setVisible(false);
-            }
+            updateRollButtonVisability(false);
             carButton.setVisible(false);
         }
 
