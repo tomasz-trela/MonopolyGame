@@ -21,7 +21,7 @@ public class MenuPanel extends JPanel{
         this.setBackground(Color.WHITE);
         this.setFocusable(true);
         this.setVisible(true);
-        this.add(Box.createVerticalStrut(210));
+        this.add(Box.createVerticalStrut(175));
         addPlayersLabel();
         this.add(Box.createVerticalStrut(30));
         addPlayersSlider();
@@ -33,7 +33,7 @@ public class MenuPanel extends JPanel{
         addTimeLabel();
         this.add(Box.createVerticalStrut(30));
         addTimeSlider();
-        this.add(Box.createVerticalStrut(0));
+        this.add(Box.createVerticalStrut(170));
         addStartButton();
         this.add(Box.createVerticalGlue());
     }
@@ -48,7 +48,7 @@ public class MenuPanel extends JPanel{
         g.drawImage(backgroundImage, 0, 0, 1500, 1500, this);
         imageIcon = new ImageIcon("src/images/paper.png");
         Image paperImage = imageIcon.getImage();
-        g.drawImage(paperImage, 540, 160, 420, 550, this);
+        g.drawImage(paperImage, 540, 125, 420, 560, this);
     }
 
     public void addPlayersLabel() {
