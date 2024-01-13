@@ -6,8 +6,8 @@ import player.Player;
 public class Chances {
 
     private String text;
-    private int [] moneyChange = new int[2];
-    private int [] moneyGivenPerPlayer = new int[2];
+    private int [] moneyChange;
+    private int [] moneyGivenPerPlayer;
     private int positionChange;
     private int finalPosition;
     private int taxPerHouse;

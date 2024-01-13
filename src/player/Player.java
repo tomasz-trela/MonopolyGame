@@ -3,16 +3,11 @@ package player;
 import ChancesAndModifications.Car;
 import board.*;
 import monopolyGame.GameFrame;
-import monopolyGame.GamePanel;
-import observer.Subject;
 import strategy.*;
 
 import javax.swing.*;
-import java.io.File;
 import java.util.ArrayList;
-
-import static java.util.function.Predicate.not;
-import static player.Dice.Roll;
+import java.util.Random;
 
 public class Player {
     private int fieldIndex;
@@ -162,15 +157,8 @@ public class Player {
     public void setCanMoveAfterChance(boolean canMoveAfterChance) {
         this.canMoveAfterChance = canMoveAfterChance;
     }
-
-    public void movePlayer(int roll, Board board, int round) {
-        int oldIndex = fieldIndex;
-        int newIndex = (oldIndex+ roll) % 36;
-        if (newIndex<oldIndex){
-            board.getPlayers()[round].increaseBalance(cashPerLap);
-        }
-        setFieldIndex(newIndex);
-        setLap(getLap() + 1);
+    public int[] getCashPerLap() {
+        return cashPerLap;
     }
 
     public void playerAction(Board board) {
@@ -212,11 +200,9 @@ public class Player {
 
     }
     public void useCar(Board board, int sum){
-        int round = board.getRound();
-        board.getPlayers()[round].movePlayer(sum, board, round);
-        board.ChangePlayerLocation(sum);
-        board.getCurrentPlayer().changeStrategy();
-        board.getCurrentPlayer().setHaveCar(false);
+        board.changePlayerLocation(sum);
+        changeStrategy();
+        setHaveCar(false);
     }
     public void exchangeMoney(Board board, int enteredValue, int typeOfTransaction){ //int typeOfTransaction (1- euro to usd), (2 - usd to euro)
         Player player = board.getCurrentPlayer();
@@ -235,18 +221,38 @@ public class Player {
         }
         player.setCanExchange(false);
     }
-    public void chargeForCar(){
+    public void chargeForCar(Board board){
         if(haveCar){
-            decreaseBalance(Car.getCostOfMaintenance());
+            int cost = Car.getCostOfMaintenance();
+            if (board.getCurrentPlayer().getLocation() instanceof ToBuy) {
+                if (((ToBuy) location).getPrice()[0] > ((ToBuy) location).getPrice()[1]) {
+                    balance[0] -= cost;
+                } else {
+                    balance[1] -= cost;
+                }
+            }else {
+                Random random = new Random();
+                balance[random.nextInt(2)] -= cost;
+            }
         }
     }
     public void payFeeForBuiliding(Board board){
         if(!(((ToBuy) board.getCurrentPlayer().getLocation()).getOwner() == null)){
-            if(!(getOwnedFields().contains(getLocation()))){
-                for (int i = 0; i < ((ToBuy) board.getCurrentPlayer().getLocation()).getBuildings().size(); i++) {
-                    //decreaseBalance(((ToBuy) board.getCurrentPlayer().getLocation()).getBuildings().get(i).getRevenuePerVisit());
-                    /*wzystkie ceny w pakiecie buidilgs są int zamiast int[], wiec pobieranie oplaty można zrobić dopiero po zmianie tych cen
-                    chyba że ktoś ma na to jakiś inny pomysł*/
+            if(!getOwnedFields().contains(getLocation())){
+                int stayFee = ((ToBuy) location).getStayFee();
+                if (((ToBuy) location).getPrice()[0] > ((ToBuy) location).getPrice()[1]){
+                    balance[0] -= stayFee;
+                }else{
+                    balance[1] -= stayFee;
+                }
+                for (int i = 0; i < ((ToBuy) location).getBuildings().size(); i++) {
+                    int revenuePerVisit = ((ToBuy) location).getBuildings().get(i).getRevenuePerVisit();
+                    if (((ToBuy) location).getPrice()[0] > ((ToBuy) location).getPrice()[1]){
+                        balance[0] -= revenuePerVisit;
+                    }else{
+                        balance[1] -= revenuePerVisit;
+                    }
+
                 }
             }
         }

@@ -804,7 +804,7 @@ public class GamePanel extends JPanel{
                     yesButton.setVisible(false);
                     noButton.setVisible(false);
                     okButton.setVisible(true);
-                    strategyLabel.setText("A fee has been collected");
+                    strategyLabel.setText("A stay-fee will be charged");
                 }
 
             }
@@ -1213,7 +1213,6 @@ public class GamePanel extends JPanel{
         public void actionPerformed(ActionEvent e) {
             board.calculateRound();
             int round = board.getRound();
-            //System.out.println("Gracz: " + (round+1));//test
             board.setCurrentPlayer(board.getPlayers()[round]);
 
             int sum =RollDices();
@@ -1222,11 +1221,9 @@ public class GamePanel extends JPanel{
                 carButton.setVisible(true);
             }
 
-            board.getPlayers()[round].movePlayer(sum, board, round);
-            board.ChangePlayerLocation(sum);
-            //System.out.println("New location: " + board.getCurrentPlayer().getLocation().getName());//test
+            board.changePlayerLocation(sum);
             board.getCurrentPlayer().changeStrategy();
-            board.getCurrentPlayer().chargeForCar();
+            board.getCurrentPlayer().chargeForCar(board);
             board.movePawn();
 
             updateStrategyLabel();
@@ -1256,6 +1253,9 @@ public class GamePanel extends JPanel{
             board.getCurrentPlayer().useCar(board, sum);
             board.movePawn();
             updateStrategyLabel();
+            if(board.getCurrentPlayer().getLocation() instanceof Start){
+                rollButton.setVisible(true);
+            }
             carButton.setVisible(false);
         }
 

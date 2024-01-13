@@ -1,6 +1,5 @@
 package board;
 
-import Buildings.Building;
 import Buildings.House;
 import player.Player;
 
@@ -8,7 +7,7 @@ public class City extends ToBuy {
     private int size;
     private int touristAttraction;
     public City (String name, int priceEuro,int priceDollars, Player owner, int size, int touristAttraction){
-        super(name, priceEuro, priceDollars, owner);
+        super(name, priceEuro, priceDollars, touristAttraction, owner);
         this.size = size;
         this.touristAttraction = touristAttraction;
     }

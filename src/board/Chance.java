@@ -35,8 +35,7 @@ public class Chance extends Field{
         }
         if (i==2){
             player.setCanMoveAfterChance(true);
-            player.movePlayer(positionChange, board, board.getRound());
-            board.ChangePlayerLocation(positionChange);
+            board.changePlayerLocation(positionChange);
             player.changeStrategy();
             board.movePawn();
         }

@@ -1,8 +1,6 @@
 package board;
 
 import ChancesAndModifications.Chances;
-import monopolyGame.GameFrame;
-import monopolyGame.GamePanel;
 import observer.Subject;
 import player.Pawn;
 import player.Player;
@@ -211,7 +209,16 @@ public class Board {
         if(round==2) pawns[2].placePawnOn(players[round].getFieldIndex());
         if(round==3) pawns[3].placePawnOn(players[round].getFieldIndex());
     }
-    public void ChangePlayerLocation(int roll){
+
+    public void changePlayerLocation(int roll){
+        int oldIndex = currentPlayer.getFieldIndex();
+        int newIndex = (oldIndex+ roll) % 36;
+        if (newIndex<oldIndex){
+            currentPlayer.increaseBalance(currentPlayer.getCashPerLap());
+        }
+        currentPlayer.setFieldIndex(newIndex);
+        currentPlayer.setLap(currentPlayer.getLap() + 1);
+
         int temp = 0;
         if (fields != null){
             for (int i = 0; i < fields.length; i++) {
