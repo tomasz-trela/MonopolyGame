@@ -9,6 +9,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.AffineTransform;
 import java.util.ArrayList;
+import java.util.Objects;
 
 import board.*;
 import static player.Dice.Roll;
@@ -104,7 +105,7 @@ public class GamePanel extends JPanel{
         this.setBackground(Color.WHITE);
         this.setLayout(null);
 
-        TopBuildingPanel.setBounds(SCREEN_WIDTH/3, SCREEN_HEIGHT/4, SCREEN_WIDTH/2, SCREEN_HEIGHT/25);
+        TopBuildingPanel.setBounds(SCREEN_WIDTH/3 - 400, SCREEN_HEIGHT/4, SCREEN_WIDTH/2, SCREEN_HEIGHT/25);
         BuildingPanel.setBounds(TopBuildingPanel.getX(), TopBuildingPanel.getY() + TopBuildingPanel.getHeight(), TopBuildingPanel.getWidth(), SCREEN_HEIGHT/4 - TopBuildingPanel.getHeight());
         BuildingPanel.setBorder(BorderFactory.createLineBorder(Color.black, 5));
         BuildingPanel.setLayout(new FlowLayout());
@@ -140,10 +141,10 @@ public class GamePanel extends JPanel{
 
         ownedFieldsPanel.setVisible(false);
 
-        this.add(TopBuildingPanel);
-        this.add(BuildingPanel);
+        leftPanel.add(TopBuildingPanel);
+        leftPanel.add(BuildingPanel);
 
-        this.add(ownedFieldsPanel);
+        leftPanel.add(ownedFieldsPanel);
 
         this.add(leftPanel);
         this.add(rightPanel);
@@ -658,14 +659,23 @@ public class GamePanel extends JPanel{
 
 
                     }
-                    if (field instanceof City) {
-                        for (int i = 0; i < (4 - (field.getBuildings().size()) * 4); i++) {
-                            BuildingPanel.add(new JLabel(" "));
-                        }
-                    } else if (field instanceof Village) {
-                        for (int i = 0; i < (4 - (field.getBuildings().size()) * 5); i++) {
-                            BuildingPanel.add(new JLabel(" "));
-                        }
+//                    if (field instanceof City) {
+//                        for (int i = 0; i < (4 - (field.getBuildings().size()) * 4); i++) {
+//                            BuildingPanel.add(new JLabel("..."));
+//                        }
+//                    } else {
+//                        for (int i = 0; i < (4 - (field.getBuildings().size()) * 5); i++) {
+//                            BuildingPanel.add(new JLabel("..."));
+//                        }
+//                    }
+                }
+                if (field instanceof City) {
+                    for (int i = 0; i < (16 - (field.getBuildings().size()) * 4); i++) {
+                        BuildingPanel.add(new JLabel("..."));
+                    }
+                } else {
+                    for (int i = 0; i < (20 - (field.getBuildings().size()) * 5); i++) {
+                        BuildingPanel.add(new JLabel("..."));
                     }
                 }
             } catch (IndexOutOfBoundsException e) {
@@ -718,11 +728,18 @@ public class GamePanel extends JPanel{
         int TempInt = getFieldIndex(mouseListener);
         ArrayList<JLabel> tempList = new ArrayList<>();
         String [] tempString = Board.getFieldsArray()[TempInt].toString().split(",");
-        for (int i = 0; i < tempString.length; i++) {
-            tempList.add(new JLabel(tempString[i]));
-            tempList.get(i).setForeground(Color.BLACK);
-            tempList.get(i).setFont(new Font("Serif", Font.BOLD, 20));
-            tempList.get(i).setVisible(false);
+        if (Objects.equals(tempString[0], "Car Dealership")) {
+            tempList.add(new JLabel("Car Dealership"));
+            tempList.get(0).setForeground(Color.BLACK);
+            tempList.get(0).setFont(new Font("Serif", Font.BOLD, 20));
+            tempList.get(0).setVisible(false);
+        } else {
+            for (int i = 0; i < tempString.length; i++) {
+                tempList.add(new JLabel(tempString[i]));
+                tempList.get(i).setForeground(Color.BLACK);
+                tempList.get(i).setFont(new Font("Serif", Font.BOLD, 20));
+                tempList.get(i).setVisible(false);
+            }
         }
         int y = 200;
         InfoPanel.setBounds(fieldArray[TempInt].getX() + FIELD_WIDTH/2, fieldArray[TempInt].getY() - 2*FIELD_HEIGHT, 200, 10 + 28 * tempList.size());
@@ -846,22 +863,7 @@ public class GamePanel extends JPanel{
 
             @Override
             public void mouseEntered(MouseEvent e) {
-                if (player.getOwnedFields().isEmpty()) {
-                    ownedFieldsPanel.add(new JLabel("No owned fields"));
-                } else {
-                    for (int i = 0; i < player.getOwnedFields().size(); i++) {
-                        ownedFieldsPanel.add(new JLabel((player.getOwnedFields().get(i)).getName()));
-                        for (int j = 0; j < player.getOwnedFields().get(i).getBuildings().size(); j++) {
-                            if (player.getOwnedFields().get(i) instanceof City) {
-                                ownedFieldsPanel.add(new JLabel("House level " + player.getOwnedFields().get(i).getBuildings().get(j).getLevel()));
-                            } else {
-                                ownedFieldsPanel.add(new JLabel("Farm level " + player.getOwnedFields().get(i).getBuildings().get(j).getLevel()));
-                            }
-                        }
-                    }
-                }
-                ownedFieldsPanel.setBounds(120, 120, 200, 200);
-                ownedFieldsPanel.setVisible(true);
+                createOwnedFieldsPanel(player);
             }
 
             @Override
@@ -871,6 +873,35 @@ public class GamePanel extends JPanel{
             }
         });
 
+    }
+    public void createOwnedFieldsPanel(Player player){
+        ownedFieldsPanel.setLayout(new GridLayout(player.getOwnedFields().size() + 1, 1));
+        if (Objects.equals(player.getName(), "Player 1")) {
+            ownedFieldsPanel.setBackground(Color.decode("#e34242"));
+        } else if(Objects.equals(player.getName(), "Player 2")) {
+            ownedFieldsPanel.setBackground(Color.decode("#2aa9e8"));
+        } else if(Objects.equals(player.getName(), "Player 3")) {
+            ownedFieldsPanel.setBackground(Color.decode("#f0f026"));
+        } else if(Objects.equals(player.getName(), "Player 4")) {
+            ownedFieldsPanel.setBackground(Color.decode("#3cd646"));
+        }
+        if (player.getOwnedFields().isEmpty()) {
+            ownedFieldsPanel.add(new JLabel("No owned fields"));
+        } else {
+            ownedFieldsPanel.add(new JLabel("Owned fields: "));
+            for (int i = 0; i < player.getOwnedFields().size(); i++) {
+                ownedFieldsPanel.add(new JLabel((player.getOwnedFields().get(i)).getName()));
+//                for (int j = 0; j < player.getOwnedFields().get(i).getBuildings().size(); j++) {
+//                    if (player.getOwnedFields().get(i) instanceof City) {
+//                        ownedFieldsPanel.add(new JLabel("House level " + player.getOwnedFields().get(i).getBuildings().get(j).getLevel()));
+//                    } else {
+//                        ownedFieldsPanel.add(new JLabel("Farm level " + player.getOwnedFields().get(i).getBuildings().get(j).getLevel()));
+//                    }
+//                }
+            }
+        }
+        ownedFieldsPanel.setBounds(SCREEN_WIDTH/2, 0, 200, 100);
+        ownedFieldsPanel.setVisible(true);
     }
 
     public void createBalanceLabels(){

@@ -22,10 +22,17 @@ public class Village extends ToBuy {
         this.ryeness = ryeness;
     }
     public String toString() {
+        String price;
+        if (this.getPrice()[0] == 0) {
+            price = ",Price dollars: " + this.getPrice()[1];
+        }
+        else {
+            price = ",Price euro: " + this.getPrice()[0];
+        }
         try {
-            return "Type: Village,Name: " + this.getName() + ",Owner: " + this.getOwner().getName() + ",Price in euro: " + this.getPrice()[0] + ",Price in dollars: " + this.getPrice()[1] + ",Ryeness: " + this.getRyeness();
+            return "Type: Village,Name: " + this.getName() + ",Owner: " + this.getOwner().getName() + price + ",Ryeness: " + this.getRyeness();
         } catch (NullPointerException e) {
-            return "Type: Village,Name: " + this.getName() + ",Owner: " + "null" + ",Price in euro: " + this.getPrice()[0] + ",Price in dollars: " + this.getPrice()[1] + ",Ryeness: " + this.getRyeness();
+            return "Type: Village,Name: " + this.getName() + ",Owner: " + "null" + price + ",Ryeness: " + this.getRyeness();
         }
 
     }

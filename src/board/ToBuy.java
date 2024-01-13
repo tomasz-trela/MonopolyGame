@@ -53,10 +53,17 @@ public abstract class ToBuy extends Field {
         return Buildings;
     }
     public String toString() {
+        String price;
+        if (this.getPrice()[0] == 0) {
+            price = ",Price in dollars: " + this.getPrice()[1];
+        }
+        else {
+            price = ",Price in euro: " + this.getPrice()[0];
+        }
         try {
-            return "Type: null,Name: " + this.getName() + ",Owner: " + this.getOwner().getName() + ",Price in euro: " + this.getPrice()[0] + ",Price in dollars: " + this.getPrice()[1];
+            return "Type: null,Name: " + this.getName() + ",Owner: " + this.getOwner().getName() + price;
         } catch (NullPointerException e) {
-            return "Type: null,Name: " + this.getName() + ",Owner: " + "null" + ",Price in euro: " + this.getPrice()[0] + ",Price in dollars: " + this.getPrice()[1];
+            return "Type: null,Name: " + this.getName() + ",Owner: " + "null" + price;
         }
     }
     public int [] getCostOfBuilding() {
