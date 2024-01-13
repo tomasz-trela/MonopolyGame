@@ -1292,7 +1292,7 @@ public class GamePanel extends JPanel{
 
         }
     }
-    public void updateRollButtonVisability(boolean bool){ //false - pokaz, true - schowaj (chyba ze wyjatki)
+    public void updateRollButtonVisability(boolean bool){ //true - pokaz, false - schowaj (chyba ze wyjatki)
         if(bool){
             if (board.getCurrentPlayer().isCanExchange()){
                 rollButton.setVisible(false);
