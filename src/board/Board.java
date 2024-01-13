@@ -21,8 +21,8 @@ public class Board {
     private int round; //oblicza index gracza którego aktualnie jest kolej ruchu
     private Player currentPlayer;
     private static final Chances[] listOfChances = {
-            new Chances("You are losing 1000 euro", new int[]{1000, 0}, new int[] {0, 0}, 0, 0, 0),
-            new Chances("You must give 1000 dolars for next player",new int[] {0, 0}, new int[]{0,1000}, 0, 0, 0),
+            new Chances("You are losing 10000 euro", new int[]{10000, 0}, new int[] {0, 0}, 0, 0, 0),
+            new Chances("You must give 10000 dolars for next player",new int[] {0, 0}, new int[]{0,10000}, 0, 0, 0),
             new Chances("You go 6 fields ahead", new int[] {0, 0}, new int[]{0,0}, 6, 0, 0),
             new Chances("Start again",new int[] {0, 0}, new int[]{0,0}, 0, 0, 0),
     };

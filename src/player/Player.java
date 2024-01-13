@@ -44,8 +44,8 @@ public class Player {
         cashPerLap[1]=20000;
     }
     public Player(String name) {
-        balance[0] = 250000; //euro
-        balance[1] = 250000; //dolary
+        balance[0] = 170000; //euro
+        balance[1] = 170000; //dolary
         this.haveCar = false;
         this.canExchange = false;
         this.canMoveAfterChance = false;

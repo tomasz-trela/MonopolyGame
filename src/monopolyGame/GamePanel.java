@@ -1394,5 +1394,4 @@ public class GamePanel extends JPanel{
             chanceFrame.setIconImage(chanceIcon.getImage());
             chanceFrame.setAlwaysOnTop(true);
         }
-
 }
