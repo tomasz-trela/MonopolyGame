@@ -1,18 +1,25 @@
 package player;
 
-import ChancesAndModifications.Car;
-import board.*;
-import monopolyGame.GameFrame;
-import monopolyGame.GamePanel;
-import observer.Subject;
-import strategy.*;
-
-import javax.swing.*;
-import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 
-import static java.util.function.Predicate.not;
-import static player.Dice.Roll;
+import javax.swing.JOptionPane;
+
+import ChancesAndModifications.Car;
+import board.Board;
+import board.CarDealership;
+import board.Chance;
+import board.Exchange;
+import board.Field;
+import board.Start;
+import board.ToBuy;
+import monopolyGame.GameFrame;
+import strategy.ActionStrategy;
+import strategy.BuyBuildingStrategy;
+import strategy.BuyCarStrategy;
+import strategy.BuyFieldStrategy;
+import strategy.ChanceStrategy;
+import strategy.ChangeStrategy;
 
 public class Player {
     private int fieldIndex;
@@ -101,15 +108,49 @@ public class Player {
         if (cost[0] == 0) {
             while (amount[1] < cost[1]) {
                 amount[1] = amount[1] + boardInstance.ExchangeEURtoUSD(balance[0], 100, boardInstance)[1]; // Panowie ale używanie boarda w boardzie jest do wyjebania
-                balance[1] = balance[1] - amount[1]; // Na razie zakładamy, że gracza stać i nie ma końca gry
+                balance[1] = balance[1] - amount[1]; 
+                if (balance[1] < 0) {
+                    endGame();
+                }
             }
         }     
         else if (cost[1] == 0) {
             while (amount[0] < cost[0]) {
                 amount[0] = amount[0] + boardInstance.ExchangeUSDtoEUR(balance[1], 100, boardInstance)[0]; // Panowie ale używanie boarda w boardzie jest do wyjebania
-                balance[0] = balance[0] - amount[0]; // Na razie zakładamy, że gracza stać i nie ma końca gry
+                balance[0] = balance[0] - amount[0]; 
+                if (balance[0] < 0) {
+                    endGame();
+                }
             }
         }
+    }
+
+    // Metoda kończąca rozgrywkę
+    public void endGame() {
+        HashMap<Player, Integer> leaderBoard = getLeaderBoard();
+
+        // Tutaj będzie wywoływana metoda wyświetlająca okienko statystyk (wykorzystująca powyższy leaderBoard)
+
+        System.exit(0);
+    }
+
+    // Metoda zwraca Hash Mapę: key - 'Player', value - 'Player total balance'
+    public HashMap<Player, Integer> getLeaderBoard() {
+        Player[] players = Board.GetPlayersArray();
+        HashMap<Player, Integer> playersAffluence = new HashMap<>();
+
+        for (Player player : players) {
+            calculateAffluence(player);
+            playersAffluence.put(player, player.getBalance()[0]);
+        }
+        return playersAffluence;
+    }
+
+    // Metoda przelicza wszystkie dollary gracza na Euro (Do zakończenia rozgrywki)
+    public void calculateAffluence(Player player) {
+        Board boardInstance = GameFrame.getInstance().GetGamePanel().getBoard();
+
+        boardInstance.ExchangeUSDtoEUR(player.getBalance()[1], player.getBalance()[1], boardInstance);
     }
 
     public ArrayList<ToBuy> getOwnedFields() {
