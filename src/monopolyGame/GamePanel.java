@@ -17,7 +17,7 @@ import static player.Dice.Roll;
 import observer.AffluenceObserver;
 import observer.Subject;
 import player.*;
-import player.OurOwnExeption;
+import player.OurOwnException;
 
 public class GamePanel extends JPanel{
     private static final int SCREEN_WIDTH;
@@ -1198,7 +1198,7 @@ public class GamePanel extends JPanel{
         public void actionPerformed(ActionEvent e) {
             try {
                 board.getCurrentPlayer().exchangeMoney(board, resultOfExchange , exchangeType);
-            }catch (OurOwnExeption exeption){
+            }catch (OurOwnException exception){
                 JOptionPane.showMessageDialog(null, "You don't have enough money in your account");
             }
             exchangeButton.setVisible(false);

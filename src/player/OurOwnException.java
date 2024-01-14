@@ -1,7 +1,7 @@
 package player;
 
-public class OurOwnExeption extends Exception {
-    OurOwnExeption(){
+public class OurOwnException extends Exception {
+    OurOwnException(){
         super("player balance is lower than entered value, exchange failed");
     }
 

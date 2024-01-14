@@ -3,18 +3,12 @@ package player;
 import ChancesAndModifications.Car;
 import board.*;
 import monopolyGame.GameFrame;
-import monopolyGame.GamePanel;
-import observer.Subject;
 import strategy.*;
 import board.Board;
-import javax.swing.*;
+
 import java.awt.*;
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Random;
-
-import static java.util.function.Predicate.not;
-import static player.Dice.Roll;
 
 public class Player {
     private int fieldIndex;
@@ -233,16 +227,16 @@ public class Player {
         changeStrategy();
         setHaveCar(false);
     }
-    public void exchangeMoney(Board board, int enteredValue, int typeOfTransaction) throws OurOwnExeption{ //int typeOfTransaction (1- euro to usd), (2 - usd to euro)
+    public void exchangeMoney(Board board, int enteredValue, int typeOfTransaction) throws OurOwnException { //int typeOfTransaction (1- euro to usd), (2 - usd to euro)
         Player player = board.getCurrentPlayer();
         player.setCanExchange(false);
 
         if (typeOfTransaction == 1) {
-            if (enteredValue > player.balance[0]) throw new OurOwnExeption();
+            if (enteredValue > player.balance[0]) throw new OurOwnException();
             player.increaseBalance(board.ExchangeEURtoUSD(player.balance[0], enteredValue, board));
 
         }else if(typeOfTransaction == 2){
-            if (enteredValue > player.balance[1]) throw new OurOwnExeption();
+            if (enteredValue > player.balance[1]) throw new OurOwnException();
             player.increaseBalance(board.ExchangeUSDtoEUR(player.balance[1], enteredValue, board));
 
         }
