@@ -229,22 +229,19 @@ public class Player {
         changeStrategy();
         setHaveCar(false);
     }
-    public void exchangeMoney(Board board, int enteredValue, int typeOfTransaction){ //int typeOfTransaction (1- euro to usd), (2 - usd to euro)
+    public void exchangeMoney(Board board, int enteredValue, int typeOfTransaction) throws OurOwnExeption{ //int typeOfTransaction (1- euro to usd), (2 - usd to euro)
         Player player = board.getCurrentPlayer();
-        if (typeOfTransaction == 1) {
-            if(enteredValue<player.balance[0]) {
-                player.increaseBalance(board.ExchangeEURtoUSD(player.balance[0], enteredValue, board));
-            }else{
-                JOptionPane.showMessageDialog(null, "You don't have enough money in your account");
-            }
-        }else if(typeOfTransaction == 2){
-            if (enteredValue<player.balance[1]) {
-                player.increaseBalance(board.ExchangeUSDtoEUR(player.balance[1], enteredValue, board));
-            }else{
-                JOptionPane.showMessageDialog(null, "You don't have enough money in your account");
-            }
-        }
         player.setCanExchange(false);
+
+        if (typeOfTransaction == 1) {
+            if (enteredValue > player.balance[0]) throw new OurOwnExeption();
+            player.increaseBalance(board.ExchangeEURtoUSD(player.balance[0], enteredValue, board));
+
+        }else if(typeOfTransaction == 2){
+            if (enteredValue > player.balance[1]) throw new OurOwnExeption();
+            player.increaseBalance(board.ExchangeUSDtoEUR(player.balance[1], enteredValue, board));
+
+        }
     }
     public void chargeForCar(Board board){
         if(haveCar) {
