@@ -9,6 +9,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.AffineTransform;
 import java.util.ArrayList;
+import java.util.Objects;
 
 import board.*;
 import static player.Dice.Roll;
@@ -566,6 +567,7 @@ public class GamePanel extends JPanel{
                     BuildingPanel.setVisible(false);
                     TopBuildingPanel.setVisible(false);
                     BuildingPanel.removeAll();
+
                 }
             });
             TopBuildingPanel.add(closeButton);
@@ -585,9 +587,15 @@ public class GamePanel extends JPanel{
                     buildButton.addActionListener(new ActionListener() {
                         @Override
                         public void actionPerformed(ActionEvent e) {
-                            field.addBuilding();
-                            BuildingPanel.removeAll();
-                            showBuildingPanel(field);
+                            if (field.getOwner().getBalance()[0] < field.getCostOfBuilding()[0] || field.getOwner().getBalance()[1] < field.getCostOfBuilding()[1]) {
+                                JOptionPane.showMessageDialog(null, "You don't have enough money");
+                            } else {
+                                field.addBuilding();
+                                field.getOwner().decreaseBalance(field.getCostOfBuilding());
+                                BuildingPanel.removeAll();
+                                showBuildingPanel(field);
+                                GameFrame.getInstance().GetGamePanel().updateBalanceLabels();
+                            }
                         }
                     });
                     TopBuildingPanel.add(buildButton);
@@ -640,9 +648,25 @@ public class GamePanel extends JPanel{
                             upgradeButton.addActionListener(new ActionListener() {
                                 @Override
                                 public void actionPerformed(ActionEvent e) {
-                                    field.getBuildings().get(temp).upgrade();
-                                    BuildingPanel.removeAll();
-                                    showBuildingPanel(field);
+                                    int currency = 0;
+                                    if (field.getPrice()[0] == 0) {
+                                        currency = 1;
+                                    }
+                                    if (field.getOwner().getBalance()[currency] < field.getBuildings().get(temp).getPriceOfUpgrade()) {
+                                        JOptionPane.showMessageDialog(null, "You don't have enough money");
+                                    } else {
+                                        field.getBuildings().get(temp).upgrade();
+                                        int [] price = new int[2];
+                                        if (currency == 1) {
+                                            price[1] = field.getBuildings().get(temp).getPriceOfUpgrade();
+                                        } else {
+                                            price[0] = field.getBuildings().get(temp).getPriceOfUpgrade();
+                                        }
+                                        field.getOwner().decreaseBalance(price);
+                                        BuildingPanel.removeAll();
+                                        showBuildingPanel(field);
+                                        GameFrame.getInstance().GetGamePanel().updateBalanceLabels();
+                                    }
                                 }
                             });
                             BuildingPanel.add(upgradeButton);
@@ -659,6 +683,15 @@ public class GamePanel extends JPanel{
                     } else if (field instanceof Village) {
                         for (int i = 0; i < (4 - (field.getBuildings().size()) * 5); i++) {
                             BuildingPanel.add(new JLabel(" "));
+                        }
+                    }
+                    if (field instanceof City) {
+                        for (int i = 0; i < (16 - (field.getBuildings().size()) * 4); i++) {
+                            BuildingPanel.add(new JLabel("..."));
+                        }
+                    } else {
+                        for (int i = 0; i < (20 - (field.getBuildings().size()) * 5); i++) {
+                            BuildingPanel.add(new JLabel("..."));
                         }
                     }
                 }
@@ -842,22 +875,7 @@ public class GamePanel extends JPanel{
 
             @Override
             public void mouseEntered(MouseEvent e) {
-                if (player.getOwnedFields().isEmpty()) {
-                    ownedFieldsPanel.add(new JLabel("No owned fields"));
-                } else {
-                    for (int i = 0; i < player.getOwnedFields().size(); i++) {
-                        ownedFieldsPanel.add(new JLabel((player.getOwnedFields().get(i)).getName()));
-                        for (int j = 0; j < player.getOwnedFields().get(i).getBuildings().size(); j++) {
-                            if (player.getOwnedFields().get(i) instanceof City) {
-                                ownedFieldsPanel.add(new JLabel("House level " + player.getOwnedFields().get(i).getBuildings().get(j).getLevel()));
-                            } else {
-                                ownedFieldsPanel.add(new JLabel("Farm level " + player.getOwnedFields().get(i).getBuildings().get(j).getLevel()));
-                            }
-                        }
-                    }
-                }
-                ownedFieldsPanel.setBounds(120, 120, 200, 200);
-                ownedFieldsPanel.setVisible(true);
+                createOwnedFieldsPanel(player);
             }
 
             @Override
@@ -866,7 +884,35 @@ public class GamePanel extends JPanel{
                 ownedFieldsPanel.removeAll();
             }
         });
-
+    }
+    public void createOwnedFieldsPanel(Player player){
+        ownedFieldsPanel.setLayout(new GridLayout(player.getOwnedFields().size() + 1, 1));
+        if (Objects.equals(player.getName(), "Player 1")) {
+            ownedFieldsPanel.setBackground(Color.decode("#e34242"));
+        } else if(Objects.equals(player.getName(), "Player 2")) {
+            ownedFieldsPanel.setBackground(Color.decode("#2aa9e8"));
+        } else if(Objects.equals(player.getName(), "Player 3")) {
+            ownedFieldsPanel.setBackground(Color.decode("#f0f026"));
+        } else if(Objects.equals(player.getName(), "Player 4")) {
+            ownedFieldsPanel.setBackground(Color.decode("#3cd646"));
+        }
+        if (player.getOwnedFields().isEmpty()) {
+            ownedFieldsPanel.add(new JLabel("No owned fields"));
+        } else {
+            ownedFieldsPanel.add(new JLabel("Owned fields: "));
+            for (int i = 0; i < player.getOwnedFields().size(); i++) {
+                ownedFieldsPanel.add(new JLabel((player.getOwnedFields().get(i)).getName()));
+//                for (int j = 0; j < player.getOwnedFields().get(i).getBuildings().size(); j++) {
+//                    if (player.getOwnedFields().get(i) instanceof City) {
+//                        ownedFieldsPanel.add(new JLabel("House level " + player.getOwnedFields().get(i).getBuildings().get(j).getLevel()));
+//                    } else {
+//                        ownedFieldsPanel.add(new JLabel("Farm level " + player.getOwnedFields().get(i).getBuildings().get(j).getLevel()));
+//                    }
+//                }
+            }
+        }
+        ownedFieldsPanel.setBounds(SCREEN_WIDTH/2, 0, 200, 100);
+        ownedFieldsPanel.setVisible(true);
     }
 
     public void createBalanceLabels(){
@@ -1306,7 +1352,7 @@ public class GamePanel extends JPanel{
 
 
 
-            JTextArea cardTxt= new JTextArea(Board.getListOfChances()[chanceIndex].getText());
+            JTextArea cardTxt= new JTextArea(Chance.getListOfChances()[chanceIndex].getText());
 
 
             cardTxt.setLineWrap(true);

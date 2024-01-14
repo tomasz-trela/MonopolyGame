@@ -6,12 +6,12 @@ import player.Player;
 import java.util.Random;
 
 public class Chance extends Field{
-    private final Chances [] listOfChances;
+    private static Chances [] listOfChances = null;
     public Chance(String name, Chances [] listOfChances){
         super(name);
         this.listOfChances = listOfChances;
     }
-    public Chances [] getListOfChances(){
+    public static Chances [] getListOfChances(){
         return listOfChances;
     }
     public Chances getChance(int index){
