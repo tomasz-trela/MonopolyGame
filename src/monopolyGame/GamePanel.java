@@ -722,6 +722,7 @@ public class GamePanel extends JPanel{
             }
         };
         centerArray[i].setPreferredSize(new Dimension(FIELD_HEIGHT, FIELD_HEIGHT));
+        fieldArray[i].setLayout(new FlowLayout(FlowLayout.CENTER,0,0));
         fieldArray[i].setBackground(FIELD_COLOR1);
         fieldArray[i].add(centerArray[i]);
     }
