@@ -80,7 +80,7 @@ public abstract class ToBuy extends Field {
         return Buildings.size();
     }
     public int CalculateStayFee(int feature){
-        return 500*feature;
+        return 4000*feature;
     }
     public int getStayFee() {
         return stayFee;
