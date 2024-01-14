@@ -98,7 +98,7 @@ public class GamePanel extends JPanel{
     private ImageIcon villpicture= new ImageIcon("src/images/village.png");
     private ImageIcon citypicture= new ImageIcon("src/images/city.png");
     private ImageIcon exchangepicture= new ImageIcon("src/images/Exchange.png");
-    private ImageIcon chancepicture= new ImageIcon("src/images/chance.png");
+    private ImageIcon chancepicture= new ImageIcon("src/images/chance2.png");
     private ImageIcon carpicture= new ImageIcon("src/images/car.png");
     GamePanel(){
 
@@ -280,6 +280,9 @@ public class GamePanel extends JPanel{
         for(int i=0; i<fieldnumber; i++)
         {
             fieldArray[i].setBorder(BorderFactory.createLineBorder(Color.black,1));
+            descArray[i].setBackground(FIELD_COLOR1);
+            centerArray[i].setBackground(FIELD_COLOR1);
+            priceArray[i].setBackground(FIELD_COLOR1);
             fieldArray[i].setDoubleBuffered(true);
             descArray[i].setBorder(BorderFactory.createLineBorder(Color.black,1));
             centerArray[i].setBorder(BorderFactory.createLineBorder(Color.black,1));
@@ -422,7 +425,7 @@ public class GamePanel extends JPanel{
                 }
                 g2d.drawString(nap, x,y);
                 g2d.dispose();
-                this.setBackground(FIELD_COLOR1);
+
             }
 
         };
@@ -461,7 +464,6 @@ public class GamePanel extends JPanel{
                     }
                 }
                 g2d.drawString(nap, x,y);
-                this.setBackground(FIELD_COLOR1);
                 g2d.dispose();
             }
         };
@@ -490,7 +492,6 @@ public class GamePanel extends JPanel{
                     backgroundImage=carpicture.getImage();
                 }
                 AffineTransform at= scaleIMG(backgroundImage, getWidth(), getHeight(), rotation);
-                this.setBackground(FIELD_COLOR1);
                 g2d.drawImage(backgroundImage, at, null);
             }
         };
@@ -730,6 +731,7 @@ public class GamePanel extends JPanel{
     public static JPanel[] getFieldArray() {
         return centerArray;
     }
+    public static JPanel[] getDescArray(){return descArray;}
 
 
     public void createRollButton()

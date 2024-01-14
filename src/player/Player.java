@@ -8,6 +8,7 @@ import observer.Subject;
 import strategy.*;
 import board.Board;
 import javax.swing.*;
+import java.awt.*;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Random;
@@ -26,6 +27,7 @@ public class Player {
     private Field location;
     protected ActionStrategy actionStrategy;
     private String name;
+    private Color playercolor;
 
     private int[] cashPerLap;
 
@@ -44,7 +46,7 @@ public class Player {
         cashPerLap[0]=20000;
         cashPerLap[1]=20000;
     }
-    public Player(String name) {
+    public Player(String name, Color color) {
         balance[0] = 170000; //euro
         balance[1] = 170000; //dolary
         this.haveCar = false;
@@ -58,6 +60,7 @@ public class Player {
         this.cashPerLap = new int[2];
         cashPerLap[0]=20000;
         cashPerLap[1]=20000;
+        this.playercolor=color;
     }
 
     public void setLocation(Field location) {
@@ -67,6 +70,7 @@ public class Player {
     public Field getLocation() {
         return location;
     }
+    public Color getPlayercolor(){return playercolor;}
 
     public int getLap() {
         return lap;

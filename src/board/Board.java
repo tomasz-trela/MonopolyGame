@@ -5,10 +5,13 @@ import observer.Subject;
 import player.Pawn;
 import player.Player;
 
+import java.awt.*;
+
 public class Board {
     Subject subjects = new Subject();
     private static Field[] fields ;
     private static Player[] players;
+    private static Color[] playercolors={Color.red, Color.CYAN, Color.YELLOW, Color.GREEN};
     private static Pawn[] pawns = new Pawn[]{
         new Pawn(0),
         new Pawn(1),
@@ -41,7 +44,7 @@ public class Board {
     public static void generatePlayers(int playersCount){
         players = new Player[playersCount];
         for(int i=0; i<players.length; i++){
-            players[i]=new Player("Player %s".formatted(i+1));
+            players[i]=new Player("Player %s".formatted(i+1), playercolors[i]);
             players[i].setLocation(new Start());
         }
     }

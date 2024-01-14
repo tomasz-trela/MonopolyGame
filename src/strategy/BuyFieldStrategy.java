@@ -1,6 +1,7 @@
 package strategy;
 import board.Board;
 import board.ToBuy;
+import monopolyGame.GamePanel;
 import player.Player;
 
 import javax.swing.*;
@@ -17,6 +18,7 @@ public class BuyFieldStrategy implements ActionStrategy {
             field.setOwner(currentPlayer);
             currentPlayer.decreaseBalance(field.getPrice());
             currentPlayer.getOwnedFields().add(field);
+            GamePanel.getDescArray()[currentIndex].setBackground(currentPlayer.getPlayercolor());
         }else{
             JOptionPane.showMessageDialog(null, "You don't have enough money in your account");
         }
