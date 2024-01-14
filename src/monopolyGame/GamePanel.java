@@ -40,8 +40,8 @@ public class GamePanel extends JPanel{
     static {
         SCREEN_WIDTH=1500;
         SCREEN_HEIGHT = 1000;
-        BOARD_WIDTH = 528;
-        BOARD_HEIGHT = 528;
+        BOARD_WIDTH = 800;
+        BOARD_HEIGHT = 800;
         BOARD_COLOR = new Color(200, 224,196);
         FIELD_COLOR1 = new Color(232, 220,202);
         FIELD_COLOR2 = new Color(97, 211,171);
