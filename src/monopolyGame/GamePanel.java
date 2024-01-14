@@ -98,7 +98,7 @@ public class GamePanel extends JPanel{
     private ImageIcon villpicture= new ImageIcon("src/images/village.png");
     private ImageIcon citypicture= new ImageIcon("src/images/city.png");
     private ImageIcon exchangepicture= new ImageIcon("src/images/Exchange.png");
-    private ImageIcon chancepicture= new ImageIcon("src/images/chance.png");
+    private ImageIcon chancepicture= new ImageIcon("src/images/chance2.png");
     private ImageIcon carpicture= new ImageIcon("src/images/car.png");
     GamePanel(){
 
