@@ -106,8 +106,8 @@ public class GamePanel extends JPanel{
         this.setBackground(Color.WHITE);
         this.setLayout(null);
 
-        TopBuildingPanel.setBounds(SCREEN_WIDTH/3, SCREEN_HEIGHT/4, SCREEN_WIDTH/2, SCREEN_HEIGHT/25);
-        BuildingPanel.setBounds(TopBuildingPanel.getX(), TopBuildingPanel.getY() + TopBuildingPanel.getHeight(), TopBuildingPanel.getWidth(), SCREEN_HEIGHT/4 - TopBuildingPanel.getHeight());
+        TopBuildingPanel.setBounds(SCREEN_WIDTH/4-125, SCREEN_HEIGHT/4, SCREEN_WIDTH/3, SCREEN_HEIGHT/25);
+        BuildingPanel.setBounds(TopBuildingPanel.getX(), TopBuildingPanel.getY() + TopBuildingPanel.getHeight(), TopBuildingPanel.getWidth(), SCREEN_HEIGHT/4 - TopBuildingPanel.getHeight() - 50);
         BuildingPanel.setBorder(BorderFactory.createLineBorder(Color.black, 5));
         BuildingPanel.setLayout(new FlowLayout());
 
@@ -524,6 +524,8 @@ public class GamePanel extends JPanel{
     class ShowInfoPanelMouseListener implements MouseListener{
         @Override
         public void mouseClicked(MouseEvent e) {
+            //tymczasowe dla testow
+            //showBuildingPanel((ToBuy) Board.getFieldsArray()[getFieldIndex(this)]);
         }
 
         @Override
@@ -562,22 +564,22 @@ public class GamePanel extends JPanel{
     }
     public static void showBuildingPanel(ToBuy field) {
             TopBuildingPanel.removeAll();
-            JButton closeButton = new JButton("Close");
-            closeButton.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    BuildingPanel.setVisible(false);
-                    TopBuildingPanel.setVisible(false);
-                    BuildingPanel.removeAll();
-
-                }
-            });
-            TopBuildingPanel.add(closeButton);
+//            JButton closeButton = new JButton("Close");
+//            closeButton.addActionListener(new ActionListener() {
+//                @Override
+//                public void actionPerformed(ActionEvent e) {
+//                    BuildingPanel.setVisible(false);
+//                    TopBuildingPanel.setVisible(false);
+//                    BuildingPanel.removeAll();
+//
+//                }
+//            });
+//            TopBuildingPanel.add(closeButton);
             TopBuildingPanel.add(new JLabel(("Cost of building: " + ((field).getCostOfBuilding()[0] + (field.getCostOfBuilding()[1])))));
             if (field instanceof City) {
                 TopBuildingPanel.add(new JLabel("City: " + field.getName()), BorderLayout.WEST);
-                TopBuildingPanel.add(new JLabel(("Tourist attraction: " + ((City) field).getTouristAttraction())), BorderLayout.EAST);
-
+//                TopBuildingPanel.add(new JLabel(("Tourist attraction: " + ((City) field).getTouristAttraction())), BorderLayout.EAST);
+//
             } else if (field instanceof Village) {
                 TopBuildingPanel.add(new JLabel("Village: " + field.getName()), BorderLayout.WEST);
                 TopBuildingPanel.add(new JLabel((("Ryeness: " + ((Village) field).getRyeness()))));
@@ -1255,6 +1257,11 @@ public class GamePanel extends JPanel{
     class RollButtonReaction implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
+            if (BuildingPanel.isVisible()) {
+                BuildingPanel.setVisible(false);
+                TopBuildingPanel.setVisible(false);
+                BuildingPanel.removeAll();
+            }
             board.calculateRound();
             int round = board.getRound();
             board.setCurrentPlayer(board.getPlayers()[round]);
