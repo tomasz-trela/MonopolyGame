@@ -1186,14 +1186,11 @@ public class GamePanel extends JPanel{
             try {
                 board.getCurrentPlayer().exchangeMoney(board, resultOfExchange , exchangeType);
             }catch (OurOwnExeption exeption){
-                exeption.getStackTrace();
                 JOptionPane.showMessageDialog(null, "You don't have enough money in your account");
             }
             exchangeButton.setVisible(false);
             rollButton.setVisible(true);
             updateBalanceLabels();
-            //System.out.println(resultOfExchange);
-            //System.out.println(exchangeType);
         }
     }
 
