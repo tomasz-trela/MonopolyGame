@@ -745,11 +745,18 @@ public class GamePanel extends JPanel{
         int TempInt = getFieldIndex(mouseListener);
         ArrayList<JLabel> tempList = new ArrayList<>();
         String [] tempString = Board.getFieldsArray()[TempInt].toString().split(",");
-        for (int i = 0; i < tempString.length; i++) {
-            tempList.add(new JLabel(tempString[i]));
-            tempList.get(i).setForeground(Color.BLACK);
-            tempList.get(i).setFont(new Font("Serif", Font.BOLD, 20));
-            tempList.get(i).setVisible(false);
+        if (Objects.equals(tempString[0], "Car Dealership")) {
+            tempList.add(new JLabel("Car Dealership"));
+            tempList.get(0).setForeground(Color.BLACK);
+            tempList.get(0).setFont(new Font("Serif", Font.BOLD, 20));
+            tempList.get(0).setVisible(false);
+        } else {
+            for (int i = 0; i < tempString.length; i++) {
+                tempList.add(new JLabel(tempString[i]));
+                tempList.get(i).setForeground(Color.BLACK);
+                tempList.get(i).setFont(new Font("Serif", Font.BOLD, 20));
+                tempList.get(i).setVisible(false);
+            }
         }
         int y = 200;
         InfoPanel.setBounds(fieldArray[TempInt].getX() + FIELD_WIDTH/2, fieldArray[TempInt].getY() - 2*FIELD_HEIGHT, 200, 10 + 28 * tempList.size());
