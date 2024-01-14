@@ -591,8 +591,8 @@ public class GamePanel extends JPanel{
                             if (field.getOwner().getBalance()[0] < field.getCostOfBuilding()[0] || field.getOwner().getBalance()[1] < field.getCostOfBuilding()[1]) {
                                 JOptionPane.showMessageDialog(null, "You don't have enough money");
                             } else {
-                                field.addBuilding();
                                 field.getOwner().decreaseBalance(field.getCostOfBuilding());
+                                field.addBuilding();
                                 BuildingPanel.removeAll();
                                 showBuildingPanel(field);
                                 GameFrame.getInstance().GetGamePanel().updateBalanceLabels();
@@ -656,7 +656,6 @@ public class GamePanel extends JPanel{
                                     if (field.getOwner().getBalance()[currency] < field.getBuildings().get(temp).getPriceOfUpgrade()) {
                                         JOptionPane.showMessageDialog(null, "You don't have enough money");
                                     } else {
-                                        field.getBuildings().get(temp).upgrade();
                                         int [] price = new int[2];
                                         if (currency == 1) {
                                             price[1] = field.getBuildings().get(temp).getPriceOfUpgrade();
@@ -664,6 +663,7 @@ public class GamePanel extends JPanel{
                                             price[0] = field.getBuildings().get(temp).getPriceOfUpgrade();
                                         }
                                         field.getOwner().decreaseBalance(price);
+                                        field.getBuildings().get(temp).upgrade();
                                         BuildingPanel.removeAll();
                                         showBuildingPanel(field);
                                         GameFrame.getInstance().GetGamePanel().updateBalanceLabels();
