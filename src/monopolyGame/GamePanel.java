@@ -293,10 +293,11 @@ public class GamePanel extends JPanel{
         diceLabel2.setBounds(500, 540, 50, 50);
         strategyPanel.setBounds(385, 430, 230,80);
         carButton.setBounds(460,600,80,30);
-        pawn0.SizeSet(FIELD_WIDTH/3, FIELD_WIDTH/3);
-        pawn1.SizeSet(FIELD_WIDTH/3, FIELD_WIDTH/3);
-        pawn2.SizeSet(FIELD_WIDTH/3, FIELD_WIDTH/3);
-        pawn3.SizeSet(FIELD_WIDTH/3, FIELD_WIDTH/3);
+        int size= (int)Math.floor(FIELD_WIDTH/2.3);
+        pawn0.SizeSet(size, size);
+        pawn1.SizeSet(size, size);
+        pawn2.SizeSet(size, size);
+        pawn3.SizeSet(size, size);
         for(int i=0; i<fieldnumber; i++)
         {
             fieldArray[i].addMouseListener(new ShowInfoPanelMouseListener());

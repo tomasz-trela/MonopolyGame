@@ -11,7 +11,7 @@ public class Board {
     Subject subjects = new Subject();
     private static Field[] fields ;
     private static Player[] players;
-    private static Color[] playercolors={Color.red, Color.CYAN, Color.YELLOW, Color.GREEN};
+    private static Color[] playercolors={new Color(255, 16, 16), new Color(43,77, 255), Color.YELLOW, Color.GREEN};
     private static Pawn[] pawns = new Pawn[]{
         new Pawn(0),
         new Pawn(1),
