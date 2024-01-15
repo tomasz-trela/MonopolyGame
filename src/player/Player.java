@@ -316,18 +316,23 @@ public class Player {
     public void payFeeForBuiliding(Board board) {
         if (!(((ToBuy) board.getCurrentPlayer().getLocation()).getOwner() == null)) {
             if (!getOwnedFields().contains(getLocation())) {
+                Player owner = ((ToBuy) board.getCurrentPlayer().getLocation()).getOwner();
                 int stayFee = ((ToBuy) location).getStayFee();
                 if (((ToBuy) location).getPrice()[0] > ((ToBuy) location).getPrice()[1]) {
                     balance[0] -= stayFee;
+                    owner.getBalance()[0] += stayFee;
                 } else {
                     balance[1] -= stayFee;
+                    owner.getBalance()[1] += stayFee;
                 }
                 for (int i = 0; i < ((ToBuy) location).getBuildings().size(); i++) {
                     int revenuePerVisit = ((ToBuy) location).getBuildings().get(i).getRevenuePerVisit();
                     if (((ToBuy) location).getPrice()[0] > ((ToBuy) location).getPrice()[1]) {
                         balance[0] -= revenuePerVisit;
+                        owner.getBalance()[0] += revenuePerVisit;
                     } else {
                         balance[1] -= revenuePerVisit;
+                        owner.getBalance()[1] += revenuePerVisit;
                     }
                 }
             }
