@@ -8,6 +8,7 @@ import board.Board;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Random;
 
 public class Player {
@@ -41,8 +42,8 @@ public class Player {
         cashPerLap[1]=20000;
     }
     public Player(String name, Color color) {
-        balance[0] = 170000; //euro
-        balance[1] = 170000; //dolary
+        balance[0] = 70000; //euro
+        balance[1] = 70000; //dolary
         this.haveCar = false;
         this.canExchange = false;
         this.canMoveAfterChance = false;
@@ -52,8 +53,8 @@ public class Player {
         this.actionStrategy = null;
         this.name = name;
         this.cashPerLap = new int[2];
-        cashPerLap[0]=20000;
-        cashPerLap[1]=20000;
+        cashPerLap[0]=0;
+        cashPerLap[1]=0;
         this.playercolor=color;
     }
 
@@ -108,15 +109,47 @@ public class Player {
         if (cost[0] == 0) {
             while (amount[1] < cost[1]) {
                 amount[1] = amount[1] + boardInstance.ExchangeEURtoUSD(balance[0], 100, boardInstance)[1]; // Panowie ale używanie boarda w boardzie jest do wyjebania
-                balance[1] = balance[1] - amount[1]; // Na razie zakładamy, że gracza stać i nie ma końca gry
+                balance[1] = balance[1] - amount[1];
+                if (balance[1] < 0) {
+                    endGame();
+                }
             }
         }     
         else if (cost[1] == 0) {
             while (amount[0] < cost[0]) {
                 amount[0] = amount[0] + boardInstance.ExchangeUSDtoEUR(balance[1], 100, boardInstance)[0]; // Panowie ale używanie boarda w boardzie jest do wyjebania
-                balance[0] = balance[0] - amount[0]; // Na razie zakładamy, że gracza stać i nie ma końca gry
+                balance[0] = balance[0] - amount[0];
+                if (balance[0] < 0) {
+                    endGame();
+                }
             }
         }
+    }
+    public void endGame() {
+        HashMap<Player, Integer> leaderBoard = getLeaderBoard();
+
+        // Tutaj będzie wywoływana metoda wyświetlająca okienko statystyk (wykorzystująca powyższy leaderBoard)
+
+        System.exit(0);
+    }
+
+    // Metoda zwraca Hash Mapę: key - 'Player', value - 'Player total balance'
+    public HashMap<Player, Integer> getLeaderBoard() {
+        Player[] players = Board.GetPlayersArray();
+        HashMap<Player, Integer> playersAffluence = new HashMap<>();
+
+        for (Player player : players) {
+            calculateAffluence(player);
+            playersAffluence.put(player, player.getBalance()[0]);
+        }
+        return playersAffluence;
+    }
+
+    // Metoda przelicza wszystkie dollary gracza na Euro (Do zakończenia rozgrywki)
+    public void calculateAffluence(Player player) {
+        Board boardInstance = GameFrame.getInstance().GetGamePanel().getBoard();
+
+        boardInstance.ExchangeUSDtoEUR(player.getBalance()[1], player.getBalance()[1], boardInstance);
     }
     public long totalNetWorth(Board now){
         long suma = balance[0];
