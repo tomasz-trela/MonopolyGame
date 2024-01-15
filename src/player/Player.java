@@ -26,7 +26,7 @@ public class Player {
 
     private int[] cashPerLap;
 
-    public Player() {
+   /* public Player() {
         balance[0] = 250000; //euro
         balance[1] = 250000; //dolary
         this.haveCar = false;
@@ -40,7 +40,7 @@ public class Player {
         this.cashPerLap = new int[2];
         cashPerLap[0]=20000;
         cashPerLap[1]=20000;
-    }
+    }*/
     public Player(String name, Color color) {
         balance[0] = 170000; //euro
         balance[1] = 170000; //dolary
@@ -53,8 +53,10 @@ public class Player {
         this.actionStrategy = null;
         this.name = name;
         this.cashPerLap = new int[2];
-        cashPerLap[0]=17000;
-        cashPerLap[1]=17000;
+        cashPerLap[0]=15000;
+        //cashPerLap[0]=0;
+        cashPerLap[1]=15000;
+        //cashPerLap[1]=0;
         this.playercolor=color;
     }
 
@@ -94,41 +96,63 @@ public class Player {
     public void decreaseBalance(int[] cost) {
         for (int i = 0; i < cost.length; i++) {
 
+            System.out.println("Sprawdzany warunek balansu");
             if ((balance[i] - cost[i]) < 0) {
+                System.out.println("Metoda force Exchange jest wlaczana");
                 forceExchange(cost);
+                System.out.println("Metoda force exchange zakonczyla dzialanie");
             }
-            
+            System.out.println("Gracza nie stac");
+            /*if ((balance[i] - cost[i]) < 0) {
+                endGame();
+            }*/
+            System.out.println("Odejmowanie kosztu od balansu");
             balance[i] -= cost[i];
         }
     }
 
     // Zmuszamy gracza do wymiany waluty kiedy nie ma czym zapłacić
+    // Zmuszamy gracza do wymiany waluty kiedy nie ma czym zapłacić
     public void forceExchange(int[] cost) {
         Board boardInstance = GameFrame.getInstance().GetGamePanel().getBoard();
-        int[] amount = {0, 0};
+        int[] amount = { 0, 0 };
+        System.out.println("Wybieranie warunku");
         if (cost[0] == 0) {
+            System.out.println("Wybrany warunek dollarow");
             while (amount[1] < cost[1]) {
-                amount[1] = amount[1] + boardInstance.ExchangeEURtoUSD(balance[0], 100, boardInstance)[1]; // Panowie ale używanie boarda w boardzie jest do wyjebania
+                System.out.println("Uruchomienie procedury wymuszonej zamiany Dollarow na Euro");
+                amount[1] = amount[1] + boardInstance.ExchangeEURtoUSD(balance[0], 100, boardInstance)[1]; // Panowie
+                // ale
+                // używanie
+
                 balance[1] = balance[1] - amount[1];
-                if (balance[1] < 0) {
-                    endGame();
-                }
             }
-        }     
-        else if (cost[1] == 0) {
+            System.out.println("Sprawdzanie czy balanse gracza jest mneijszy od 0");
+            if (balance[1] < 0) {
+                System.out.println("Balans mniejszy od 0, konczenie gry");
+                endGame();
+            }
+        } else if (cost[1] == 0) {
+            System.out.println("Wybrany warunek Euro");
             while (amount[0] < cost[0]) {
-                amount[0] = amount[0] + boardInstance.ExchangeUSDtoEUR(balance[1], 100, boardInstance)[0]; // Panowie ale używanie boarda w boardzie jest do wyjebania
+                System.out.println("Uruchomienie procedury wymuszonej zamiany Dollarow na Euro");
+                amount[0] = amount[0] + boardInstance.ExchangeUSDtoEUR(balance[1], 100, boardInstance)[0];
+
                 balance[0] = balance[0] - amount[0];
-                if (balance[0] < 0) {
-                    endGame();
-                }
+            }
+            System.out.println("SPrawdzanie czy balans gracza jest mniejszy od 0");
+            if (balance[0] < 0) {
+                System.out.println("Balans mniejszy od 0, konczenie gry");
+                endGame();
             }
         }
     }
     public void endGame() {
         HashMap<Player, Integer> leaderBoard = getLeaderBoard();
+        System.out.println("Konczenie gry");
 
-        // Tutaj będzie wywoływana metoda wyświetlająca okienko statystyk (wykorzystująca powyższy leaderBoard)
+        // Tutaj będzie wywoływana metoda wyświetlająca okienko statystyk
+        // (wykorzystująca powyższy leaderBoard)
 
         System.exit(0);
     }

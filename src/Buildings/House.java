@@ -10,7 +10,7 @@ public class House extends Building{
         super();
     }
     public House(int touristAttraction, int size) {
-        super(2000 * size, 100 * touristAttraction * size, 1);
+        super(2000 * size, 50 * touristAttraction * size, 1);
     }
     public void upgrade() {
         if (this.getLevel() < 5) {

@@ -22,10 +22,10 @@ public class Board {
     private int round; //oblicza index gracza którego aktualnie jest kolej ruchu
     private Player currentPlayer;
     private static final Chances[] listOfChances = {
-            new Chances("You are losing 10000 euro", new int[]{10000, 0}, new int[] {0, 0}, 0, 0, 0),
-            new Chances("You are losing 20000 euro", new int[]{20000, 0}, new int[] {0, 0}, 0, 0, 0),
+            new Chances("You are losing 7500 euro", new int[]{10000, 0}, new int[] {0, 0}, 0, 0, 0),
+            new Chances("You are losing 15000 euro", new int[]{20000, 0}, new int[] {0, 0}, 0, 0, 0),
+            new Chances("You must give 7000 dolars for next player",new int[] {0, 0}, new int[]{0,7000}, 0, 0, 0),
             new Chances("You must give 10000 dolars for next player",new int[] {0, 0}, new int[]{0,10000}, 0, 0, 0),
-            new Chances("You must give 15000 dolars for next player",new int[] {0, 0}, new int[]{0,15000}, 0, 0, 0),
             new Chances("You go 6 fields ahead", new int[] {0, 0}, new int[]{0,0}, 6, 0, 0),
             new Chances("You go 1 field ahead", new int[] {0, 0}, new int[]{0,0}, 1, 0, 0),
             new Chances("Start again",new int[] {0, 0}, new int[]{0,0}, 0, 0, 0),
@@ -65,7 +65,7 @@ public class Board {
             fields[3] = new City("Lizbone", 30000, 0, null, 10, 8);
             fields[4] = new CarDealership("Euro");
             fields[5] = new City("Sevilla", 30000, 0, null, 10, 7);
-            fields[6] = new Village("Los Cabezudos", 20000, 0, null, 1);
+            fields[6] = new Village("Opole", 20000, 0, null, 1);
             fields[7] = new Chance("Szansa2", listOfChances);
             fields[8] = new City("Madryt", 40000, 0, null, 10, 9);
             //fields[9] jest wspolne dla każdej mapy
