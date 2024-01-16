@@ -189,6 +189,7 @@ public class GamePanel extends JPanel{
             showScoreboard();
         }
     }
+
     public static class Para {
         long pierwsza;
         long druga;
@@ -207,8 +208,11 @@ public class GamePanel extends JPanel{
         score.getContentPane().add(panel);
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
         JLabel napis = new JLabel();
-        napis.setHorizontalAlignment(SwingConstants.CENTER);
-        napis.setText("RANKING");
+        //napis.setHorizontalAlignment(SwingConstants.CENTER);
+        napis.setText("SCOREBOARD");
+        napis.setFont(new Font("Arial", Font.BOLD, 28));
+        napis.setHorizontalAlignment(JLabel.CENTER);
+        napis.setBorder(BorderFactory.createEmptyBorder(5, 90, 5, 10));
         panel.add(napis);
         String pom;
         long[] tab = board.Ranking();
@@ -225,15 +229,35 @@ public class GamePanel extends JPanel{
                 return Integer.compare((int) para1.pierwsza, (int) para2.pierwsza);
             }
         });
+        int akt=wyniki.length-1;
+        long pop=0;
+        int teraz;
         for(int i=wyniki.length-1; i>=0; i--){
-            pom="Gracz nr."+wyniki[i].druga+" uzbieral majatek warty:"+wyniki[i].pierwsza;
-            panel.add(new JLabel(pom));
+            teraz=wyniki.length-(i);
+            if(pop==wyniki[i].pierwsza) teraz=akt;
+            pom=teraz+". Player"+wyniki[i].druga+" has assets worth: "+wyniki[i].pierwsza+" euro ";
+            JLabel pomm = new JLabel(pom);
+            pomm.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
+            if(i==0){
+                pomm.setBorder(BorderFactory.createEmptyBorder(5, 10, 15, 10));
+            }
+            pomm.setFont(new Font("Arial", Font.BOLD, 14));
+            panel.add(pomm);
+            akt=teraz;
+            pop=wyniki[i].pierwsza;
         }
-        JButton przycisk = new JButton("Zakoncz gre");
+        JButton przycisk = new JButton("Finish game");
         przycisk.addActionListener(new ZakonczListener());
         przycisk.setFocusable(false);
         panel.add(przycisk);
+        przycisk.setBorder(BorderFactory.createEmptyBorder(10, score.getWidth()/2, 10, score.getWidth()/2));
+        panel.setBackground(new Color(232, 220, 202));
         score.setResizable(false);
+        Dimension rozdzielczosc = Toolkit.getDefaultToolkit().getScreenSize();
+        score.setAlwaysOnTop(true);
+        int x = (rozdzielczosc.width - score.getWidth()) / 2;
+        int y = (rozdzielczosc.height - score.getHeight()) / 2;
+        score.setLocation(x, y);
         score.pack();
         score.setVisible(true);
     }
