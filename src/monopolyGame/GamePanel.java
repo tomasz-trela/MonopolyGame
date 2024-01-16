@@ -45,7 +45,7 @@ public class GamePanel extends JPanel{
         BOARD_WIDTH = 800;
         BOARD_HEIGHT = 800;
         BOARD_COLOR = new Color(200, 224,196);
-        FIELD_COLOR1 = new Color(232, 220,202);
+        FIELD_COLOR1 = new Color(251, 242, 221);
         FIELD_COLOR2 = new Color(97, 211,171);
         FIELD_WIDTH = BOARD_WIDTH/12-2;
         FIELD_HEIGHT = FIELD_WIDTH*2+1;
@@ -63,11 +63,11 @@ public class GamePanel extends JPanel{
     static JPanel TopBuildingPanel = new JPanel();
     JPanel leftPanel=new JPanel();
     JPanel rightPanel= new JPanel();
-    JPanel strategyPanel = new JPanel();
-    JLabel strategyLabel = new JLabel();
-    JButton yesButton = new JButton();
-    JButton noButton = new JButton();
-    JButton okButton = new JButton();
+    static JPanel strategyPanel = new JPanel();
+    static JLabel strategyLabel = new JLabel();
+    static JButton yesButton = new JButton();
+    static JButton noButton = new JButton();
+    static JButton okButton = new JButton();
     JButton carButton = new JButton();
     JButton exchangeButton = new JButton();
     JLabel balancePlayer0Label;
@@ -827,6 +827,10 @@ public class GamePanel extends JPanel{
         panel2.add(okButton);
 
         strategyPanel.setVisible(false);
+    }
+
+    public  static JPanel getStrategyPanel() {
+        return strategyPanel;
     }
     public void updateStrategyLabel(){
         yesButton.setVisible(true);

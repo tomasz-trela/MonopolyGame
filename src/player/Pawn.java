@@ -1,6 +1,9 @@
 package player;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import monopolyGame.*;
 
 
@@ -9,11 +12,53 @@ public class Pawn
     JLabel pawn= new JLabel();
     private int typ;// pionek moze miec trzy cztery typy ideksowane od 0 do 3
     private int position;// aktualna pozycja pionka
+    private Timer timer;
+    private int nr;
     public Pawn(int typ)
     {
         this.position=0;
         pawn.setBounds(0, 0, 0,0);
         this.typ=typ;
+        nr=0;
+        timer = new Timer(1000, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                move();
+            }
+        });
+    }
+
+    private void move() {
+
+        GamePanel.getStrategyPanel().setVisible(false);
+
+
+        GamePanel.getFieldArray()[position].remove(pawn);
+        GamePanel.getFieldArray()[position].revalidate();
+        GamePanel.getFieldArray()[position].repaint();
+
+        if (position==35){
+            position=-1;
+        }
+
+        if(position==nr){
+            GamePanel.getFieldArray()[position].add(pawn);
+            timer.stop();
+
+            return;
+        }
+
+        this.position++;
+
+            GamePanel.getFieldArray()[position].add(pawn);
+            GamePanel.getFieldArray()[position].revalidate();
+            GamePanel.getFieldArray()[position].repaint();
+
+        if (position == nr) {
+            // Pauzuje timer przy ostatniej pozycji (chyba że na jest na starcie bo wtedy nie powinien)
+            timer.stop();
+            if (nr!=0) GamePanel.getStrategyPanel().setVisible(true);
+        }
     }
     public JLabel getPawn()
     {
@@ -35,13 +80,12 @@ public class Pawn
         position=n;
     }
     public void placePawnOn(int nr){
-        GamePanel.getFieldArray()[position].remove(pawn); // Usunięcie etykiety z poprzedniego panelu
-        GamePanel.getFieldArray()[position].revalidate();
-        GamePanel.getFieldArray()[position].repaint();
-        GamePanel.getFieldArray()[nr].add(pawn);
-        this.position=nr;
-        GamePanel.getFieldArray()[position].revalidate();
-        GamePanel.getFieldArray()[position].repaint();
+        GamePanel.getStrategyPanel().setVisible(false);
+        this.nr=nr;
+        timer.setInitialDelay(0);
+        timer.setDelay(300);
+        timer.setRepeats(true);
+        timer.start();
     }
     public void SizeSet(int x, int y)
     {
