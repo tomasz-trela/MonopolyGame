@@ -3,18 +3,13 @@ package player;
 import ChancesAndModifications.Car;
 import board.*;
 import monopolyGame.GameFrame;
-import monopolyGame.GamePanel;
-import observer.Subject;
 import strategy.*;
 import board.Board;
-import javax.swing.*;
-import java.awt.*;
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Random;
 
-import static java.util.function.Predicate.not;
-import static player.Dice.Roll;
+import java.awt.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Random;
 
 public class Player {
     private int fieldIndex;
@@ -31,7 +26,7 @@ public class Player {
 
     private int[] cashPerLap;
 
-    public Player() {
+   /* public Player() {
         balance[0] = 250000; //euro
         balance[1] = 250000; //dolary
         this.haveCar = false;
@@ -45,7 +40,7 @@ public class Player {
         this.cashPerLap = new int[2];
         cashPerLap[0]=20000;
         cashPerLap[1]=20000;
-    }
+    }*/
     public Player(String name, Color color) {
         balance[0] = 170000; //euro
         balance[1] = 170000; //dolary
@@ -58,8 +53,10 @@ public class Player {
         this.actionStrategy = null;
         this.name = name;
         this.cashPerLap = new int[2];
-        cashPerLap[0]=20000;
-        cashPerLap[1]=20000;
+        cashPerLap[0]=15000;
+        //cashPerLap[0]=0;
+        cashPerLap[1]=15000;
+        //cashPerLap[1]=0;
         this.playercolor=color;
     }
 
@@ -99,30 +96,84 @@ public class Player {
     public void decreaseBalance(int[] cost) {
         for (int i = 0; i < cost.length; i++) {
 
+            System.out.println("Sprawdzany warunek balansu");
             if ((balance[i] - cost[i]) < 0) {
+                System.out.println("Metoda force Exchange jest wlaczana");
                 forceExchange(cost);
+                System.out.println("Metoda force exchange zakonczyla dzialanie");
             }
-            
+            System.out.println("Gracza nie stac");
+            /*if ((balance[i] - cost[i]) < 0) {
+                endGame();
+            }*/
+            System.out.println("Odejmowanie kosztu od balansu");
             balance[i] -= cost[i];
         }
     }
 
     // Zmuszamy gracza do wymiany waluty kiedy nie ma czym zapłacić
+    // Zmuszamy gracza do wymiany waluty kiedy nie ma czym zapłacić
     public void forceExchange(int[] cost) {
         Board boardInstance = GameFrame.getInstance().GetGamePanel().getBoard();
-        int[] amount = {0, 0};
+        int[] amount = { 0, 0 };
+        System.out.println("Wybieranie warunku");
         if (cost[0] == 0) {
+            System.out.println("Wybrany warunek dollarow");
             while (amount[1] < cost[1]) {
-                amount[1] = amount[1] + boardInstance.ExchangeEURtoUSD(balance[0], 100, boardInstance)[1]; // Panowie ale używanie boarda w boardzie jest do wyjebania
-                balance[1] = balance[1] - amount[1]; // Na razie zakładamy, że gracza stać i nie ma końca gry
+                System.out.println("Uruchomienie procedury wymuszonej zamiany Dollarow na Euro");
+                amount[1] = amount[1] + boardInstance.ExchangeEURtoUSD(balance[0], 100, boardInstance)[1]; // Panowie
+                // ale
+                // używanie
+
+                balance[1] = balance[1] - amount[1];
             }
-        }     
-        else if (cost[1] == 0) {
+            System.out.println("Sprawdzanie czy balanse gracza jest mneijszy od 0");
+            if (balance[1] < 0) {
+                System.out.println("Balans mniejszy od 0, konczenie gry");
+                endGame();
+            }
+        } else if (cost[1] == 0) {
+            System.out.println("Wybrany warunek Euro");
             while (amount[0] < cost[0]) {
-                amount[0] = amount[0] + boardInstance.ExchangeUSDtoEUR(balance[1], 100, boardInstance)[0]; // Panowie ale używanie boarda w boardzie jest do wyjebania
-                balance[0] = balance[0] - amount[0]; // Na razie zakładamy, że gracza stać i nie ma końca gry
+                System.out.println("Uruchomienie procedury wymuszonej zamiany Dollarow na Euro");
+                amount[0] = amount[0] + boardInstance.ExchangeUSDtoEUR(balance[1], 100, boardInstance)[0];
+
+                balance[0] = balance[0] - amount[0];
+            }
+            System.out.println("SPrawdzanie czy balans gracza jest mniejszy od 0");
+            if (balance[0] < 0) {
+                System.out.println("Balans mniejszy od 0, konczenie gry");
+                endGame();
             }
         }
+    }
+    public void endGame() {
+        HashMap<Player, Integer> leaderBoard = getLeaderBoard();
+        System.out.println("Konczenie gry");
+
+        // Tutaj będzie wywoływana metoda wyświetlająca okienko statystyk
+        // (wykorzystująca powyższy leaderBoard)
+
+        System.exit(0);
+    }
+
+    // Metoda zwraca Hash Mapę: key - 'Player', value - 'Player total balance'
+    public HashMap<Player, Integer> getLeaderBoard() {
+        Player[] players = Board.GetPlayersArray();
+        HashMap<Player, Integer> playersAffluence = new HashMap<>();
+
+        for (Player player : players) {
+            calculateAffluence(player);
+            playersAffluence.put(player, player.getBalance()[0]);
+        }
+        return playersAffluence;
+    }
+
+    // Metoda przelicza wszystkie dollary gracza na Euro (Do zakończenia rozgrywki)
+    public void calculateAffluence(Player player) {
+        Board boardInstance = GameFrame.getInstance().GetGamePanel().getBoard();
+
+        boardInstance.ExchangeUSDtoEUR(player.getBalance()[1], player.getBalance()[1], boardInstance);
     }
     public long totalNetWorth(Board now){
         long suma = balance[0];
@@ -233,16 +284,16 @@ public class Player {
         changeStrategy();
         setHaveCar(false);
     }
-    public void exchangeMoney(Board board, int enteredValue, int typeOfTransaction) throws OurOwnExeption{ //int typeOfTransaction (1- euro to usd), (2 - usd to euro)
+    public void exchangeMoney(Board board, int enteredValue, int typeOfTransaction) throws OurOwnException { //int typeOfTransaction (1- euro to usd), (2 - usd to euro)
         Player player = board.getCurrentPlayer();
         player.setCanExchange(false);
 
         if (typeOfTransaction == 1) {
-            if (enteredValue > player.balance[0]) throw new OurOwnExeption();
+            if (enteredValue > player.balance[0]) throw new OurOwnException();
             player.increaseBalance(board.ExchangeEURtoUSD(player.balance[0], enteredValue, board));
 
         }else if(typeOfTransaction == 2){
-            if (enteredValue > player.balance[1]) throw new OurOwnExeption();
+            if (enteredValue > player.balance[1]) throw new OurOwnException();
             player.increaseBalance(board.ExchangeUSDtoEUR(player.balance[1], enteredValue, board));
 
         }
@@ -265,18 +316,23 @@ public class Player {
     public void payFeeForBuiliding(Board board) {
         if (!(((ToBuy) board.getCurrentPlayer().getLocation()).getOwner() == null)) {
             if (!getOwnedFields().contains(getLocation())) {
+                Player owner = ((ToBuy) board.getCurrentPlayer().getLocation()).getOwner();
                 int stayFee = ((ToBuy) location).getStayFee();
                 if (((ToBuy) location).getPrice()[0] > ((ToBuy) location).getPrice()[1]) {
                     balance[0] -= stayFee;
+                    owner.getBalance()[0] += stayFee;
                 } else {
                     balance[1] -= stayFee;
+                    owner.getBalance()[1] += stayFee;
                 }
                 for (int i = 0; i < ((ToBuy) location).getBuildings().size(); i++) {
                     int revenuePerVisit = ((ToBuy) location).getBuildings().get(i).getRevenuePerVisit();
                     if (((ToBuy) location).getPrice()[0] > ((ToBuy) location).getPrice()[1]) {
                         balance[0] -= revenuePerVisit;
+                        owner.getBalance()[0] += revenuePerVisit;
                     } else {
                         balance[1] -= revenuePerVisit;
+                        owner.getBalance()[1] += revenuePerVisit;
                     }
                 }
             }

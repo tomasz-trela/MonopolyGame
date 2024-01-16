@@ -9,6 +9,8 @@ import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.AffineTransform;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.Objects;
 
 import board.*;
@@ -17,7 +19,7 @@ import static player.Dice.Roll;
 import observer.AffluenceObserver;
 import observer.Subject;
 import player.*;
-import player.OurOwnExeption;
+import player.OurOwnException;
 
 public class GamePanel extends JPanel{
     private static final int SCREEN_WIDTH;
@@ -184,6 +186,84 @@ public class GamePanel extends JPanel{
         if(seconds==0){
             timer.stop();
             rollButton.setVisible(false);
+            showScoreboard();
+        }
+    }
+
+    public static class Para {
+        long pierwsza;
+        long druga;
+
+        public Para(long pierwsza, long druga) {
+            this.pierwsza = pierwsza;
+            this.druga = druga;
+        }
+    }
+    public void showScoreboard(){
+        JFrame score = new JFrame();
+        score.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        score.setSize(300,300);
+        JPanel panel = new JPanel();
+        panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        score.getContentPane().add(panel);
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+        JLabel napis = new JLabel();
+        //napis.setHorizontalAlignment(SwingConstants.CENTER);
+        napis.setText("SCOREBOARD");
+        napis.setFont(new Font("Arial", Font.BOLD, 28));
+        napis.setHorizontalAlignment(JLabel.CENTER);
+        napis.setBorder(BorderFactory.createEmptyBorder(5, 90, 5, 10));
+        panel.add(napis);
+        String pom;
+        long[] tab = board.Ranking();
+        Para[] wyniki = new Para[tab.length];
+        for(int i=1; i<=tab.length; i++){
+            wyniki[i-1] = new Para(tab[i-1], i);
+        }
+        Arrays.sort(wyniki, new Comparator<Para>() {
+            @Override
+            public int compare(Para para1, Para para2) {
+                if (para1.pierwsza == para2.pierwsza) {
+                    return Integer.compare((int) para1.druga, (int) para2.druga);
+                }
+                return Integer.compare((int) para1.pierwsza, (int) para2.pierwsza);
+            }
+        });
+        int akt=wyniki.length-1;
+        long pop=0;
+        int teraz;
+        for(int i=wyniki.length-1; i>=0; i--){
+            teraz=wyniki.length-(i);
+            if(pop==wyniki[i].pierwsza) teraz=akt;
+            pom=teraz+". Player"+wyniki[i].druga+" has assets worth: "+wyniki[i].pierwsza+" euro ";
+            JLabel pomm = new JLabel(pom);
+            pomm.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
+            if(i==0){
+                pomm.setBorder(BorderFactory.createEmptyBorder(5, 10, 15, 10));
+            }
+            pomm.setFont(new Font("Arial", Font.BOLD, 14));
+            panel.add(pomm);
+            akt=teraz;
+            pop=wyniki[i].pierwsza;
+        }
+        JButton przycisk = new JButton("Finish game");
+        przycisk.addActionListener(new ZakonczListener());
+        przycisk.setFocusable(false);
+        panel.add(przycisk);
+        przycisk.setBorder(BorderFactory.createEmptyBorder(10, score.getWidth()/2, 10, score.getWidth()/2));
+        panel.setBackground(new Color(232, 220, 202));
+        score.setResizable(false);
+        Dimension rozdzielczosc = Toolkit.getDefaultToolkit().getScreenSize();
+        score.setAlwaysOnTop(true);
+        int x = (rozdzielczosc.width - score.getWidth()) / 2;
+        int y = (rozdzielczosc.height - score.getHeight()) / 2;
+        score.setLocation(x, y);
+        score.pack();
+        score.setVisible(true);
+    }
+    public class ZakonczListener implements ActionListener{
+        public void actionPerformed(ActionEvent z){
+            System.exit(0);
         }
     }
 
@@ -204,7 +284,7 @@ public class GamePanel extends JPanel{
         if(numberOfPawns == 3) pawn3.hidePawn();
     }
 
-   public void createBoard(int fieldnumber)
+    public void createBoard(int fieldnumber)
     {
         fieldArray=new JPanel[fieldnumber];
         descArray= new JPanel[fieldnumber];
@@ -564,7 +644,7 @@ public class GamePanel extends JPanel{
         return TempInt;
     }
     public static void showBuildingPanel(ToBuy field) {
-            TopBuildingPanel.removeAll();
+        TopBuildingPanel.removeAll();
 //            JButton closeButton = new JButton("Close");
 //            closeButton.addActionListener(new ActionListener() {
 //                @Override
@@ -576,140 +656,140 @@ public class GamePanel extends JPanel{
 //                }
 //            });
 //            TopBuildingPanel.add(closeButton);
-            TopBuildingPanel.add(new JLabel(("Cost of building: " + ((field).getCostOfBuilding()[0] + (field.getCostOfBuilding()[1])))));
-            if (field instanceof City) {
-                TopBuildingPanel.add(new JLabel("City: " + field.getName()), BorderLayout.WEST);
+        TopBuildingPanel.add(new JLabel(("Cost of building: " + ((field).getCostOfBuilding()[0] + (field.getCostOfBuilding()[1])))));
+        if (field instanceof City) {
+            TopBuildingPanel.add(new JLabel("City: " + field.getName()), BorderLayout.WEST);
 //                TopBuildingPanel.add(new JLabel(("Tourist attraction: " + ((City) field).getTouristAttraction())), BorderLayout.EAST);
 //
-            } else if (field instanceof Village) {
-                TopBuildingPanel.add(new JLabel("Village: " + field.getName()), BorderLayout.WEST);
-                TopBuildingPanel.add(new JLabel((("Ryeness: " + ((Village) field).getRyeness()))));
-            }
-            try {
-                TopBuildingPanel.add(new JLabel("Owner: " + field.getOwner().getName()), BorderLayout.EAST);
-                if (!((field.getBuildings().size() >= 4))) {
-                    JButton buildButton = new JButton("Build");
-                    buildButton.addActionListener(new ActionListener() {
-                        @Override
-                        public void actionPerformed(ActionEvent e) {
-                            if (field.getOwner().getBalance()[0] < field.getCostOfBuilding()[0] || field.getOwner().getBalance()[1] < field.getCostOfBuilding()[1]) {
-                                JOptionPane.showMessageDialog(null, "You don't have enough money");
-                            } else {
-                                field.getOwner().decreaseBalance(field.getCostOfBuilding());
-                                field.addBuilding();
-                                BuildingPanel.removeAll();
-                                showBuildingPanel(field);
-                                GameFrame.getInstance().GetGamePanel().updateBalanceLabels();
-                            }
-                        }
-                    });
-                    TopBuildingPanel.add(buildButton);
-                }
-            } catch (NullPointerException e) {
-                TopBuildingPanel.add(new JLabel("Owner: null"), BorderLayout.EAST);
-            }
-
-            try {
-                if (!(field.getBuildings().get(0) == null)) {
-
-                    BuildingPanel.setFont(new Font("Serif", Font.BOLD, 30));
-                    ArrayList<JButton> listOfUpgradeButtons = new ArrayList<>();
-
-                    if (field instanceof City) {
-
-                        BuildingPanel.setLayout(new GridLayout(5, 4));
-
-                        BuildingPanel.add(new JLabel("Revenue per visit"));
-                        BuildingPanel.add(new JLabel("Level"));
-                        BuildingPanel.add(new JLabel("Cost of upgrade"));
-                        BuildingPanel.add(new JLabel("Upgrade"));
-
-
-                    } else if (field instanceof Village) {
-
-                        BuildingPanel.setLayout(new GridLayout(5, 5));
-
-                        BuildingPanel.add(new JLabel("Revenue per visit"));
-                        BuildingPanel.add(new JLabel("Revenue per year"));
-                        BuildingPanel.add(new JLabel("Level"));
-                        BuildingPanel.add(new JLabel("Cost of upgrade"));
-                        BuildingPanel.add(new JLabel("Upgrade"));
-
-
-                    }
-                    for (int i = 0; i < field.getBuildings().size(); i++) {
-
-                        String [] tempString = field.getBuildings().get(i).toString().split(",");
-                        BuildingPanel.add(new JLabel(tempString[0]));
-                        BuildingPanel.add(new JLabel(tempString[1]));
-                        BuildingPanel.add(new JLabel(tempString[2]));
-                        if (field instanceof Village) {
-                            BuildingPanel.add(new JLabel(tempString[3]));
-                        }
-                        if (field.getBuildings().get(i).getLevel() < 5) {
-
-                            JButton upgradeButton = new JButton("Upgrade");
-                            int temp = i;
-                            upgradeButton.addActionListener(new ActionListener() {
-                                @Override
-                                public void actionPerformed(ActionEvent e) {
-                                    int currency = 0;
-                                    if (field.getPrice()[0] == 0) {
-                                        currency = 1;
-                                    }
-                                    if (field.getOwner().getBalance()[currency] < field.getBuildings().get(temp).getPriceOfUpgrade()) {
-                                        JOptionPane.showMessageDialog(null, "You don't have enough money");
-                                    } else {
-                                        int [] price = new int[2];
-                                        if (currency == 1) {
-                                            price[1] = field.getBuildings().get(temp).getPriceOfUpgrade();
-                                        } else {
-                                            price[0] = field.getBuildings().get(temp).getPriceOfUpgrade();
-                                        }
-                                        field.getOwner().decreaseBalance(price);
-                                        field.getBuildings().get(temp).upgrade();
-                                        BuildingPanel.removeAll();
-                                        showBuildingPanel(field);
-                                        GameFrame.getInstance().GetGamePanel().updateBalanceLabels();
-                                    }
-                                }
-                            });
-                            BuildingPanel.add(upgradeButton);
-                        } else {
-                            BuildingPanel.add(new JLabel("Max level"));
-                        }
-
-
-                    }
-                    if (field instanceof City) {
-                        for (int i = 0; i < (4 - (field.getBuildings().size()) * 4); i++) {
-                            BuildingPanel.add(new JLabel(" "));
-                        }
-                    } else if (field instanceof Village) {
-                        for (int i = 0; i < (4 - (field.getBuildings().size()) * 5); i++) {
-                            BuildingPanel.add(new JLabel(" "));
-                        }
-                    }
-                    if (field instanceof City) {
-                        for (int i = 0; i < (16 - (field.getBuildings().size()) * 4); i++) {
-                            BuildingPanel.add(new JLabel("..."));
-                        }
-                    } else {
-                        for (int i = 0; i < (20 - (field.getBuildings().size()) * 5); i++) {
-                            BuildingPanel.add(new JLabel("..."));
-                        }
-                    }
-                }
-            } catch (IndexOutOfBoundsException e) {
-                BuildingPanel.setLayout(new GridLayout());
-                BuildingPanel.setFont(new Font("Serif", Font.BOLD, 50));
-                BuildingPanel.add(new JLabel("No buildings"));
-
-            } finally {
-                BuildingPanel.setVisible(true);
-                TopBuildingPanel.setVisible(true);
-            }
+        } else if (field instanceof Village) {
+            TopBuildingPanel.add(new JLabel("Village: " + field.getName()), BorderLayout.WEST);
+            TopBuildingPanel.add(new JLabel((("Ryeness: " + ((Village) field).getRyeness()))));
         }
+        try {
+            TopBuildingPanel.add(new JLabel("Owner: " + field.getOwner().getName()), BorderLayout.EAST);
+            if (!((field.getBuildings().size() >= 4))) {
+                JButton buildButton = new JButton("Build");
+                buildButton.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        if (field.getOwner().getBalance()[0] < field.getCostOfBuilding()[0] || field.getOwner().getBalance()[1] < field.getCostOfBuilding()[1]) {
+                            JOptionPane.showMessageDialog(null, "You don't have enough money");
+                        } else {
+                            field.getOwner().decreaseBalance(field.getCostOfBuilding());
+                            field.addBuilding();
+                            BuildingPanel.removeAll();
+                            showBuildingPanel(field);
+                            GameFrame.getInstance().GetGamePanel().updateBalanceLabels();
+                        }
+                    }
+                });
+                TopBuildingPanel.add(buildButton);
+            }
+        } catch (NullPointerException e) {
+            TopBuildingPanel.add(new JLabel("Owner: null"), BorderLayout.EAST);
+        }
+
+        try {
+            if (!(field.getBuildings().get(0) == null)) {
+
+                BuildingPanel.setFont(new Font("Serif", Font.BOLD, 30));
+                ArrayList<JButton> listOfUpgradeButtons = new ArrayList<>();
+
+                if (field instanceof City) {
+
+                    BuildingPanel.setLayout(new GridLayout(5, 4));
+
+                    BuildingPanel.add(new JLabel("Revenue per visit"));
+                    BuildingPanel.add(new JLabel("Level"));
+                    BuildingPanel.add(new JLabel("Cost of upgrade"));
+                    BuildingPanel.add(new JLabel("Upgrade"));
+
+
+                } else if (field instanceof Village) {
+
+                    BuildingPanel.setLayout(new GridLayout(5, 5));
+
+                    BuildingPanel.add(new JLabel("Revenue per visit"));
+                    BuildingPanel.add(new JLabel("Revenue per year"));
+                    BuildingPanel.add(new JLabel("Level"));
+                    BuildingPanel.add(new JLabel("Cost of upgrade"));
+                    BuildingPanel.add(new JLabel("Upgrade"));
+
+
+                }
+                for (int i = 0; i < field.getBuildings().size(); i++) {
+
+                    String [] tempString = field.getBuildings().get(i).toString().split(",");
+                    BuildingPanel.add(new JLabel(tempString[0]));
+                    BuildingPanel.add(new JLabel(tempString[1]));
+                    BuildingPanel.add(new JLabel(tempString[2]));
+                    if (field instanceof Village) {
+                        BuildingPanel.add(new JLabel(tempString[3]));
+                    }
+                    if (field.getBuildings().get(i).getLevel() < 5) {
+
+                        JButton upgradeButton = new JButton("Upgrade");
+                        int temp = i;
+                        upgradeButton.addActionListener(new ActionListener() {
+                            @Override
+                            public void actionPerformed(ActionEvent e) {
+                                int currency = 0;
+                                if (field.getPrice()[0] == 0) {
+                                    currency = 1;
+                                }
+                                if (field.getOwner().getBalance()[currency] < field.getBuildings().get(temp).getPriceOfUpgrade()) {
+                                    JOptionPane.showMessageDialog(null, "You don't have enough money");
+                                } else {
+                                    int [] price = new int[2];
+                                    if (currency == 1) {
+                                        price[1] = field.getBuildings().get(temp).getPriceOfUpgrade();
+                                    } else {
+                                        price[0] = field.getBuildings().get(temp).getPriceOfUpgrade();
+                                    }
+                                    field.getOwner().decreaseBalance(price);
+                                    field.getBuildings().get(temp).upgrade();
+                                    BuildingPanel.removeAll();
+                                    showBuildingPanel(field);
+                                    GameFrame.getInstance().GetGamePanel().updateBalanceLabels();
+                                }
+                            }
+                        });
+                        BuildingPanel.add(upgradeButton);
+                    } else {
+                        BuildingPanel.add(new JLabel("Max level"));
+                    }
+
+
+                }
+                if (field instanceof City) {
+                    for (int i = 0; i < (4 - (field.getBuildings().size()) * 4); i++) {
+                        BuildingPanel.add(new JLabel(" "));
+                    }
+                } else if (field instanceof Village) {
+                    for (int i = 0; i < (4 - (field.getBuildings().size()) * 5); i++) {
+                        BuildingPanel.add(new JLabel(" "));
+                    }
+                }
+                if (field instanceof City) {
+                    for (int i = 0; i < (16 - (field.getBuildings().size()) * 4); i++) {
+                        BuildingPanel.add(new JLabel("..."));
+                    }
+                } else {
+                    for (int i = 0; i < (20 - (field.getBuildings().size()) * 5); i++) {
+                        BuildingPanel.add(new JLabel("..."));
+                    }
+                }
+            }
+        } catch (IndexOutOfBoundsException e) {
+            BuildingPanel.setLayout(new GridLayout());
+            BuildingPanel.setFont(new Font("Serif", Font.BOLD, 50));
+            BuildingPanel.add(new JLabel("No buildings"));
+
+        } finally {
+            BuildingPanel.setVisible(true);
+            TopBuildingPanel.setVisible(true);
+        }
+    }
     public Board getBoard() {
         return board;
     }
@@ -937,9 +1017,9 @@ public class GamePanel extends JPanel{
         JPanel rightTopPanel = new JPanel();
         Font f = new Font(Font.SANS_SERIF, Font.BOLD, 23);
         rightTopPanel.setLayout(new BoxLayout(rightTopPanel, BoxLayout.PAGE_AXIS));
-        
+
         rightPanel.add(rightTopPanel);
-        
+
         for(int i = 0; i< Board.GetPlayersArray().length; i++) {
             String PlayerNumber = "Player " + (i + 1);
             String EuroBalance = "Euro: " + Board.GetPlayersArray()[i].getBalance()[0];
@@ -1062,20 +1142,20 @@ public class GamePanel extends JPanel{
     }
 
     public void CreateExchangeLabels(){
-        
+
         RightBottomPanel = new JPanel(){
             protected void paintComponent(Graphics g){
                 super.paintComponent(g);
                 Graphics2D g2d = (Graphics2D) g.create();
                 Image backGroundExchange = new ImageIcon("src/images/exchangeRightBottom.png").getImage();
-                
+
                 g2d.drawImage(backGroundExchange, null, RightBottomPanel);
                 g2d.dispose();
             }
         };
 
-        
-        
+
+
         RightBottomPanel.setLayout(new BoxLayout(RightBottomPanel, BoxLayout.PAGE_AXIS));
         Font f = new Font(Font.SANS_SERIF, Font.BOLD, 23);
 
@@ -1085,7 +1165,7 @@ public class GamePanel extends JPanel{
         tmp = Math.round(board.getEuroRate()/board.getDollarRate() * 100.0) / 100.0;
         String DolarTOEuro = "1 Dolar is worth " + Double.toString((tmp)) + " Euros";
 
-        
+
         EurotoDolar = new JLabel(EuroTODolar);
         DolartoEuro = new JLabel(DolarTOEuro);
         EurotoDolar.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -1098,7 +1178,7 @@ public class GamePanel extends JPanel{
         optionsOfExchange = new JComboBox<String>(choices);
         optionsOfExchange.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
         optionsOfExchange.setMaximumSize(optionsOfExchange.getPreferredSize());
-        optionsOfExchange.setAlignmentX(Component.CENTER_ALIGNMENT);       
+        optionsOfExchange.setAlignmentX(Component.CENTER_ALIGNMENT);
         optionsOfExchange.setBackground(Color.decode("#D1D1D1"));
 
         moneyInput = new JTextField("Enter the amount");
@@ -1125,7 +1205,7 @@ public class GamePanel extends JPanel{
         //if it works it works tho
         JLabel space0 = new JLabel("<html> <br> <br> <br> <br> <br> <br> <br> </html>");
         JLabel space = new JLabel("<html> <br> <br> <br> <br> <br> <br> <br> </html>");
-        
+
         exchangeButton = new JButton("Exchange");
         exchangeButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         Dimension b = new Dimension(200,70);
@@ -1147,7 +1227,7 @@ public class GamePanel extends JPanel{
         RightBottomPanel.add(exchangeButton);
 
         rightPanel.add(RightBottomPanel);
-        
+
     }
     public int RollDices(){
         int dice1 = Roll();
@@ -1164,7 +1244,7 @@ public class GamePanel extends JPanel{
         EurotoDolar.setText(EuroTODolar);
         DolartoEuro.setText(DolarTOEuro);
     }
-    
+
     class CalculateExchangeReaction implements ActionListener{
         @Override
         public void actionPerformed(ActionEvent event){
@@ -1191,18 +1271,18 @@ public class GamePanel extends JPanel{
 
                 moneyOutput.setText("You will recieve: " + resultOfExchange + " " + currency);
             }
-             catch (NumberFormatException ex) {
+            catch (NumberFormatException ex) {
                 JOptionPane.showMessageDialog(null, "Please enter a valid decimal number.");
             }
         }
     }
-    
+
     class ExchangeButtonReaction implements ActionListener{
         @Override
         public void actionPerformed(ActionEvent e) {
             try {
                 board.getCurrentPlayer().exchangeMoney(board, resultOfExchange , exchangeType);
-            }catch (OurOwnExeption exeption){
+            }catch (OurOwnException exception){
                 JOptionPane.showMessageDialog(null, "You don't have enough money in your account");
             }
             exchangeButton.setVisible(false);
@@ -1285,7 +1365,7 @@ public class GamePanel extends JPanel{
             updateStrategyLabel();
             updateRollButtonVisability(false);
             board.incrementMoveCounter();
-            
+
             updateBalanceLabels();
 
         }
@@ -1339,65 +1419,65 @@ public class GamePanel extends JPanel{
         }
     }
 
-        public static void showChance(int chanceIndex){
-            ImageIcon chanceIcon = new ImageIcon("src/images/chance.png");
-            double scale=0.3;
+    public static void showChance(int chanceIndex){
+        ImageIcon chanceIcon = new ImageIcon("src/images/chance.png");
+        double scale=0.3;
 
 
-            Image scaledChanceImage = chanceIcon.getImage().getScaledInstance((int) (chanceIcon.getIconWidth()*scale), (int) (chanceIcon.getIconHeight()*scale),Image.SCALE_SMOOTH);
+        Image scaledChanceImage = chanceIcon.getImage().getScaledInstance((int) (chanceIcon.getIconWidth()*scale), (int) (chanceIcon.getIconHeight()*scale),Image.SCALE_SMOOTH);
 
-            ImageIcon scaledChanceIcon = new ImageIcon(scaledChanceImage);
-
-
-
-            JFrame chanceFrame = new JFrame();
-            chanceFrame.setVisible(true);
-            chanceFrame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        ImageIcon scaledChanceIcon = new ImageIcon(scaledChanceImage);
 
 
 
-            JPanel chance= new JPanel();
-            chance.setLayout(new BoxLayout(chance, BoxLayout.Y_AXIS));
-            chance.setBackground(Color.WHITE);
-            chance.setVisible(true);
-
-
-            JLabel txt=new JLabel("CHANCE");
-            txt.setFont(new Font("Arial", Font.BOLD, 25));
-            txt.setHorizontalAlignment(JLabel.CENTER);
-            txt.setIcon(scaledChanceIcon);
-            txt.setIconTextGap(0);
-            //txt.setVerticalTextPosition(SwingConstants.BOTTOM);
-
-            JPanel txtPanel = new JPanel();
-            txtPanel.add(txt);
-            txtPanel.setBackground(FIELD_COLOR1);
+        JFrame chanceFrame = new JFrame();
+        chanceFrame.setVisible(true);
+        chanceFrame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 
 
 
+        JPanel chance= new JPanel();
+        chance.setLayout(new BoxLayout(chance, BoxLayout.Y_AXIS));
+        chance.setBackground(Color.WHITE);
+        chance.setVisible(true);
 
 
-            JTextArea cardTxt= new JTextArea(Chance.getListOfChances()[chanceIndex].getText());
+        JLabel txt=new JLabel("CHANCE");
+        txt.setFont(new Font("Arial", Font.BOLD, 25));
+        txt.setHorizontalAlignment(JLabel.CENTER);
+        txt.setIcon(scaledChanceIcon);
+        txt.setIconTextGap(0);
+        //txt.setVerticalTextPosition(SwingConstants.BOTTOM);
+
+        JPanel txtPanel = new JPanel();
+        txtPanel.add(txt);
+        txtPanel.setBackground(FIELD_COLOR1);
 
 
-            cardTxt.setLineWrap(true);
-            cardTxt.setWrapStyleWord(true);
-            cardTxt.setEditable(false);
-            cardTxt.setFocusable(false);
-            cardTxt.setFont(new Font("Arial", Font.PLAIN, 18));
 
 
-            cardTxt.setBackground(FIELD_COLOR1);
-            JScrollPane scrollPane = new JScrollPane(cardTxt);
-            scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
-            scrollPane.setPreferredSize(new Dimension(150,125));
-            chanceFrame.setLayout(new FlowLayout(FlowLayout.CENTER,0,5));
-            chance.add(txtPanel);
-            chance.add(scrollPane);
-            chanceFrame.add(chance);
-            chanceFrame.setResizable(false);
-            chanceFrame.setBounds(SCREEN_WIDTH/2,SCREEN_HEIGHT/2,200,250);
-            chanceFrame.setIconImage(chanceIcon.getImage());
-            chanceFrame.setAlwaysOnTop(true);
-        }
+
+        JTextArea cardTxt= new JTextArea(Chance.getListOfChances()[chanceIndex].getText());
+
+
+        cardTxt.setLineWrap(true);
+        cardTxt.setWrapStyleWord(true);
+        cardTxt.setEditable(false);
+        cardTxt.setFocusable(false);
+        cardTxt.setFont(new Font("Arial", Font.PLAIN, 18));
+
+
+        cardTxt.setBackground(FIELD_COLOR1);
+        JScrollPane scrollPane = new JScrollPane(cardTxt);
+        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+        scrollPane.setPreferredSize(new Dimension(150,125));
+        chanceFrame.setLayout(new FlowLayout(FlowLayout.CENTER,0,5));
+        chance.add(txtPanel);
+        chance.add(scrollPane);
+        chanceFrame.add(chance);
+        chanceFrame.setResizable(false);
+        chanceFrame.setBounds(SCREEN_WIDTH/2,SCREEN_HEIGHT/2,200,250);
+        chanceFrame.setIconImage(chanceIcon.getImage());
+        chanceFrame.setAlwaysOnTop(true);
+    }
 }
