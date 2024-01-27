@@ -39,6 +39,7 @@ public class GamePanel extends JPanel{
     private static JPanel[] centerArray;
     private static JPanel[] priceArray;
     private static int resultOfExchange = 0;
+    private static int moneyInputValue = 0;
     private static int exchangeType = 0;
 
     static {
@@ -1249,7 +1250,7 @@ public class GamePanel extends JPanel{
         @Override
         public void actionPerformed(ActionEvent event){
             try {
-                int money = (int) Double.parseDouble(moneyInput.getText());
+                moneyInputValue = (int) Double.parseDouble(moneyInput.getText());
 
 
                 String selectedOption = (String) optionsOfExchange.getSelectedItem();
@@ -1267,7 +1268,7 @@ public class GamePanel extends JPanel{
                     exchangeType = 2;
                 }
 
-                resultOfExchange = (int) (money * multiplier);
+                resultOfExchange = (int) (moneyInputValue * multiplier);
 
                 moneyOutput.setText("You will recieve: " + resultOfExchange + " " + currency);
             }
@@ -1281,7 +1282,7 @@ public class GamePanel extends JPanel{
         @Override
         public void actionPerformed(ActionEvent e) {
             try {
-                board.getCurrentPlayer().exchangeMoney(board, resultOfExchange , exchangeType);
+                board.getCurrentPlayer().exchangeMoney(board, moneyInputValue , exchangeType);
             }catch (OurOwnException exception){
                 JOptionPane.showMessageDialog(null, "You don't have enough money in your account");
             }

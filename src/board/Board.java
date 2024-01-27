@@ -302,28 +302,22 @@ public class Board {
         Board.pawns = pawns;
     }
 
-    public int[] ExchangeEURtoUSD(int amount, int howMuch, Board board) {
-        // amount-bilans gracza w euro, howMuch-liczba dolarów jakie gracz chce wymienić
+    public int[] ExchangeEURtoUSD(int amount, int euro, Board board) {
         int[] tab = new int[2];
-        int pom = (int) Math.round(howMuch * dollarRate);
-        // tab[0]=ile trzeba dodać do balance[0] gracza (EURO)
-        // tab[1]=ile trzeba dodać do balance[1] gracza (DOLARY)
-        if (pom <= amount) {
-            tab[0] = -pom;
-            tab[1] = howMuch;
+        int dolar = (int) Math.round(euro * dollarRate);
+        if (euro <= amount) {
+            tab[0] = -euro;
+            tab[1] = dolar;
             subjects.notifyObserversDollar(board); // Aktualizujemy kurs waluty Dollara
         }
         return tab;
     }
-    public int[] ExchangeUSDtoEUR(int amount, int howMuch, Board board){
-        // amount-bilans gracza w dolarach, howMuch-liczba euro jakie gracz chce wymienić
+    public int[] ExchangeUSDtoEUR(int amount, int dolar, Board board){
         int[] tab=new int[2];
-        // tab[0]=ile trzeba dodać do balance[0] gracza
-        // tab[1]=ile trzeba dodać do balance[1] gracza
-        int pom=(int) Math.round(howMuch*euroRate);
-        if(pom<=amount){
-            tab[0]=howMuch;
-            tab[1]=-pom;
+        int euro=(int) Math.round(dolar*euroRate);
+        if(dolar<=amount){
+            tab[0] = euro;
+            tab[1] = -dolar;
             subjects.notifyObserversEuro(board); // Aktualizujemy kurs waluty Euro
         }
         return tab;
