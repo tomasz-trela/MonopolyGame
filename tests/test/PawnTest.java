@@ -23,18 +23,18 @@ public class PawnTest {
     public void placePawnOn()
     {
         pawn.setPosition(10);
-        int reusult= 20;
+        int result= 20;
         pawn.placePawnOn(20);
-        assertEquals(reusult, pawn.getPosition());
+        assertEquals(result, pawn.getPosition());
 
         pawn.setPosition(30);
-        int reusult2= 2;
+        int result1= 2;
         pawn.placePawnOn(2);
-        assertEquals(reusult2, pawn.getPosition());
+        assertEquals(result1, pawn.getPosition());
 
         pawn.setPosition(0);
-        int reusult3= 10;
+        int result2= 10;
         pawn.placePawnOn(10);
-        assertEquals(reusult3, pawn.getPosition());
+        assertEquals(result2, pawn.getPosition());
     }
 }
