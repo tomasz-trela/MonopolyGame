@@ -37,7 +37,7 @@ public class Pawn
         GamePanel.getFieldArray()[position].revalidate();
         GamePanel.getFieldArray()[position].repaint();
 
-        if (position==35){
+        if (position==GamePanel.getFieldArray().length-1){
             position=-1;
         }
 
@@ -73,7 +73,7 @@ public class Pawn
     }
     public int getPosition()
     {
-        return position;
+        return nr;
     }
     public void setPosition(int n)
     {

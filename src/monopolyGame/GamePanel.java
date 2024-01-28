@@ -56,7 +56,7 @@ public class GamePanel extends JPanel{
         ROLL_BUTTON_WIDTH = 100;
     }
     JPanel ownedFieldsPanel = new JPanel();
-    Board board = new Board();
+    static Board board = new Board();
     JButton rollButton;
     JLabel diceLabel1;
     JLabel diceLabel2;
@@ -103,7 +103,7 @@ public class GamePanel extends JPanel{
     private ImageIcon exchangepicture= new ImageIcon("src/images/Exchange.png");
     private ImageIcon chancepicture= new ImageIcon("src/images/chance2.png");
     private ImageIcon carpicture= new ImageIcon("src/images/car.png");
-    GamePanel(){
+    public GamePanel(){
 
         this.setPreferredSize(new Dimension(SCREEN_WIDTH,SCREEN_HEIGHT));
         this.setBackground(Color.WHITE);
