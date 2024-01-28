@@ -2,16 +2,18 @@ package test;
 
 import board.Board;
 
+import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.assertArrayEquals;
 
 public class ExchangeTest {
-
-
-
+    private Board board;
+    @Before
+    public void setUp(){
+        board = new Board();
+    }
     @Test
     public void exchangeEURtoUSD() {
-        Board board = new Board();
         board.setDollarRate(0.8);
         int [] result = new int[]{-100,80};
         assertArrayEquals(result, board.ExchangeEURtoUSD(1000, 100, board));
@@ -28,7 +30,6 @@ public class ExchangeTest {
 
     @Test
     public void exchangeUSDtoEUR() {
-        Board board = new Board();
         board.setEuroRate(0.8);
         int [] result = new int[]{80,-100};
         assertArrayEquals(result, board.ExchangeUSDtoEUR(1000, 100, board));
