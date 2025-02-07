@@ -12,7 +12,8 @@ A unique feature of this game is the currency exchange system. Players start wit
 
 - Java
 - Strategy Pattern
-- Observer Pattern 
+- Observer Pattern
+- JUnit 
 
 ---
 
